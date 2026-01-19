@@ -10,7 +10,7 @@ function App() {
 	<div className="container">
 		<div className="header">
 			<div className="logo">
-				<img src="/images/ico_logo.svg" alt="Korail 로고" />
+				<img src={`${process.env.PUBLIC_URL}/images/ico_logo.svg`} alt="Korail 로고" />
 			</div>
 			<p className="txt">한국 철도 네트워크, 지도 및 통관관제시스템 대시보드</p>
 		</div>
