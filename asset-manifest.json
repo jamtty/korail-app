@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "./static/css/main.43370304.css",
-    "main.js": "./static/js/main.e386ecc9.js",
-    "static/js/453.2bf35d9f.chunk.js": "./static/js/453.2bf35d9f.chunk.js",
-    "static/media/ico_logo.svg": "./static/media/ico_logo.9c9fa56384f4eff9819b75505873c984.svg",
-    "static/media/ico_calendar.svg": "./static/media/ico_calendar.a9f96365118e15c5eb0b.svg",
-    "static/media/ico_modal_close.svg": "./static/media/ico_modal_close.4cb5693280d5d07f8121.svg",
-    "static/media/ico_train.svg": "./static/media/ico_train.d5d11fc9a899398445c8389ed0ce85e4.svg",
-    "index.html": "./index.html",
-    "static/media/ico_select.svg": "./static/media/ico_select.b69e710d181e49057e22.svg",
-    "main.43370304.css.map": "./static/css/main.43370304.css.map",
-    "main.e386ecc9.js.map": "./static/js/main.e386ecc9.js.map",
-    "453.2bf35d9f.chunk.js.map": "./static/js/453.2bf35d9f.chunk.js.map"
+    "main.css": "/korail-app/static/css/main.fe557324.css",
+    "main.js": "/korail-app/static/js/main.8cfcce6a.js",
+    "static/js/453.2bf35d9f.chunk.js": "/korail-app/static/js/453.2bf35d9f.chunk.js",
+    "static/media/ico_logo.svg": "/korail-app/static/media/ico_logo.9c9fa56384f4eff9819b75505873c984.svg",
+    "static/media/ico_calendar.svg": "/korail-app/static/media/ico_calendar.a9f96365118e15c5eb0b.svg",
+    "static/media/ico_modal_close.svg": "/korail-app/static/media/ico_modal_close.4cb5693280d5d07f8121.svg",
+    "static/media/ico_train.svg": "/korail-app/static/media/ico_train.d5d11fc9a899398445c8389ed0ce85e4.svg",
+    "index.html": "/korail-app/index.html",
+    "static/media/ico_select.svg": "/korail-app/static/media/ico_select.b69e710d181e49057e22.svg",
+    "main.fe557324.css.map": "/korail-app/static/css/main.fe557324.css.map",
+    "main.8cfcce6a.js.map": "/korail-app/static/js/main.8cfcce6a.js.map",
+    "453.2bf35d9f.chunk.js.map": "/korail-app/static/js/453.2bf35d9f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.43370304.css",
-    "static/js/main.e386ecc9.js"
+    "static/css/main.fe557324.css",
+    "static/js/main.8cfcce6a.js"
   ]
 }
