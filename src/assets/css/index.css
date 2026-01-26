@@ -14,7 +14,6 @@ body {
   font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  line-height: 1.6;
   color: #333;
   background-color: #F1F4F7;
 }
@@ -99,6 +98,3 @@ input[type="text"]:focus { outline: none; border-color: #0164E6; }
 
 *::-webkit-scrollbar { width:0.3rem;  }
 *::-webkit-scrollbar-thumb { background:#E5E5E5; border-radius: 0.3rem; }
-*::-webkit-scrollbar-thumb:hover { background:#BDBDBD; }
-*::-webkit-scrollbar-track { background:#E5E5E5  }
-

@@ -1,22 +1,115 @@
 import { useState } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import { ko } from 'date-fns/locale';
-import './App.css';
+import InputData from './admin/InputData';
+import TrainSchedule from './admin/TrainSchedule';
+import TrainSpeed from './admin/TrainSpeed';
+import BlockSection from './admin/BlockSection';
+import StationInfo from './admin/StationInfo';
+import OutputData from './admin/OutputData';
+import icoLogo from './assets/images/ico_logo.svg';
+import icoTrain from './assets/images/ico_train.svg';
+import './assets/css/App.css';
 
-function App() {
+function MainPage() {
 	const [startDate, setStartDate] = useState(new Date());
+	const [activeTab, setActiveTab] = useState('지도');
+	const navigate = useNavigate();
 	
 	return (
 	<div className="container">
 		<div className="header">
 			<div className="logo">
-				<img src={`${process.env.PUBLIC_URL}/images/ico_logo.svg`} alt="Korail 로고" />
+				<img src={icoLogo} alt="Korail 로고" />
 			</div>
 			<p className="txt">한국 철도 네트워크, 지도 및 통관관제시스템 대시보드</p>
 		</div>
 		<div className="wrap">
 			<div className="map-area">
-				맵영역
+				<div className="panel-info">
+					<div className="inner">
+						<ul className="tab">
+							<li className={activeTab === '지도' ? 'active' : ''} onClick={() => setActiveTab('지도')}>지도</li>
+							<li className={activeTab === '노선' ? 'active' : ''} onClick={() => setActiveTab('노선')}>노선</li>
+						<li className={activeTab === '관리자' ? 'active' : ''} onClick={() => window.open(window.location.origin + '/korail-app/admin/input-data', '_blank')}>관리자</li>
+						</ul>
+						<div className="info-slider active">
+							<div className="tit">
+								<div className="name">
+									<i><img src={icoTrain} alt="" /></i> KTX 경부고속선
+								</div>
+								<div className="num">
+									KTX00185
+								</div>
+							</div>
+							<div className="train-station">
+								<ul>
+									<li className="s-start">
+										<div>출발</div>
+										<div>
+											<p>
+												06:10<strong>행신</strong>
+											</p>
+										</div>
+									</li>
+									<li className="s-end">
+										<div>도착</div>
+										<div>
+											<p>
+												09:16<strong>부산</strong>
+											</p>
+										</div>
+									</li>
+								</ul>
+								<p className="s-time"><strong>2</strong>분 지연됨</p>
+							</div>
+							<div className="station-list">
+								<ul>
+									<li>
+										<p className="name">행신</p>
+										<p className="time">06:10<span>지연없음</span></p>
+									</li>
+									<li>
+										<p className="name">서울<span>3번 플랫폼</span></p>
+										<p className="time">06:10<span>지연없음</span></p>
+									</li>
+									<li>
+										<p className="name">금천구청<span>3번 플랫폼</span></p>
+										<p className="time">06:10<span>지연없음</span></p>
+									</li>
+									<li>
+										<p className="name">남산 IEC<span>3번 플랫폼</span></p>
+										<p className="time">06:10<span>지연없음</span></p>
+									</li>
+									<li>
+										<p className="name">오송<span>3번 플랫폼</span></p>
+										<p className="time">06:10<span className="danger">일부구간점검 / 5분지연</span></p>
+									</li>
+									<li>
+										<p className="name">대전<span>3번 플랫폼</span></p>
+										<p className="time">06:10<span className="danger">5분지연</span></p>
+									</li>
+									<li>
+										<p className="name">동대구<span>3번 플랫폼</span></p>
+										<p className="time">06:10<span className="danger">일부구간점검 / 5분지연</span></p>
+									</li>
+									<li>
+										<p className="name">경주<span>3번 플랫폼</span></p>
+										<p className="time">06:10<span className="danger">일부구간점검 / 5분지연</span></p>
+									</li>
+									<li>
+										<p className="name">부산</p>
+										<p className="time">06:10<span className="danger">일부구간점검 / 5분지연</span></p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div className="map">
+					지도
+				</div>
 			</div>
 			<div className="panel-area">
 				<div className="tit">
@@ -121,6 +214,20 @@ function App() {
 			</div>
 		</div>
 	</div>
+	);
+}
+
+function App() {
+	return (
+		<Routes>
+			<Route path="/" element={<MainPage />} />
+			<Route path="/admin/input-data" element={<InputData />} />
+			<Route path="/admin/train-schedule" element={<TrainSchedule />} />
+			<Route path="/admin/train-speed" element={<TrainSpeed />} />
+			<Route path="/admin/block-section" element={<BlockSection />} />
+			<Route path="/admin/station-info" element={<StationInfo />} />
+			<Route path="/admin/output-data" element={<OutputData />} />
+		</Routes>
 	);
 }
 
