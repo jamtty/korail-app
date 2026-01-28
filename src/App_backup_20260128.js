@@ -16,200 +16,68 @@ import './assets/css/App.css';
 
 function MainPage() {
 	const [startDate, setStartDate] = useState(new Date());
-	
-	// 워크플로우 1 state
-	const [activeTab1, setActiveTab1] = useState('지도');
-	const [isSimulationActive1, setIsSimulationActive1] = useState(true);
-	const [isSliderActive1, setIsSliderActive1] = useState(false);
-	const [scale1, setScale1] = useState(1);
-	const [position1, setPosition1] = useState({ x: 0, y: 0 });
-	const [isDragging1, setIsDragging1] = useState(false);
-	const [dragStart1, setDragStart1] = useState({ x: 0, y: 0 });
-	
-	// 워크플로우 2 state
-	const [activeTab2, setActiveTab2] = useState('지도');
-	const [isSimulationActive2, setIsSimulationActive2] = useState(true);
-	const [isSliderActive2, setIsSliderActive2] = useState(false);
-	const [scale2, setScale2] = useState(1);
-	const [position2, setPosition2] = useState({ x: 0, y: 0 });
-	const [isDragging2, setIsDragging2] = useState(false);
-	const [dragStart2, setDragStart2] = useState({ x: 0, y: 0 });
-	
-	// 워크플로우 3 state
-	const [activeTab3, setActiveTab3] = useState('지도');
-	const [isSimulationActive3, setIsSimulationActive3] = useState(true);
-	const [isSliderActive3, setIsSliderActive3] = useState(false);
-	const [scale3, setScale3] = useState(1);
-	const [position3, setPosition3] = useState({ x: 0, y: 0 });
-	const [isDragging3, setIsDragging3] = useState(false);
-	const [dragStart3, setDragStart3] = useState({ x: 0, y: 0 });
+	const [activeTab, setActiveTab] = useState('지도');
+	const [isSimulationActive, setIsSimulationActive] = useState(true);
+	const [isSliderActive, setIsSliderActive] = useState(false);
+	const [scale, setScale] = useState(1);
+	const [position, setPosition] = useState({ x: 0, y: 0 });
+	const [isDragging, setIsDragging] = useState(false);
+	const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
 
-	// 워크플로우 1 handlers
-	const handleSimulationStart1 = (e) => {
+	
+	const handleSimulationStart = (e) => {
 		e.preventDefault();
-		setIsSimulationActive1(true);
+		setIsSimulationActive(true);
 	};
 	
-	const handleDangerTrainClick1 = () => {
-		setIsSliderActive1(true);
+	const handleDangerTrainClick = () => {
+		setIsSliderActive(true);
 	};
 	
-	const handleMapClick1 = () => {
-		setIsSliderActive1(false);
+	const handleMapClick = () => {
+		setIsSliderActive(false);
 	};
 	
-	const handleWheel1 = (e) => {
+	const handleWheel = (e) => {
 		e.preventDefault();
 		const delta = e.deltaY > 0 ? -0.1 : 0.1;
-		setScale1(prevScale => Math.min(Math.max(0.5, prevScale + delta), 3));
+		setScale(prevScale => Math.min(Math.max(0.5, prevScale + delta), 3));
 	};
 	
-	const handleMouseDown1 = (e) => {
-		if (e.target.tagName === 'IMG' && scale1 > 1) {
-			setIsDragging1(true);
-			setDragStart1({
-				x: e.clientX - position1.x,
-				y: e.clientY - position1.y
+	const handleMouseDown = (e) => {
+		if (e.target.tagName === 'IMG' && scale > 1) {
+			setIsDragging(true);
+			setDragStart({
+				x: e.clientX - position.x,
+				y: e.clientY - position.y
 			});
 		}
 	};
 	
-	const handleMouseMove1 = (e) => {
-		if (!isDragging1) return;
+	const handleMouseMove = (e) => {
+		if (!isDragging) return;
 		e.preventDefault();
 		requestAnimationFrame(() => {
-			setPosition1({
-				x: e.clientX - dragStart1.x,
-				y: e.clientY - dragStart1.y
+			setPosition({
+				x: e.clientX - dragStart.x,
+				y: e.clientY - dragStart.y
 			});
 		});
 	};
 	
-	const handleMouseUp1 = () => {
-		setIsDragging1(false);
+	const handleMouseUp = () => {
+		setIsDragging(false);
 	};
 	
-	const handleRouteTabClick1 = () => {
-		setActiveTab1('노선');
-		setIsSliderActive1(false);
-		setScale1(1);
-		setPosition1({ x: 0, y: 0 });
+	const handleRouteTabClick = () => {
+		setActiveTab('노선');
+		setIsSliderActive(false);
+		setScale(1);
+		setPosition({ x: 0, y: 0 });
 	};
 	
-	const handleRouteMapClick1 = () => {
-		setIsSliderActive1(true);
-	};
-	
-	// 워크플로우 2 handlers
-	const handleSimulationStart2 = (e) => {
-		e.preventDefault();
-		setIsSimulationActive2(true);
-	};
-	
-	const handleDangerTrainClick2 = () => {
-		setIsSliderActive2(true);
-	};
-	
-	const handleMapClick2 = () => {
-		setIsSliderActive2(false);
-	};
-	
-	const handleWheel2 = (e) => {
-		e.preventDefault();
-		const delta = e.deltaY > 0 ? -0.1 : 0.1;
-		setScale2(prevScale => Math.min(Math.max(0.5, prevScale + delta), 3));
-	};
-	
-	const handleMouseDown2 = (e) => {
-		if (e.target.tagName === 'IMG' && scale2 > 1) {
-			setIsDragging2(true);
-			setDragStart2({
-				x: e.clientX - position2.x,
-				y: e.clientY - position2.y
-			});
-		}
-	};
-	
-	const handleMouseMove2 = (e) => {
-		if (!isDragging2) return;
-		e.preventDefault();
-		requestAnimationFrame(() => {
-			setPosition2({
-				x: e.clientX - dragStart2.x,
-				y: e.clientY - dragStart2.y
-			});
-		});
-	};
-	
-	const handleMouseUp2 = () => {
-		setIsDragging2(false);
-	};
-	
-	const handleRouteTabClick2 = () => {
-		setActiveTab2('노선');
-		setIsSliderActive2(false);
-		setScale2(1);
-		setPosition2({ x: 0, y: 0 });
-	};
-	
-	const handleRouteMapClick2 = () => {
-		setIsSliderActive2(true);
-	};
-	
-	// 워크플로우 3 handlers
-	const handleSimulationStart3 = (e) => {
-		e.preventDefault();
-		setIsSimulationActive3(true);
-	};
-	
-	const handleDangerTrainClick3 = () => {
-		setIsSliderActive3(true);
-	};
-	
-	const handleMapClick3 = () => {
-		setIsSliderActive3(false);
-	};
-	
-	const handleWheel3 = (e) => {
-		e.preventDefault();
-		const delta = e.deltaY > 0 ? -0.1 : 0.1;
-		setScale3(prevScale => Math.min(Math.max(0.5, prevScale + delta), 3));
-	};
-	
-	const handleMouseDown3 = (e) => {
-		if (e.target.tagName === 'IMG' && scale3 > 1) {
-			setIsDragging3(true);
-			setDragStart3({
-				x: e.clientX - position3.x,
-				y: e.clientY - position3.y
-			});
-		}
-	};
-	
-	const handleMouseMove3 = (e) => {
-		if (!isDragging3) return;
-		e.preventDefault();
-		requestAnimationFrame(() => {
-			setPosition3({
-				x: e.clientX - dragStart3.x,
-				y: e.clientY - dragStart3.y
-			});
-		});
-	};
-	
-	const handleMouseUp3 = () => {
-		setIsDragging3(false);
-	};
-	
-	const handleRouteTabClick3 = () => {
-		setActiveTab3('노선');
-		setIsSliderActive3(false);
-		setScale3(1);
-		setPosition3({ x: 0, y: 0 });
-	};
-	
-	const handleRouteMapClick3 = () => {
-		setIsSliderActive3(true);
+	const handleRouteMapClick = () => {
+		setIsSliderActive(true);
 	};
 	
 	return (
@@ -220,17 +88,16 @@ function MainPage() {
 			</div>
 			<p className="txt">한국 철도 네트워크, 지도 및 통관관제시스템 대시보드</p>
 		</div>
-		{/* 워크플로우 1 */}
 		<div className="wrap">
 			<div className="map-area">
 				<div className="panel-info">
 					<div className="inner">
 						<ul className="tab">
-							<li className={activeTab1 === '지도' ? 'active' : ''} onClick={() => setActiveTab1('지도')}>지도</li>
-							<li className={activeTab1 === '노선' ? 'active' : ''} onClick={handleRouteTabClick1}>노선</li>
-							<li className={activeTab1 === '관리자' ? 'active' : ''} onClick={() => window.open(window.location.origin + '/korail-app/admin/input-data', '_blank')}>관리자</li>
-						</ul>
-						<div className={`info-slider ${isSliderActive1 ? 'active' : ''}`}>
+							<li className={activeTab === '지도' ? 'active' : ''} onClick={() => setActiveTab('지도')}>지도</li>
+							<li className={activeTab === '노선' ? 'active' : ''} onClick={handleRouteTabClick}>노선</li>
+						<li className={activeTab === '관리자' ? 'active' : ''} onClick={() => window.open(window.location.origin + '/korail-app/admin/input-data', '_blank')}>관리자</li>
+					</ul>
+					<div className={`info-slider ${isSliderActive ? 'active' : ''}`}>
 							<div className="tit">
 								<div className="name">
 									<i><img src={icoTrain} alt="" /></i> KTX 경부고속선
@@ -303,24 +170,24 @@ function MainPage() {
 						</div>
 					</div>
 				</div>
-				{activeTab1 === '지도' && (
+				{activeTab === '지도' && (
 					<div className="map">
-						<KorailMap isSimulationActive={isSimulationActive1} onDangerTrainClick={handleDangerTrainClick1} onMapClick={handleMapClick1} />
+						<KorailMap isSimulationActive={isSimulationActive} onDangerTrainClick={handleDangerTrainClick} onMapClick={handleMapClick} />
 					</div>
 				)}
-				{activeTab1 === '노선' && (
-					<div className="routemap" style={{position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}} onClick={() => setIsSliderActive1(false)}>
+				{activeTab === '노선' && (
+					<div className="routemap" style={{position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}} onClick={() => setIsSliderActive(false)}>
 						<div 
-							onWheel={handleWheel1} 
-							onMouseDown={handleMouseDown1}
-							onMouseMove={handleMouseMove1}
-							onMouseUp={handleMouseUp1}
-							onMouseLeave={handleMouseUp1}
+							onWheel={handleWheel} 
+							onMouseDown={handleMouseDown}
+							onMouseMove={handleMouseMove}
+							onMouseUp={handleMouseUp}
+							onMouseLeave={handleMouseUp}
 							style={{
-								width: isSliderActive1 ? 'calc(100% - 450px)' : 'calc(100% - 40px)',
+								width: isSliderActive ? 'calc(100% - 450px)' : 'calc(100% - 40px)',
 								height: '450px',
 								overflow: 'hidden',
-							cursor: scale1 > 1 ? (isDragging1 ? 'grabbing' : 'grab') : 'default',
+							cursor: scale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
 								display: 'flex',
 								alignItems: 'center',
 								justifyContent: 'center',
@@ -338,12 +205,12 @@ function MainPage() {
 								alt="노선도" 
 								onClick={(e) => {
 									e.stopPropagation();
-									handleRouteMapClick1();
+									handleRouteMapClick();
 								}}
 								style={{
-									transform: `translate(${position1.x}px, ${position1.y}px) scale(${scale1})`, 
+									transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`, 
 									transformOrigin: 'center', 
-									transition: isDragging1 ? 'none' : 'transform 0.1s',
+									transition: isDragging ? 'none' : 'transform 0.1s',
 									userSelect: 'none',
 									pointerEvents: 'auto',
 									maxWidth: '100%',
@@ -424,50 +291,49 @@ function MainPage() {
 								<label>운전정리 시나리오 선택</label>
 								<div className="d-flex">
 								<div className="radioBox">
-									<input type="radio" name="scenario1" id="w1-1" />
-									<label htmlFor="w1-1">단선운행</label>
-								</div>
+									<input type="radio" name="scenario" id="1" />
+									<label htmlFor="1">단선운행</label>
+									</div>
 								<div className="radioBox">
-									<input type="radio" name="scenario1" id="w1-2" />
-									<label htmlFor="w1-2">우회운전</label>
-								</div>
+									<input type="radio" name="scenario" id="2" />
+									<label htmlFor="2">우회운전</label>
+									</div>
 								<div className="radioBox">
-									<input type="radio" name="scenario1" id="w1-3" />
-									<label htmlFor="w1-3">서행</label>
-								</div>
+									<input type="radio" name="scenario" id="3" />
+									<label htmlFor="3">서행</label>
+									</div>
 								<div className="radioBox">
-									<input type="radio" name="scenario1" id="w1-4" />
-									<label htmlFor="w1-4">열차정차</label>
-								</div>
+									<input type="radio" name="scenario" id="4" />
+									<label htmlFor="4">열차정차</label>
+									</div>
 								<div className="radioBox">
-									<input type="radio" name="scenario1" id="w1-5" />
-									<label htmlFor="w1-5">퇴행</label>
-								</div>
+									<input type="radio" name="scenario" id="5" />
+									<label htmlFor="5">퇴행</label>
+									</div>
 								<div className="radioBox">
-									<input type="radio" name="scenario1" id="w1-6" />
-									<label htmlFor="w1-6">운행중지(타절)</label>
-								</div>
+									<input type="radio" name="scenario" id="6" />
+									<label htmlFor="6">운행중지(타절)</label>
+									</div>
 								</div>
 							</div>
 							<div className="btn-area">
-							<button type="button" className="btn-primary" onClick={handleSimulationStart1}>실행 하기</button>
+							<button type="button" className="btn-primary" onClick={handleSimulationStart}>실행 하기</button>
 							</div>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
-		{/* 워크플로우 2 */}
 		<div className="wrap">
 			<div className="map-area">
 				<div className="panel-info">
 					<div className="inner">
 						<ul className="tab">
-							<li className={activeTab2 === '지도' ? 'active' : ''} onClick={() => setActiveTab2('지도')}>지도</li>
-							<li className={activeTab2 === '노선' ? 'active' : ''} onClick={handleRouteTabClick2}>노선</li>
-							<li className={activeTab2 === '관리자' ? 'active' : ''} onClick={() => window.open(window.location.origin + '/korail-app/admin/input-data', '_blank')}>관리자</li>
-						</ul>
-						<div className={`info-slider ${isSliderActive2 ? 'active' : ''}`}>
+							<li className={activeTab === '지도' ? 'active' : ''} onClick={() => setActiveTab('지도')}>지도</li>
+							<li className={activeTab === '노선' ? 'active' : ''} onClick={handleRouteTabClick}>노선</li>
+						<li className={activeTab === '관리자' ? 'active' : ''} onClick={() => window.open(window.location.origin + '/korail-app/admin/input-data', '_blank')}>관리자</li>
+					</ul>
+					<div className={`info-slider ${isSliderActive ? 'active' : ''}`}>
 							<div className="tit">
 								<div className="name">
 									<i><img src={icoTrain} alt="" /></i> KTX 경부고속선
@@ -540,24 +406,24 @@ function MainPage() {
 						</div>
 					</div>
 				</div>
-				{activeTab2 === '지도' && (
+				{activeTab === '지도' && (
 					<div className="map">
-						<KorailMap isSimulationActive={isSimulationActive2} onDangerTrainClick={handleDangerTrainClick2} onMapClick={handleMapClick2} />
+						<KorailMap isSimulationActive={isSimulationActive} onDangerTrainClick={handleDangerTrainClick} onMapClick={handleMapClick} />
 					</div>
 				)}
-				{activeTab2 === '노선' && (
-					<div className="routemap" style={{position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}} onClick={() => setIsSliderActive2(false)}>
+				{activeTab === '노선' && (
+					<div className="routemap" style={{position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}} onClick={() => setIsSliderActive(false)}>
 						<div 
-							onWheel={handleWheel2} 
-							onMouseDown={handleMouseDown2}
-							onMouseMove={handleMouseMove2}
-							onMouseUp={handleMouseUp2}
-							onMouseLeave={handleMouseUp2}
+							onWheel={handleWheel} 
+							onMouseDown={handleMouseDown}
+							onMouseMove={handleMouseMove}
+							onMouseUp={handleMouseUp}
+							onMouseLeave={handleMouseUp}
 							style={{
-								width: isSliderActive2 ? 'calc(100% - 450px)' : 'calc(100% - 40px)',
+								width: isSliderActive ? 'calc(100% - 450px)' : 'calc(100% - 40px)',
 								height: '450px',
 								overflow: 'hidden',
-							cursor: scale2 > 1 ? (isDragging2 ? 'grabbing' : 'grab') : 'default',
+							cursor: scale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
 								display: 'flex',
 								alignItems: 'center',
 								justifyContent: 'center',
@@ -575,12 +441,12 @@ function MainPage() {
 								alt="노선도" 
 								onClick={(e) => {
 									e.stopPropagation();
-									handleRouteMapClick2();
+									handleRouteMapClick();
 								}}
 								style={{
-									transform: `translate(${position2.x}px, ${position2.y}px) scale(${scale2})`, 
+									transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`, 
 									transformOrigin: 'center', 
-									transition: isDragging2 ? 'none' : 'transform 0.1s',
+									transition: isDragging ? 'none' : 'transform 0.1s',
 									userSelect: 'none',
 									pointerEvents: 'auto',
 									maxWidth: '100%',
@@ -661,50 +527,49 @@ function MainPage() {
 								<label>운전정리 시나리오 선택</label>
 								<div className="d-flex">
 								<div className="radioBox">
-									<input type="radio" name="scenario2" id="w2-1" />
-									<label htmlFor="w2-1">단선운행</label>
-								</div>
+									<input type="radio" name="scenario" id="1" />
+									<label htmlFor="1">단선운행</label>
+									</div>
 								<div className="radioBox">
-									<input type="radio" name="scenario2" id="w2-2" />
-									<label htmlFor="w2-2">우회운전</label>
-								</div>
+									<input type="radio" name="scenario" id="2" />
+									<label htmlFor="2">우회운전</label>
+									</div>
 								<div className="radioBox">
-									<input type="radio" name="scenario2" id="w2-3" />
-									<label htmlFor="w2-3">서행</label>
-								</div>
+									<input type="radio" name="scenario" id="3" />
+									<label htmlFor="3">서행</label>
+									</div>
 								<div className="radioBox">
-									<input type="radio" name="scenario2" id="w2-4" />
-									<label htmlFor="w2-4">열차정차</label>
-								</div>
+									<input type="radio" name="scenario" id="4" />
+									<label htmlFor="4">열차정차</label>
+									</div>
 								<div className="radioBox">
-									<input type="radio" name="scenario2" id="w2-5" />
-									<label htmlFor="w2-5">퇴행</label>
-								</div>
+									<input type="radio" name="scenario" id="5" />
+									<label htmlFor="5">퇴행</label>
+									</div>
 								<div className="radioBox">
-									<input type="radio" name="scenario2" id="w2-6" />
-									<label htmlFor="w2-6">운행중지(타절)</label>
-								</div>
+									<input type="radio" name="scenario" id="6" />
+									<label htmlFor="6">운행중지(타절)</label>
+									</div>
 								</div>
 							</div>
 							<div className="btn-area">
-							<button type="button" className="btn-primary" onClick={handleSimulationStart2}>실행 하기</button>
+							<button type="button" className="btn-primary" onClick={handleSimulationStart}>실행 하기</button>
 							</div>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
-		{/* 워크플로우 3 */}
 		<div className="wrap">
 			<div className="map-area">
 				<div className="panel-info">
 					<div className="inner">
 						<ul className="tab">
-							<li className={activeTab3 === '지도' ? 'active' : ''} onClick={() => setActiveTab3('지도')}>지도</li>
-							<li className={activeTab3 === '노선' ? 'active' : ''} onClick={handleRouteTabClick3}>노선</li>
-							<li className={activeTab3 === '관리자' ? 'active' : ''} onClick={() => window.open(window.location.origin + '/korail-app/admin/input-data', '_blank')}>관리자</li>
-						</ul>
-						<div className={`info-slider ${isSliderActive3 ? 'active' : ''}`}>
+							<li className={activeTab === '지도' ? 'active' : ''} onClick={() => setActiveTab('지도')}>지도</li>
+							<li className={activeTab === '노선' ? 'active' : ''} onClick={handleRouteTabClick}>노선</li>
+						<li className={activeTab === '관리자' ? 'active' : ''} onClick={() => window.open(window.location.origin + '/korail-app/admin/input-data', '_blank')}>관리자</li>
+					</ul>
+					<div className={`info-slider ${isSliderActive ? 'active' : ''}`}>
 							<div className="tit">
 								<div className="name">
 									<i><img src={icoTrain} alt="" /></i> KTX 경부고속선
@@ -777,24 +642,24 @@ function MainPage() {
 						</div>
 					</div>
 				</div>
-				{activeTab3 === '지도' && (
+				{activeTab === '지도' && (
 					<div className="map">
-						<KorailMap isSimulationActive={isSimulationActive3} onDangerTrainClick={handleDangerTrainClick3} onMapClick={handleMapClick3} />
+						<KorailMap isSimulationActive={isSimulationActive} onDangerTrainClick={handleDangerTrainClick} onMapClick={handleMapClick} />
 					</div>
 				)}
-				{activeTab3 === '노선' && (
-					<div className="routemap" style={{position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}} onClick={() => setIsSliderActive3(false)}>
+				{activeTab === '노선' && (
+					<div className="routemap" style={{position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}} onClick={() => setIsSliderActive(false)}>
 						<div 
-							onWheel={handleWheel3} 
-							onMouseDown={handleMouseDown3}
-							onMouseMove={handleMouseMove3}
-							onMouseUp={handleMouseUp3}
-							onMouseLeave={handleMouseUp3}
+							onWheel={handleWheel} 
+							onMouseDown={handleMouseDown}
+							onMouseMove={handleMouseMove}
+							onMouseUp={handleMouseUp}
+							onMouseLeave={handleMouseUp}
 							style={{
-								width: isSliderActive3 ? 'calc(100% - 450px)' : 'calc(100% - 40px)',
+								width: isSliderActive ? 'calc(100% - 450px)' : 'calc(100% - 40px)',
 								height: '450px',
 								overflow: 'hidden',
-							cursor: scale3 > 1 ? (isDragging3 ? 'grabbing' : 'grab') : 'default',
+							cursor: scale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
 								display: 'flex',
 								alignItems: 'center',
 								justifyContent: 'center',
@@ -812,12 +677,12 @@ function MainPage() {
 								alt="노선도" 
 								onClick={(e) => {
 									e.stopPropagation();
-									handleRouteMapClick3();
+									handleRouteMapClick();
 								}}
 								style={{
-									transform: `translate(${position3.x}px, ${position3.y}px) scale(${scale3})`, 
+									transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`, 
 									transformOrigin: 'center', 
-									transition: isDragging3 ? 'none' : 'transform 0.1s',
+									transition: isDragging ? 'none' : 'transform 0.1s',
 									userSelect: 'none',
 									pointerEvents: 'auto',
 									maxWidth: '100%',
@@ -898,33 +763,33 @@ function MainPage() {
 								<label>운전정리 시나리오 선택</label>
 								<div className="d-flex">
 								<div className="radioBox">
-									<input type="radio" name="scenario3" id="w3-1" />
-									<label htmlFor="w3-1">단선운행</label>
-								</div>
+									<input type="radio" name="scenario" id="1" />
+									<label htmlFor="1">단선운행</label>
+									</div>
 								<div className="radioBox">
-									<input type="radio" name="scenario3" id="w3-2" />
-									<label htmlFor="w3-2">우회운전</label>
-								</div>
+									<input type="radio" name="scenario" id="2" />
+									<label htmlFor="2">우회운전</label>
+									</div>
 								<div className="radioBox">
-									<input type="radio" name="scenario3" id="w3-3" />
-									<label htmlFor="w3-3">서행</label>
-								</div>
+									<input type="radio" name="scenario" id="3" />
+									<label htmlFor="3">서행</label>
+									</div>
 								<div className="radioBox">
-									<input type="radio" name="scenario3" id="w3-4" />
-									<label htmlFor="w3-4">열차정차</label>
-								</div>
+									<input type="radio" name="scenario" id="4" />
+									<label htmlFor="4">열차정차</label>
+									</div>
 								<div className="radioBox">
-									<input type="radio" name="scenario3" id="w3-5" />
-									<label htmlFor="w3-5">퇴행</label>
-								</div>
+									<input type="radio" name="scenario" id="5" />
+									<label htmlFor="5">퇴행</label>
+									</div>
 								<div className="radioBox">
-									<input type="radio" name="scenario3" id="w3-6" />
-									<label htmlFor="w3-6">운행중지(타절)</label>
-								</div>
+									<input type="radio" name="scenario" id="6" />
+									<label htmlFor="6">운행중지(타절)</label>
+									</div>
 								</div>
 							</div>
 							<div className="btn-area">
-							<button type="button" className="btn-primary" onClick={handleSimulationStart3}>실행 하기</button>
+							<button type="button" className="btn-primary" onClick={handleSimulationStart}>실행 하기</button>
 							</div>
 						</div>
 					</form>
