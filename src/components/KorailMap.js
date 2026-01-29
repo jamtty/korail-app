@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-function KorailMap({ isSimulationActive, onDangerTrainClick, onMapClick }) {
+function KorailMap({ isSimulationActive, onDangerTrainClick, onMapClick, dangerTrainIndex = 3 }) {
 
 // 역 마커 아이콘 설정
 const stationIcon = L.divIcon({
@@ -333,8 +333,8 @@ const trainIconDanger = L.divIcon({
 					icon: trainIconDanger,
 					color: '#FFE8E0',
 					fontColor: '#FF4400',
-					startIndex: 3, // 오송 (정지)
-					endIndex: 3, // 오송 (정지)
+					startIndex: dangerTrainIndex, // 워크플로우별 다른 역 (정지)
+					endIndex: dangerTrainIndex, // 워크플로우별 다른 역 (정지)
 					isMoving: false,
 					routeType: 'ktx',
 					isDanger: true
@@ -506,7 +506,7 @@ const trainIconDanger = L.divIcon({
 			}
 		};
 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isSimulationActive]);
+	}, [isSimulationActive, dangerTrainIndex]);
 
 	return (
 		<div 

@@ -305,7 +305,7 @@ function MainPage() {
 				</div>
 				{activeTab1 === '지도' && (
 					<div className="map">
-						<KorailMap isSimulationActive={isSimulationActive1} onDangerTrainClick={handleDangerTrainClick1} onMapClick={handleMapClick1} />
+					<KorailMap isSimulationActive={isSimulationActive1} onDangerTrainClick={handleDangerTrainClick1} onMapClick={handleMapClick1} dangerTrainIndex={1} />
 					</div>
 				)}
 				{activeTab1 === '노선' && (
@@ -542,7 +542,7 @@ function MainPage() {
 				</div>
 				{activeTab2 === '지도' && (
 					<div className="map">
-						<KorailMap isSimulationActive={isSimulationActive2} onDangerTrainClick={handleDangerTrainClick2} onMapClick={handleMapClick2} />
+					<KorailMap isSimulationActive={isSimulationActive2} onDangerTrainClick={handleDangerTrainClick2} onMapClick={handleMapClick2} dangerTrainIndex={3} />
 					</div>
 				)}
 				{activeTab2 === '노선' && (
@@ -779,7 +779,7 @@ function MainPage() {
 				</div>
 				{activeTab3 === '지도' && (
 					<div className="map">
-						<KorailMap isSimulationActive={isSimulationActive3} onDangerTrainClick={handleDangerTrainClick3} onMapClick={handleMapClick3} />
+					<KorailMap isSimulationActive={isSimulationActive3} onDangerTrainClick={handleDangerTrainClick3} onMapClick={handleMapClick3} dangerTrainIndex={6} />
 					</div>
 				)}
 				{activeTab3 === '노선' && (
