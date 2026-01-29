@@ -226,7 +226,7 @@ function MainPage() {
 				<div className="panel-info">
 					<div className="inner">
 						<ul className="tab">
-							<li className={activeTab1 === '지도' ? 'active' : ''} onClick={() => setActiveTab1('지도')}>지도</li>
+					<li className={activeTab1 === '지도' ? 'active' : ''} onClick={() => { setActiveTab1('지도'); setIsSliderActive1(false); }}>지도</li>
 							<li className={activeTab1 === '노선' ? 'active' : ''} onClick={handleRouteTabClick1}>노선</li>
 							<li className={activeTab1 === '관리자' ? 'active' : ''} onClick={() => window.open(window.location.origin + '/korail-app/admin/input-data', '_blank')}>관리자</li>
 						</ul>
@@ -463,7 +463,7 @@ function MainPage() {
 				<div className="panel-info">
 					<div className="inner">
 						<ul className="tab">
-							<li className={activeTab2 === '지도' ? 'active' : ''} onClick={() => setActiveTab2('지도')}>지도</li>
+					<li className={activeTab2 === '지도' ? 'active' : ''} onClick={() => { setActiveTab2('지도'); setIsSliderActive2(false); }}>지도</li>
 							<li className={activeTab2 === '노선' ? 'active' : ''} onClick={handleRouteTabClick2}>노선</li>
 							<li className={activeTab2 === '관리자' ? 'active' : ''} onClick={() => window.open(window.location.origin + '/korail-app/admin/input-data', '_blank')}>관리자</li>
 						</ul>
@@ -700,7 +700,7 @@ function MainPage() {
 				<div className="panel-info">
 					<div className="inner">
 						<ul className="tab">
-							<li className={activeTab3 === '지도' ? 'active' : ''} onClick={() => setActiveTab3('지도')}>지도</li>
+					<li className={activeTab3 === '지도' ? 'active' : ''} onClick={() => { setActiveTab3('지도'); setIsSliderActive3(false); }}>지도</li>
 							<li className={activeTab3 === '노선' ? 'active' : ''} onClick={handleRouteTabClick3}>노선</li>
 							<li className={activeTab3 === '관리자' ? 'active' : ''} onClick={() => window.open(window.location.origin + '/korail-app/admin/input-data', '_blank')}>관리자</li>
 						</ul>
