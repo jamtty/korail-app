@@ -39,24 +39,48 @@ function TrainSchedule() {
 			<Header />
 			<div className="adm-contents">
 				<div className="adm-title">
-                    <h1>열차 스케쥴</h1>
+					<h1>열차 스케줄</h1>
                     <button type="button" className="btn-data-add" onClick={() => setIsModalOpen(true)}>데이터추가</button>
                 </div>
+				<div className="adm-search">
+					<div className="adm-search-group">
+						<label>열차종별코드</label>
+						<input type="text" className="frm-input" placeholder="A800..." />
+					</div>
+					<div className="adm-search-group">
+						<label>열차번호</label>
+						<input type="text" className="frm-input" placeholder="숫자 입력" />
+					</div>
+					<div className="adm-search-group">
+						<label>역명</label>
+						<select className="select">
+							<option value="">전체</option>
+							<option value="서울역">서울역</option>
+							<option value="부산역">부산역</option>
+						</select>
+					</div>
+					<div className="adm-search-group">
+						<label>도착시각</label>
+						<input type="text" className="frm-input" placeholder="HH:MM:SS" />
+					</div>
+					<button type="button" className="btn-primary">검색</button>
+				</div>
 				<div className="adm-tbl-wrap">
 					<table className="adm-table">
 						<thead>
 							<tr>
-								<th>열차종별</th>
+								<th>열차종별코드</th>
 								<th>열차번호</th>
-								<th>상하</th>
+								<th>상하행구분코드</th>
 								<th>역명</th>
 								<th>도착시각</th>
 								<th>출발시각</th>
-								<th>정차사유</th>
-								<th>도착시각_분</th>
-								<th>출발시각_분</th>
+								<th>정차사유코드</th>
+								<th>도착시각분</th>
+								<th>출발시각분</th>
 								<th>편성번호</th>
-								<th>당역까지의<br />소요시간_분</th>
+								<th>당역소요시간</th>
+								<th>관리</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -72,6 +96,11 @@ function TrainSchedule() {
 								<td>313</td>
 								<td>1C1019</td>
 								<td>0</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td>AB00-2025-00000</td>
@@ -85,6 +114,11 @@ function TrainSchedule() {
 								<td>313</td>
 								<td>1C1019</td>
 								<td>0</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td>AB00-2025-00000</td>
@@ -98,6 +132,11 @@ function TrainSchedule() {
 								<td>313</td>
 								<td>1C1019</td>
 								<td>0</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td>AB00-2025-00000</td>
@@ -111,6 +150,11 @@ function TrainSchedule() {
 								<td>313</td>
 								<td>1C1019</td>
 								<td>0</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr><tr>
 								<td>AB00-2025-00000</td>
 								<td>1</td>
@@ -123,6 +167,11 @@ function TrainSchedule() {
 								<td>313</td>
 								<td>1C1019</td>
 								<td>0</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td>AB00-2025-00000</td>
@@ -136,6 +185,11 @@ function TrainSchedule() {
 								<td>313</td>
 								<td>1C1019</td>
 								<td>0</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr><tr>
 								<td>AB00-2025-00000</td>
 								<td>1</td>
@@ -148,6 +202,11 @@ function TrainSchedule() {
 								<td>313</td>
 								<td>1C1019</td>
 								<td>0</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td>AB00-2025-00000</td>
@@ -161,6 +220,11 @@ function TrainSchedule() {
 								<td>313</td>
 								<td>1C1019</td>
 								<td>0</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr><tr>
 								<td>AB00-2025-00000</td>
 								<td>1</td>
@@ -173,6 +237,11 @@ function TrainSchedule() {
 								<td>313</td>
 								<td>1C1019</td>
 								<td>0</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td>AB00-2025-00000</td>
@@ -186,6 +255,11 @@ function TrainSchedule() {
 								<td>313</td>
 								<td>1C1019</td>
 								<td>0</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -203,7 +277,7 @@ function TrainSchedule() {
 					<table className="modal-table">
 						<tbody>
 						<tr>
-							<th>열차종별</th>
+							<th>열차종별코드</th>
 							<td>
 								<input 
 									type="text" 
@@ -225,7 +299,7 @@ function TrainSchedule() {
 							</td>
 						</tr>
 						<tr>
-							<th>상하</th>
+							<th>상하행구분코드</th>
 							<td>
 								<select 
 									name="direction"
@@ -272,7 +346,7 @@ function TrainSchedule() {
 							</td>
 						</tr>
 						<tr>
-							<th>정차사유</th>
+							<th>정차사유코드</th>
 							<td>
 								<input 
 									type="text" 
@@ -282,7 +356,7 @@ function TrainSchedule() {
 									className="frm-input"
 								/>
 							</td>
-							<th>도착시각_분</th>
+							<th>도착시각분</th>
 							<td>
 								<input 
 									type="text" 
@@ -294,7 +368,7 @@ function TrainSchedule() {
 							</td>
 						</tr>
 						<tr>
-							<th>출발시각_분</th>
+							<th>출발시각분</th>
 							<td>
 								<input 
 									type="text" 
@@ -316,7 +390,7 @@ function TrainSchedule() {
 							</td>
 						</tr>
 						<tr>
-							<th>당역까지의<br />소요시간_분</th>
+							<th>당역소요시간</th>
 							<td>
 								<input 
 									type="text" 

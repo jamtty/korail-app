@@ -45,24 +45,51 @@ function BlockSection() {
                     <h1>폐색구간</h1>
                     <button type="button" className="btn-data-add" onClick={() => setIsModalOpen(true)}>데이터추가</button>
                 </div>
+				<div className="adm-search">
+					<div className="adm-search-group">
+						<label>폐색구간ID</label>
+						<input type="text" className="frm-input" placeholder="" />
+					</div>
+					<div className="adm-search-group">
+						<label>노선명</label>
+						<select className="select">
+							<option value="">전체</option>
+							<option value="경부선">경부선</option>
+						</select>
+					</div>
+					<div className="adm-search-group">
+						<label>폐색구간명</label>
+						<input type="text" className="frm-input" placeholder="" />
+					</div>
+					<div className="adm-search-group">
+						<label>구간구분명</label>
+						<input type="text" className="frm-input" placeholder="" />
+					</div>
+					<div className="adm-search-group">
+						<label>지점명</label>
+						<input type="text" className="frm-input" placeholder="" />
+					</div>
+					<button type="button" className="btn-primary">검색</button>
+				</div>
 				<div className="adm-tbl-wrap">
 					<table className="adm-table">
 						<thead>
 							<tr>
-								<th>번호</th>
-								<th>노선</th>
-								<th>상/하행</th>
-								<th>이름</th>
-								<th>구분</th>
-								<th>지점</th>
+								<th>폐색구간ID</th>
+								<th>노선명</th>
+								<th>상하행구분코드</th>
+								<th>폐색구간명</th>
+								<th>구간구분명</th>
+								<th>지점명</th>
 								<th>키로정</th>
 								<th>변환키로정</th>
-								<th>원래키로정</th>
+								<th>원키로정</th>
 								<th>노선코드</th>
-								<th>선로표고</th>
+								<th>선로표명</th>
 								<th>경도</th>
 								<th>위도</th>
-								<th>키로정차이</th>
+								<th>키로정차이값</th>
+								<th>관리</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -81,6 +108,11 @@ function BlockSection() {
 								<td>126.9706256</td>
 								<td>37.55462701</td>
 								<td>0.01</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td>1</td>
@@ -97,6 +129,11 @@ function BlockSection() {
 								<td>126.9706256</td>
 								<td>37.55462701</td>
 								<td>0.01</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td>1</td>
@@ -113,6 +150,11 @@ function BlockSection() {
 								<td>126.9706256</td>
 								<td>37.55462701</td>
 								<td>0.01</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td>1</td>
@@ -129,6 +171,11 @@ function BlockSection() {
 								<td>126.9706256</td>
 								<td>37.55462701</td>
 								<td>0.01</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -146,7 +193,7 @@ function BlockSection() {
 					<table className="modal-table">
 						<tbody>
 						<tr>
-							<th>번호</th>
+							<th>폐색구간ID</th>
 							<td>
 								<input 
 									type="text" 
@@ -156,7 +203,7 @@ function BlockSection() {
 									className="frm-input"
 								/>
 							</td>
-							<th>노선</th>
+							<th>노선명</th>
 							<td>
 								<input 
 									type="text" 
@@ -168,7 +215,7 @@ function BlockSection() {
 							</td>
 						</tr>
 						<tr>
-							<th>상/하행</th>
+							<th>상하행구분코드</th>
 							<td>
 								<select 
 									name="direction"
@@ -181,7 +228,7 @@ function BlockSection() {
 									<option value="하행">하행</option>
 								</select>
 							</td>
-							<th>이름</th>
+							<th>폐색구간명</th>
 							<td>
 								<input 
 									type="text" 
@@ -193,7 +240,7 @@ function BlockSection() {
 							</td>
 						</tr>
 						<tr>
-							<th>구분</th>
+							<th>구간구분명</th>
 							<td>
 								<input 
 									type="text" 
@@ -203,7 +250,7 @@ function BlockSection() {
 									className="frm-input"
 								/>
 							</td>
-							<th>지점</th>
+							<th>지점명</th>
 							<td>
 								<input 
 									type="text" 
@@ -237,7 +284,7 @@ function BlockSection() {
 							</td>
 						</tr>
 						<tr>
-							<th>원래키로정</th>
+							<th>원키로정</th>
 							<td>
 								<input 
 									type="text" 
@@ -259,7 +306,7 @@ function BlockSection() {
 							</td>
 						</tr>
 						<tr>
-							<th>선로표고</th>
+							<th>선로표명</th>
 							<td>
 								<input 
 									type="text" 
@@ -291,7 +338,7 @@ function BlockSection() {
 									className="frm-input"
 								/>
 							</td>
-							<th>키로정차이</th>
+							<th>키로정차이값</th>
 							<td>
 								<input 
 									type="text" 

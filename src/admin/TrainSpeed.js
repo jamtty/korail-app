@@ -39,10 +39,11 @@ function TrainSpeed() {
 					<table className="adm-table">
 						<thead>
 							<tr>
-								<th>열차종</th>
-								<th>영업최고속도</th>
-								<th>평균가속도</th>
-								<th>평균감속도</th>
+								<th>열차종별명</th>
+								<th>영업최고속도(km/h)</th>
+								<th>평균가속도(m/s²)</th>
+								<th>평균감속도(m/s²)</th>
+								<th>관리</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -51,24 +52,44 @@ function TrainSpeed() {
 								<td>300</td>
 								<td>0.55</td>
 								<td>1.05</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td>KTX-산천</td>
 								<td>300</td>
 								<td>0.55</td>
 								<td>1.05</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td>KTX-산천</td>
 								<td>300</td>
 								<td>0.55</td>
 								<td>1.05</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td>KTX-산천</td>
 								<td>300</td>
 								<td>0.55</td>
 								<td>1.05</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -86,7 +107,7 @@ function TrainSpeed() {
 					<table className="modal-table">
 						<tbody>
 						<tr>
-							<th>열차종</th>
+							<th>열차종별명</th>
 							<td>
 								<input 
 									type="text" 
@@ -96,7 +117,7 @@ function TrainSpeed() {
 									className="frm-input"
 								/>
 							</td>
-							<th>영업최고속도</th>
+							<th>영업최고속도(km/h)</th>
 							<td>
 								<input 
 									type="text" 
@@ -108,7 +129,7 @@ function TrainSpeed() {
 							</td>
 						</tr>
 						<tr>
-							<th>평균가속도</th>
+							<th>평균가속도(m/s²)</th>
 							<td>
 								<input 
 									type="text" 
@@ -118,7 +139,7 @@ function TrainSpeed() {
 									className="frm-input"
 								/>
 							</td>
-							<th>평균감속도</th>
+							<th>평균감속도(m/s²)</th>
 							<td>
 								<input 
 									type="text" 

@@ -1,9 +1,10 @@
 .container { min-height:100vh; }
-.header { display:flex; align-items: center; height:75px; min-height:75px; background:#fff; box-shadow:5px 8px 8px 0 rgba(34,34,34,.01); padding:0 30px; position: fixed; top: 0; left: 0; right: 0; z-index: 9999999; }
-.header .logo::after { content:""; display:inline-flex; align-items: center; height:20px; width:1px; background:#D9D9D9; margin:0 20px; }
+.header { display:flex; align-items: center; height:75px; min-height:75px; background:#fff; box-shadow:5px 8px 8px 0 rgba(34,34,34,.01); padding:0 30px; position: fixed; top: 0; left: 0; right: 0; z-index: 999; }
+.header .logo { display:flex; align-items: center; }
+.header .logo::after { content:"";  height:20px; width:1px; background:#D9D9D9; margin:0 20px; }
 .header .txt { font-size:22px; font-weight:600; }
 
-.wrap { display:flex; gap:25px; padding:30px; height: calc(100vh - 75px); margin-top: 75px; }
+.wrap { display:flex; gap:20px; padding:20px; height: calc(100vh - 75px); margin-top: 75px; }
 .map-area { flex:1; position:relative; background:#aaa; border-radius:10px; overflow:hidden; }
 .map { width:100%; height:100%; display:flex; align-items: center; justify-content: center;  }
 
@@ -70,12 +71,16 @@
 
 .calendar { width:170px; padding:0 40px 0 15px; height:42px; font-size:15px; font-weight:500; color:#333; border-radius:10px; border:1px solid #D9D9D9; transition: border-color 0.2s; background:#fff url(../images/ico_calendar.svg) right 15px center no-repeat; background-size: 18px; cursor: pointer; text-align:left; }
 .calendar:focus { outline: none; border-color: #0164E6; }
+.calendar.full { width:100%; }
+.calendar-wrapper.full { width:100%; }
+.calendar-wrapper.full .react-datepicker__input-container { width:100%; }
 .d-flex { display:flex; align-items: center; gap:5px; flex-wrap: wrap; }
 .d-flex .select { flex: 1; min-width: 0; }
 
 /* DatePicker 포지션 고정 */
-.react-datepicker-popper { z-index: 999; }
+.react-datepicker-popper { position: absolute !important; z-index: 999; }
 .react-datepicker-wrapper { width: 170px; flex-shrink: 0; }
+.react-datepicker__input-container { width: 100%; }
 
 /* DatePicker 년/월 드롭다운 순서 변경 */
 .react-datepicker__header__dropdown { display: flex; flex-direction: row-reverse; justify-content: center; gap: 10px; }
@@ -92,9 +97,72 @@
 .btn-primary { width:100%; line-height:42px; background:#0165E6; border-radius:10px; font-size:16px; font-weight:700; color:#fff; transition: background-color 0.2s; }
 .btn-primary:hover { background-color:#0350b4; }
 
+/* 관리자 검색 영역 */
+.adm-search {
+    background:#F9FAFB;
+    border:1px solid #E6E6E6;
+    border-radius:8px;
+    padding:16px;
+    margin:0 0 16px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    align-items:flex-end;
+}
 
+/* 테이블 관리 버튼 */
+.action-buttons {
+    display:flex;
+    justify-content:center;
+    gap:6px;
+}
 
+.btn {
+    border:none;
+    padding:6px 12px;
+    border-radius:6px;
+    font-size:14px;
+    font-weight:600;
+    color:#fff;
+    cursor:pointer;
+}
 
+.btn-edit {
+    background:#2f5bd1;
+}
+
+.btn-edit:hover {
+    background:#244bb0;
+}
+
+.btn-delete {
+    background:#e74c3c;
+}
+
+.btn-delete:hover {
+    background:#c0392b;
+}
+
+.adm-search-group {
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    flex:1 1 220px;
+}
+
+.adm-search-group label {
+    font-size:15px;
+    font-weight:600;
+    color:#555;
+}
+
+.adm-search .btn-primary {
+    height:42px;
+    width:auto;
+    padding:0 16px;
+    flex:0 0 auto;
+    background:#333;
+}
 
 /*** 관리자 ***/
 .adm-container { display:flex; flex-direction: column; height: 100vh;  }
@@ -105,7 +173,7 @@
 .adm-header .adm-gnb { display:flex; align-items: center; background:#283D82; padding:0 70px; }
 .adm-header .adm-gnb ul { line-height:50px; display:flex; align-items: center;  }
 .adm-header .adm-gnb ul li { border-right:1px solid #172B6D; min-width:115px; text-align:center; }
-.adm-header .adm-gnb ul li a { font-size:18px; font-weight:400; color:#fff; padding:0 20px; }
+.adm-header .adm-gnb ul li a { font-size:16px; font-weight:400; color:#fff; padding:0 15px; }
 .adm-header .adm-gnb ul li.active { background:#fff;  }
 .adm-header .adm-gnb ul li.active a { font-weight:500; color:#333; }
 
@@ -126,7 +194,7 @@
 .adm-table thead th { font-size:16px; font-weight:500; color:#333; text-align:center; height:60px; border-top:1px solid #283D82; border-bottom:1px solid #283D82;  }
 .adm-table thead th:first-child { border-left:1px solid #283D82; border-top-left-radius:5px; border-bottom-left-radius:5px; }
 .adm-table thead th:last-child { border-right:1px solid #283D82; border-top-right-radius:5px; border-bottom-right-radius:5px; }
-.adm-table tbody tr td { font-size:16px; font-weight:500; color:#333; text-align:center; height:42px; border-bottom:1px solid #E6E6E6; }
+.adm-table tbody tr td { font-size:16px; font-weight:500; color:#333; text-align:center; height:45px; border-bottom:1px solid #E6E6E6; }
 .adm-table tbody tr:hover { background:#f8f8f8; }
 
 /* 푸터 */
@@ -206,6 +274,70 @@
 
 .danger-wave-3 {
     animation-delay: 2s;
+}
+
+/* 시나리오 css */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.station-node {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.station-node:hover circle {
+    r: 8;
+    stroke-width: 3;
+}
+
+.train-marker {
+    transition: transform 0.5s linear, opacity 0.3s ease;
+}
+
+.train-marker-blink {
+    animation: trainBlink 2.2s ease-in-out infinite;
+}
+
+@keyframes trainBlink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.35;
+    }
+}
+
+.animate-path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: dash 3s linear forwards;
+}
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.modal-fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 

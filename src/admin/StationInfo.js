@@ -18,8 +18,7 @@ function StationInfo() {
 		routeCd: '',
 		railElev: '',
 		longitude: '',
-		latitude: '',
-		kmDiff: ''
+		latitude: ''
 	});
 
 	const handleInputChange = (e) => {
@@ -44,23 +43,41 @@ function StationInfo() {
                     <h1>역정보</h1>
                     <button type="button" className="btn-data-add" onClick={() => setIsModalOpen(true)}>데이터추가</button>
                 </div>
+				<div className="adm-search">
+					<div className="adm-search-group">
+						<label>노선명</label>
+						<select className="select">
+							<option value="">전체</option>
+							<option value="경부선">경부선</option>
+						</select>
+					</div>
+					<div className="adm-search-group">
+						<label>역명</label>
+						<input type="text" className="frm-input" placeholder="예: S1, S3" />
+					</div>
+					<div className="adm-search-group">
+						<label>한글라벨명</label>
+						<input type="text" className="frm-input" placeholder="" />
+					</div>
+					<button type="button" className="btn-primary">검색</button>
+				</div>
 				<div className="adm-tbl-wrap">
 					<table className="adm-table">
 						<thead>
 							<tr>
-								<th>번호</th>
-								<th>노선</th>
-								<th>상/하행</th>
-								<th>이름</th>
-								<th>lb_korean</th>
-								<th>CNVRSN_KP</th>
+								<th>역ID</th>
+								<th>노선명</th>
+								<th>상하행구분코드</th>
+								<th>역명</th>
+								<th>한글라벨명</th>
+								<th>변환키로정</th>
 								<th>키로정</th>
-								<th>SPT_KP</th>
-								<th>ROUTE_CD</th>
-								<th>RAIL_ELEV</th>
+								<th>지점키로정</th>
+								<th>노선코드</th>
+								<th>선로고도값</th>
 								<th>경도</th>
 								<th>위도</th>
-								<th>키로정차이</th>
+								<th>관리</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -77,7 +94,11 @@ function StationInfo() {
 								<td>7.966</td>
 								<td>126.9706256</td>
 								<td>37.55462701</td>
-								<td>0.01</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td>1</td>
@@ -92,7 +113,11 @@ function StationInfo() {
 								<td>7.966</td>
 								<td>126.9706256</td>
 								<td>37.55462701</td>
-								<td>0.01</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -110,7 +135,7 @@ function StationInfo() {
 					<table className="modal-table">
 						<tbody>
 						<tr>
-							<th>번호</th>
+							<th>역ID</th>
 							<td>
 								<input 
 									type="text" 
@@ -120,7 +145,7 @@ function StationInfo() {
 									className="frm-input"
 								/>
 							</td>
-							<th>노선</th>
+							<th>노선명</th>
 							<td>
 								<input 
 									type="text" 
@@ -132,7 +157,7 @@ function StationInfo() {
 							</td>
 						</tr>
 						<tr>
-							<th>상/하행</th>
+							<th>상하행구분코드</th>
 							<td>
 								<select 
 									name="direction"
@@ -145,7 +170,7 @@ function StationInfo() {
 									<option value="하행">하행</option>
 								</select>
 							</td>
-							<th>이름</th>
+							<th>역명</th>
 							<td>
 								<input 
 									type="text" 
@@ -157,7 +182,7 @@ function StationInfo() {
 							</td>
 						</tr>
 						<tr>
-							<th>lb_korean</th>
+							<th>한글라벨명</th>
 							<td>
 								<input 
 									type="text" 
@@ -167,7 +192,7 @@ function StationInfo() {
 									className="frm-input"
 								/>
 							</td>
-							<th>CNVRSN_KP</th>
+							<th>변환키로정</th>
 							<td>
 								<input 
 									type="text" 
@@ -189,7 +214,7 @@ function StationInfo() {
 									className="frm-input"
 								/>
 							</td>
-							<th>SPT_KP</th>
+							<th>지점키로정</th>
 							<td>
 								<input 
 									type="text" 
@@ -201,7 +226,7 @@ function StationInfo() {
 							</td>
 						</tr>
 						<tr>
-							<th>ROUTE_CD</th>
+							<th>노선코드</th>
 							<td>
 								<input 
 									type="text" 
@@ -211,7 +236,7 @@ function StationInfo() {
 									className="frm-input"
 								/>
 							</td>
-							<th>RAIL_ELEV</th>
+							<th>선로고도값</th>
 							<td>
 								<input 
 									type="text" 
@@ -243,20 +268,6 @@ function StationInfo() {
 									className="frm-input"
 								/>
 							</td>
-						</tr>
-						<tr>
-							<th>키로정차이</th>
-							<td>
-								<input 
-									type="text" 
-									name="kmDiff"
-									value={formData.kmDiff}
-									onChange={handleInputChange}
-									className="frm-input"
-								/>
-							</td>
-							<th></th>
-							<td></td>
 						</tr>
 					</tbody>
 				</table>

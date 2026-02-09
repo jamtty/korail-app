@@ -44,23 +44,49 @@ function OutputData() {
                     <h1>출력데이터</h1>
                     <button type="button" className="btn-data-add" onClick={() => setIsModalOpen(true)}>데이터추가</button>
                 </div>
+				<div className="adm-search">
+					<div className="adm-search-group">
+						<label>예측번호</label>
+						<input type="text" className="frm-input" placeholder="" />
+					</div>
+					<div className="adm-search-group">
+						<label>유형구분명</label>
+						<select className="select">
+							<option value="">전체</option>
+							<option value="철도사고">철도사고</option>
+						</select>
+					</div>
+					<div className="adm-search-group">
+						<label>편성번호</label>
+						<input type="text" className="frm-input" placeholder="" />
+					</div>
+					<div className="adm-search-group">
+						<label>사건유형1명</label>
+						<select className="select">
+							<option value="">전체</option>
+							<option value="운행장애">운행장애</option>
+						</select>
+					</div>
+					<button type="button" className="btn-primary">검색</button>
+				</div>
 				<div className="adm-tbl-wrap">
 					<table className="adm-table">
 						<thead>
 							<tr>
-								<th>예측 번호</th>
-								<th>유형구분</th>
+								<th>예측번호</th>
+								<th>유형구분명</th>
 								<th>편성번호</th>
-								<th>사건유형1</th>
-								<th>사건유형2</th>
-								<th>사건유형3</th>
-								<th>사건유형4</th>
-								<th>복구시간</th>
-								<th>발생지점</th>
-								<th>발생위치</th>
-								<th>출발노드</th>
-								<th>도착노드</th>
-								<th>사건시간</th>
+								<th>사건유형1명</th>
+								<th>사건유형2명</th>
+								<th>사건유형3명</th>
+								<th>사건유형4명</th>
+								<th>복구시간내용</th>
+								<th>발생지점코드</th>
+								<th>발생위치명</th>
+								<th>출발노드명</th>
+								<th>도착노드명</th>
+								<th>사건일시</th>
+								<th>관리</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -78,6 +104,11 @@ function OutputData() {
 								<td>O57</td>
 								<td>P2604</td>
 								<td>897</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td>1</td>
@@ -93,6 +124,11 @@ function OutputData() {
 								<td>O57</td>
 								<td>P2604</td>
 								<td>897</td>
+								<td>
+									<div className="action-buttons">
+										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+									</div>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -110,7 +146,7 @@ function OutputData() {
 					<table className="modal-table">
 						<tbody>
 						<tr>
-							<th>예측 번호</th>
+							<th>예측번호</th>
 							<td>
 								<input 
 									type="text" 
@@ -120,7 +156,7 @@ function OutputData() {
 									className="frm-input"
 								/>
 							</td>
-							<th>유형구분</th>
+							<th>유형구분명</th>
 							<td>
 								<input 
 									type="text" 
@@ -142,7 +178,7 @@ function OutputData() {
 									className="frm-input"
 								/>
 							</td>
-							<th>사건유형1</th>
+							<th>사건유형1명</th>
 							<td>
 								<input 
 									type="text" 
@@ -154,7 +190,7 @@ function OutputData() {
 							</td>
 						</tr>
 						<tr>
-							<th>사건유형2</th>
+							<th>사건유형2명</th>
 							<td>
 								<input 
 									type="text" 
@@ -164,7 +200,7 @@ function OutputData() {
 									className="frm-input"
 								/>
 							</td>
-							<th>사건유형3</th>
+							<th>사건유형3명</th>
 							<td>
 								<input 
 									type="text" 
@@ -176,7 +212,7 @@ function OutputData() {
 							</td>
 						</tr>
 						<tr>
-							<th>사건유형4</th>
+							<th>사건유형4명</th>
 							<td>
 								<input 
 									type="text" 
@@ -186,7 +222,7 @@ function OutputData() {
 									className="frm-input"
 								/>
 							</td>
-							<th>복구시간</th>
+							<th>복구시간내용</th>
 							<td>
 								<input 
 									type="text" 
@@ -198,7 +234,7 @@ function OutputData() {
 							</td>
 						</tr>
 						<tr>
-							<th>발생지점</th>
+							<th>발생지점코드</th>
 							<td>
 								<input 
 									type="text" 
@@ -208,7 +244,7 @@ function OutputData() {
 									className="frm-input"
 								/>
 							</td>
-							<th>발생위치</th>
+							<th>발생위치명</th>
 							<td>
 								<input 
 									type="text" 
@@ -220,7 +256,7 @@ function OutputData() {
 							</td>
 						</tr>
 						<tr>
-							<th>출발노드</th>
+							<th>출발노드명</th>
 							<td>
 								<input 
 									type="text" 
@@ -230,7 +266,7 @@ function OutputData() {
 									className="frm-input"
 								/>
 							</td>
-							<th>도착노드</th>
+							<th>도착노드명</th>
 							<td>
 								<input 
 									type="text" 
@@ -242,7 +278,7 @@ function OutputData() {
 							</td>
 						</tr>
 						<tr>
-							<th>사건시간</th>
+							<th>사건일시</th>
 							<td>
 								<input 
 									type="text" 

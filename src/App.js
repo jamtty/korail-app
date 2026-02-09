@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Routes, Route } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import { ko } from 'date-fns/locale';
@@ -8,13 +9,23 @@ import TrainSpeed from './admin/TrainSpeed';
 import BlockSection from './admin/BlockSection';
 import StationInfo from './admin/StationInfo';
 import OutputData from './admin/OutputData';
+import WeatherInfo from './admin/WeatherInfo';
+import RailTemp from './admin/RailTemp';
+import TrainOpBase from './admin/TrainOpBase';
+import TrainDriveTime from './admin/TrainDriveTime';
+import TrainCompAlloc from './admin/TrainCompAlloc';
+import StationBase from './admin/StationBase';
+import LineInfo from './admin/LineInfo';
+import CommonCode from './admin/CommonCode';
 import KorailMap from './components/KorailMap';
+import Simulation from './scenario/Simulation';
 import icoLogo from './assets/images/ico_logo.svg';
 import icoTrain from './assets/images/ico_train.svg';
 import imgRoutemap from './assets/images/img_routemap.png';
 import './assets/css/App.css';
 
 function MainPage() {
+	const PopperContainer = ({ children }) => createPortal(children, document.body);
 	const [startDate, setStartDate] = useState(new Date());
 	
 	// 워크플로우 1 state
@@ -43,6 +54,10 @@ function MainPage() {
 	const [position3, setPosition3] = useState({ x: 0, y: 0 });
 	const [isDragging3, setIsDragging3] = useState(false);
 	const [dragStart3, setDragStart3] = useState({ x: 0, y: 0 });
+
+	const handleScenarioOpen = () => {
+		window.open(window.location.origin + '/korail-app/scenario/simulation', '_blank');
+	};
 
 	// 워크플로우 1 handlers
 	const handleSimulationStart1 = (e) => {
@@ -228,6 +243,7 @@ function MainPage() {
 						<ul className="tab">
 					<li className={activeTab1 === '지도' ? 'active' : ''} onClick={() => { setActiveTab1('지도'); setIsSliderActive1(false); }}>지도</li>
 							<li className={activeTab1 === '노선' ? 'active' : ''} onClick={handleRouteTabClick1}>노선</li>
+								<li onClick={handleScenarioOpen}>시나리오</li>
 							<li className={activeTab1 === '관리자' ? 'active' : ''} onClick={() => window.open(window.location.origin + '/korail-app/admin/input-data', '_blank')}>관리자</li>
 						</ul>
 						<div className={`info-slider ${isSliderActive1 ? 'active' : ''}`}>
@@ -397,6 +413,7 @@ function MainPage() {
 								<DatePicker
 									selected={startDate}
 									onChange={(date) => setStartDate(date)}
+									popperContainer={PopperContainer}
 									className="calendar"
 									dateFormat="yyyy-MM-dd"
 									showMonthDropdown
@@ -465,6 +482,7 @@ function MainPage() {
 						<ul className="tab">
 					<li className={activeTab2 === '지도' ? 'active' : ''} onClick={() => { setActiveTab2('지도'); setIsSliderActive2(false); }}>지도</li>
 							<li className={activeTab2 === '노선' ? 'active' : ''} onClick={handleRouteTabClick2}>노선</li>
+								<li onClick={handleScenarioOpen}>시나리오</li>
 							<li className={activeTab2 === '관리자' ? 'active' : ''} onClick={() => window.open(window.location.origin + '/korail-app/admin/input-data', '_blank')}>관리자</li>
 						</ul>
 						<div className={`info-slider ${isSliderActive2 ? 'active' : ''}`}>
@@ -634,6 +652,7 @@ function MainPage() {
 								<DatePicker
 									selected={startDate}
 									onChange={(date) => setStartDate(date)}
+									popperContainer={PopperContainer}
 									className="calendar"
 									dateFormat="yyyy-MM-dd"
 									showMonthDropdown
@@ -702,6 +721,7 @@ function MainPage() {
 						<ul className="tab">
 					<li className={activeTab3 === '지도' ? 'active' : ''} onClick={() => { setActiveTab3('지도'); setIsSliderActive3(false); }}>지도</li>
 							<li className={activeTab3 === '노선' ? 'active' : ''} onClick={handleRouteTabClick3}>노선</li>
+								<li onClick={handleScenarioOpen}>시나리오</li>
 							<li className={activeTab3 === '관리자' ? 'active' : ''} onClick={() => window.open(window.location.origin + '/korail-app/admin/input-data', '_blank')}>관리자</li>
 						</ul>
 						<div className={`info-slider ${isSliderActive3 ? 'active' : ''}`}>
@@ -871,6 +891,7 @@ function MainPage() {
 								<DatePicker
 									selected={startDate}
 									onChange={(date) => setStartDate(date)}
+									popperContainer={PopperContainer}
 									className="calendar"
 									dateFormat="yyyy-MM-dd"
 									showMonthDropdown
@@ -945,6 +966,15 @@ function App() {
 			<Route path="/admin/block-section" element={<BlockSection />} />
 			<Route path="/admin/station-info" element={<StationInfo />} />
 			<Route path="/admin/output-data" element={<OutputData />} />
+			<Route path="/admin/weather" element={<WeatherInfo />} />
+			<Route path="/admin/rail-temp" element={<RailTemp />} />
+			<Route path="/admin/train-op-base" element={<TrainOpBase />} />
+			<Route path="/admin/train-drive-time" element={<TrainDriveTime />} />
+			<Route path="/admin/train-comp-alloc" element={<TrainCompAlloc />} />
+			<Route path="/admin/station-base" element={<StationBase />} />
+			<Route path="/admin/line-info" element={<LineInfo />} />
+			<Route path="/admin/common-code" element={<CommonCode />} />
+			<Route path="/scenario/simulation" element={<Simulation />} />
 		</Routes>
 	);
 }
