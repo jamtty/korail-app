@@ -202,11 +202,6 @@ const trainIconDanger = L.divIcon({
 		map.createPane('trainPane');
 		map.getPane('trainPane').style.zIndex = 1100;
 
-		// 지도 클릭 이벤트 추가
-		if (onMapClick) {
-			map.on('click', onMapClick);
-		}
-
 		// 컴포넌트 언마운트 시 지도 정리
 		return () => {
 			if (mapInstanceRef.current) {
@@ -215,6 +210,16 @@ const trainIconDanger = L.divIcon({
 			}
 		};
 	}, []);
+
+	useEffect(() => {
+		const map = mapInstanceRef.current;
+		if (!map || !onMapClick) return;
+
+		map.on('click', onMapClick);
+		return () => {
+			map.off('click', onMapClick);
+		};
+	}, [onMapClick]);
 
 	// 시뮬레이션 활성화 시 경로 표시 및 애니메이션
 	useEffect(() => {
