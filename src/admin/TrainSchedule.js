@@ -1,7 +1,8 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Modal from '../components/Modal';
+import TableTooltip from '../components/TableTooltip';
 import '../assets/css/App.css';
 
 function TrainSchedule() {
@@ -63,23 +64,23 @@ function TrainSchedule() {
 						<label>도착시각</label>
 						<input type="text" className="frm-input" placeholder="HH:MM:SS" />
 					</div>
-					<button type="button" className="btn-primary">검색</button>
+					<button type="button" className="btn-primary"></button>
 				</div>
-				<div className="adm-tbl-wrap">
+				<TableTooltip className="adm-tbl-wrap">
 					<table className="adm-table">
 						<thead>
 							<tr>
-								<th>열차종별코드</th>
+								<th>열차종별<br />코드</th>
 								<th>열차번호</th>
-								<th>상하행구분코드</th>
+								<th>상하행<br />구분코드</th>
 								<th>역명</th>
 								<th>도착시각</th>
 								<th>출발시각</th>
-								<th>정차사유코드</th>
-								<th>도착시각분</th>
-								<th>출발시각분</th>
+								<th>정차사유<br />코드</th>
+								<th>도착<br />시각분</th>
+								<th>출발<br />시각분</th>
 								<th>편성번호</th>
-								<th>당역소요시간</th>
+								<th>당역소요<br />시간</th>
 								<th>관리</th>
 							</tr>
 						</thead>
@@ -98,7 +99,7 @@ function TrainSchedule() {
 								<td>0</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -116,7 +117,7 @@ function TrainSchedule() {
 								<td>0</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -134,7 +135,7 @@ function TrainSchedule() {
 								<td>0</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -152,7 +153,7 @@ function TrainSchedule() {
 								<td>0</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr><tr>
@@ -169,7 +170,7 @@ function TrainSchedule() {
 								<td>0</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -187,7 +188,7 @@ function TrainSchedule() {
 								<td>0</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr><tr>
@@ -204,7 +205,7 @@ function TrainSchedule() {
 								<td>0</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -222,7 +223,7 @@ function TrainSchedule() {
 								<td>0</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr><tr>
@@ -239,7 +240,7 @@ function TrainSchedule() {
 								<td>0</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -257,13 +258,13 @@ function TrainSchedule() {
 								<td>0</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
-				</div>
+				</TableTooltip>
 			</div>
 			<Footer />
 

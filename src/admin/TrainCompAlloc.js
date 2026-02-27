@@ -1,7 +1,8 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Modal from '../components/Modal';
+import TableTooltip from '../components/TableTooltip';
 import '../assets/css/App.css';
 
 function TrainCompAlloc() {
@@ -55,23 +56,23 @@ function TrainCompAlloc() {
 						<label>차량운용일자</label>
 						<input type="text" className="frm-input" placeholder="YYYYMMDD" />
 					</div>
-					<button type="button" className="btn-primary">검색</button>
+					<button type="button" className="btn-primary"></button>
 				</div>
-				<div className="adm-tbl-wrap">
+				<TableTooltip className="adm-tbl-wrap">
 					<table className="adm-table">
 						<thead>
 							<tr>
 								<th>열차번호</th>
-								<th>열차운행일자</th>
+								<th>열차운행<br />일자</th>
 								<th>일련번호</th>
-								<th>차량운용번호</th>
-								<th>차량운용일자</th>
+								<th>차량운용<br />번호</th>
+								<th>차량운용<br />일자</th>
 								<th>편성번호</th>
-								<th>운용열차순서</th>
-								<th>충당시작역</th>
-								<th>충당종료역</th>
-								<th>충당시작일시</th>
-								<th>충당종료일시</th>
+								<th>운용열차<br />순서</th>
+								<th>충당<br />시작역</th>
+								<th>충당<br />종료역</th>
+								<th>충당시작<br />일시</th>
+								<th>충당종료<br />일시</th>
 								<th>관리</th>
 							</tr>
 						</thead>
@@ -90,13 +91,13 @@ function TrainCompAlloc() {
 								<td>20250501130000</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
-				</div>
+				</TableTooltip>
 			</div>
 			<Footer />
 

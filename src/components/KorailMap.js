@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-function KorailMap({ isSimulationActive, onDangerTrainClick, onMapClick, dangerTrainIndex = 3 }) {
+function KorailMap({ isSimulationActive, onDangerTrainClick, onMapClick, dangerTrainIndex = 3, dangerTrainIds = [] }) {
 
 // 역 마커 아이콘 설정
 const stationIcon = L.divIcon({
@@ -121,6 +121,50 @@ const trainIconDanger = L.divIcon({
 	iconSize: [38, 38],
 	iconAnchor: [19, 19],
 });
+
+	// 아이콘 크기 계산 (줌 레벨 반응형)
+	const BASE_ZOOM = 8;
+	const getIconScale = (zoom) => Math.max(0.3, Math.pow(2, (zoom - BASE_ZOOM) * 0.5));
+
+	const makeStationIcon = (zoom) => {
+		const scale = getIconScale(zoom);
+		const dot = Math.max(3, Math.round(5 * scale));
+		const size = Math.max(5, Math.round(8 * scale));
+		const anchor = Math.round(size / 2);
+		return L.divIcon({
+			className: 'custom-marker-icon',
+			html: `<div style="background-color: #333; width: ${dot}px; height: ${dot}px; border-radius: 50%; border: 1px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>`,
+			iconSize: [size, size],
+			iconAnchor: [anchor, anchor],
+			popupAnchor: [0, -anchor]
+		});
+	};
+
+	const makeTrainIconByType = (iconType, zoom) => {
+		const scale = getIconScale(zoom);
+		const size = Math.max(5, Math.round(13 * scale));
+		const anchor = Math.round(size / 2);
+		const waveSize = Math.max(15, Math.round(45 * scale));
+		const waveBase = -Math.round(waveSize / 2 - size / 2 + waveSize * 0.15);
+		const waveOffsetX = waveBase + Math.round(size * 0.45); // 오른쪽 이동
+		const waveOffsetY = waveBase + Math.round(size * 0.4); // 아래 이동
+		const colors = { blue: '#0164E6', yellow: '#FFD900', green: '#00D3C1', danger: '#FF4400' };
+		const color = colors[iconType] || '#0164E6';
+		if (iconType === 'danger') {
+			return L.divIcon({
+				className: 'train-icon-danger',
+				html: `<div style="position:relative;width:${size}px;height:${size}px;"><div class="danger-wave-container"><svg style="position:relative;z-index:10;" width="${size}" height="${size}" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="29.5159" height="29.5" rx="10" fill="#FF4400"/><path d="M20.196 7.70312H11.3197C9.70091 7.70312 8.37891 9.01941 8.37891 10.6312V20.866C8.37891 22.4778 9.70091 23.794 11.3197 23.794H20.196C21.8148 23.794 23.1368 22.4778 23.1368 20.866V10.6043C23.1099 8.99255 21.8148 7.70312 20.196 7.70312ZM11.4816 21.8062C10.969 21.8062 10.5643 21.4032 10.5643 20.8928C10.5643 20.3824 10.969 19.9795 11.4816 19.9795C11.9942 19.9795 12.3989 20.3824 12.3989 20.8928C12.3989 21.3764 11.9942 21.8062 11.4816 21.8062ZM20.0342 21.8062C19.5215 21.8062 19.1169 21.4032 19.1169 20.8928C19.1169 20.3824 19.5215 19.9795 20.0342 19.9795C20.5468 19.9795 20.9515 20.3824 20.9515 20.8928C20.9515 21.3764 20.5468 21.8062 20.0342 21.8062ZM21.4371 16.8097H10.1056V10.8998H21.4371V16.8097Z" fill="white"/></svg><div class="danger-wave danger-wave-1" style="width:${waveSize}px;height:${waveSize}px;top:${waveOffsetY}px;left:${waveOffsetX}px;"></div><div class="danger-wave danger-wave-2" style="width:${waveSize}px;height:${waveSize}px;top:${waveOffsetY}px;left:${waveOffsetX}px;"></div><div class="danger-wave danger-wave-3" style="width:${waveSize}px;height:${waveSize}px;top:${waveOffsetY}px;left:${waveOffsetX}px;"></div></div></div>`,
+				iconSize: [size, size],
+				iconAnchor: [anchor, anchor],
+			});
+		}
+		return L.divIcon({
+			className: 'train-icon',
+			html: `<svg width="${size}" height="${size}" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="29.5159" height="29.5" rx="10" fill="${color}"/><path d="M20.196 7.70312H11.3197C9.70091 7.70312 8.37891 9.01941 8.37891 10.6312V20.866C8.37891 22.4778 9.70091 23.794 11.3197 23.794H20.196C21.8148 23.794 23.1368 22.4778 23.1368 20.866V10.6043C23.1099 8.99255 21.8148 7.70312 20.196 7.70312ZM11.4816 21.8062C10.969 21.8062 10.5643 21.4032 10.5643 20.8928C10.5643 20.3824 10.969 19.9795 11.4816 19.9795C11.9942 19.9795 12.3989 20.3824 12.3989 20.8928C12.3989 21.3764 11.9942 21.8062 11.4816 21.8062ZM20.0342 21.8062C19.5215 21.8062 19.1169 21.4032 19.1169 20.8928C19.1169 20.3824 19.5215 19.9795 20.0342 19.9795C20.5468 19.9795 20.9515 20.3824 20.9515 20.8928C20.9515 21.3764 20.5468 21.8062 20.0342 21.8062ZM21.4371 16.8097H10.1056V10.8998H21.4371V16.8097Z" fill="white"/></svg>`,
+			iconSize: [size, size],
+			iconAnchor: [anchor, anchor],
+		});
+	};
 
 	const mapRef = useRef(null);
 	const mapInstanceRef = useRef(null);
@@ -282,7 +326,7 @@ const trainIconDanger = L.divIcon({
 			// 역 마커 추가 (KTX 경부선)
 			ktxRoute.forEach(station => {
 				const marker = L.marker([station.lat, station.lng], { 
-					icon: stationIcon,
+					icon: makeStationIcon(mapInstanceRef.current.getZoom()),
 					pane: 'stationPane'
 				}).addTo(mapInstanceRef.current);
 				marker.bindPopup(`<b>${station.name}</b>`);
@@ -292,7 +336,7 @@ const trainIconDanger = L.divIcon({
 			// 역 마커 추가 (KTX-이음)
 			ktxEumRoute.forEach(station => {
 				const marker = L.marker([station.lat, station.lng], { 
-					icon: stationIcon,
+					icon: makeStationIcon(mapInstanceRef.current.getZoom()),
 					pane: 'stationPane'
 				}).addTo(mapInstanceRef.current);
 				marker.bindPopup(`<b>${station.name} (이음)</b>`);
@@ -325,7 +369,7 @@ const trainIconDanger = L.divIcon({
 			const trains = [
 				{
 					id: 'KTX1001',
-					icon: trainIcon,
+				iconType: 'blue',
 					color: '#EDF6FF',
 					fontColor: '#0164E6',
 					startIndex: 0, // 서울역 (정차)
@@ -335,18 +379,17 @@ const trainIconDanger = L.divIcon({
 				},
 				{
 					id: 'KTX1010',
-					icon: trainIconDanger,
-					color: '#FFE8E0',
-					fontColor: '#FF4400',
-					startIndex: dangerTrainIndex, // 워크플로우별 다른 역 (정지)
-					endIndex: dangerTrainIndex, // 워크플로우별 다른 역 (정지)
-					isMoving: false,
+				iconType: 'blue',
+					color: '#EDF6FF',
+					fontColor: '#0164E6',
+					startIndex: dangerTrainIndex,
+					endIndex: 8,
+					isMoving: true,
 					routeType: 'ktx',
-					isDanger: true
 				},
 				{
 					id: 'KTX2020',
-					icon: trainIcon,
+				iconType: 'blue',
 					color: '#EDF6FF',
 					fontColor: '#0164E6',
 					startIndex: 4, // 대전
@@ -356,7 +399,7 @@ const trainIconDanger = L.divIcon({
 				},
 				{
 					id: 'KTX3030',
-					icon: trainIconYellow,
+				iconType: 'yellow',
 					color: '#EDF6FF',
 					fontColor: '#C5A800',
 					startIndex: 8, // 부산 (정차)
@@ -366,7 +409,7 @@ const trainIconDanger = L.divIcon({
 				},
 				{
 					id: 'KTX-이음<br />00807',
-					icon: trainIconGreen,
+				iconType: 'green',
 					color: '#EDF6FF',
 					fontColor: '#00D3C1',
 					startIndex: 0, // 서울역
@@ -382,7 +425,7 @@ const trainIconDanger = L.divIcon({
 				
 				// 기차 마커 생성
 				const marker = L.marker(startPos, {
-					icon: train.icon,
+					icon: makeTrainIconByType(train.iconType, mapInstanceRef.current.getZoom()),
 					pane: 'trainPane'
 				}).addTo(mapInstanceRef.current);
 
@@ -501,17 +544,46 @@ const trainIconDanger = L.divIcon({
 			};
 
 			animationIdRef.current = requestAnimationFrame(animate);
+
+			// 줌 변경 시 아이콘 크기 업데이트
+			const updateIconSizes = () => {
+				const z = mapInstanceRef.current.getZoom();
+				markersRef.current.forEach(m => m.setIcon(makeStationIcon(z)));
+				trainsRef.current.forEach(t => {
+					if (t.marker && t.iconType) t.marker.setIcon(makeTrainIconByType(t.iconType, z));
+				});
+			};
+			mapInstanceRef.current.on('zoomend', updateIconSizes);
 		}
 
-		// cleanup
 		return () => {
 			if (animationIdRef.current) {
 				cancelAnimationFrame(animationIdRef.current);
 				animationIdRef.current = null;
 			}
+			if (mapInstanceRef.current) {
+				mapInstanceRef.current.off('zoomend');
+			}
 		};
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isSimulationActive, dangerTrainIndex]);
+
+	// dangerTrainIds prop 변경 시 해당 기차들을 위험 아이콘으로 교체 및 현재 위치에서 정차
+	useEffect(() => {
+		if (!dangerTrainIds || dangerTrainIds.length === 0 || !mapInstanceRef.current) return;
+		const zoom = mapInstanceRef.current.getZoom();
+		dangerTrainIds.forEach(id => {
+			const train = trainsRef.current.find(t => t.id === id);
+			if (!train) return;
+			train.iconType = 'danger';
+			train.isMoving = false; // 현재 위치에서 즉시 정차
+			train.marker.setIcon(makeTrainIconByType('danger', zoom));
+			train.marker.off('click');
+			if (onDangerTrainClick) {
+				train.marker.on('click', () => onDangerTrainClick());
+			}
+		});
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [dangerTrainIds]);
 
 	return (
 		<div 

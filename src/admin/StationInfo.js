@@ -1,7 +1,8 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Modal from '../components/Modal';
+import TableTooltip from '../components/TableTooltip';
 import '../assets/css/App.css';
 
 function StationInfo() {
@@ -59,22 +60,22 @@ function StationInfo() {
 						<label>한글라벨명</label>
 						<input type="text" className="frm-input" placeholder="" />
 					</div>
-					<button type="button" className="btn-primary">검색</button>
+					<button type="button" className="btn-primary"></button>
 				</div>
-				<div className="adm-tbl-wrap">
+				<TableTooltip className="adm-tbl-wrap">
 					<table className="adm-table">
 						<thead>
 							<tr>
 								<th>역ID</th>
 								<th>노선명</th>
-								<th>상하행구분코드</th>
+								<th>상하행<br />구분코드</th>
 								<th>역명</th>
-								<th>한글라벨명</th>
-								<th>변환키로정</th>
+								<th>한글<br />라벨명</th>
+								<th>변환<br />키로정</th>
 								<th>키로정</th>
-								<th>지점키로정</th>
+								<th>지점<br />키로정</th>
 								<th>노선코드</th>
-								<th>선로고도값</th>
+								<th>선로<br />고도값</th>
 								<th>경도</th>
 								<th>위도</th>
 								<th>관리</th>
@@ -96,7 +97,7 @@ function StationInfo() {
 								<td>37.55462701</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -115,13 +116,13 @@ function StationInfo() {
 								<td>37.55462701</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
-				</div>
+				</TableTooltip>
 			</div>
 			<Footer />
 

@@ -1,7 +1,8 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Modal from '../components/Modal';
+import TableTooltip from '../components/TableTooltip';
 import '../assets/css/App.css';
 
 function TrainDriveTime() {
@@ -56,14 +57,14 @@ function TrainDriveTime() {
 						<label>열차운행일자</label>
 						<input type="text" className="frm-input" placeholder="YYYYMMDD" />
 					</div>
-					<button type="button" className="btn-primary">검색</button>
+					<button type="button" className="btn-primary"></button>
 				</div>
-				<div className="adm-tbl-wrap">
+				<TableTooltip className="adm-tbl-wrap">
 					<table className="adm-table">
 						<thead>
 							<tr>
 								<th>열차번호</th>
-								<th>열차운행일자</th>
+								<th>열차운행<br />일자</th>
 								<th>일련번호</th>
 								<th>역코드</th>
 								<th>선코드</th>
@@ -93,13 +94,13 @@ function TrainDriveTime() {
 								<td>01</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
-				</div>
+				</TableTooltip>
 			</div>
 			<Footer />
 

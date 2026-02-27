@@ -1,10 +1,11 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import DatePicker from 'react-datepicker';
 import { ko } from 'date-fns/locale';
 import Header from './Header';
 import Footer from './Footer';
 import Modal from '../components/Modal';
+import TableTooltip from '../components/TableTooltip';
 import '../assets/css/App.css';
 
 function InputData() {
@@ -80,23 +81,23 @@ function InputData() {
 							<option value="경부고속선">경부고속선</option>
 						</select>
 					</div>
-					<button type="button" className="btn-primary">검색</button>
+					<button type="button" className="btn-primary"></button>
 				</div>
-				<div className="adm-tbl-wrap">
+				<TableTooltip className="adm-tbl-wrap">
 					<table className="adm-table">
 						<thead>
 							<tr>
 								<th>예측번호</th>
 								<th>입력일시</th>
-								<th>이례상황유형코드</th>
-								<th>대상노선명</th>
-								<th>발생위치명</th>
+								<th>이례상황<br />유형코드</th>
+								<th>대상<br />노선명</th>
+								<th>발생<br />위치명</th>
 								<th>발생일시</th>
-								<th>예상지속시간(분)</th>
-								<th>시나리오유형코드</th>
-								<th>반복시간(분)</th>
-								<th>최소운행시격(분)</th>
-								<th>긴급대피열차대수</th>
+								<th>예상지속<br />시간(분)</th>
+								<th>시나리오<br />유형코드</th>
+								<th>반복<br />시간(분)</th>
+								<th>최소운행<br />시격(분)</th>
+								<th>긴급대피<br />열차대수</th>
 								<th>관리</th>
 							</tr>
 						</thead>
@@ -106,7 +107,7 @@ function InputData() {
 								<td>2025.11 AM 10:00</td>
 								<td>상하선 불통</td>
 								<td>경부고속선</td>
-								<td>대전역~김천구미역 사이 50km 지점</td>
+								<td>대전역~김천구미역 사이 50km 지점 대전역~김천구미역 사이 50km 지점</td>
 								<td>2025.01.01 AM 09:00:00</td>
 								<td>120분</td>
 								<td>우회운전</td>
@@ -115,8 +116,8 @@ function InputData() {
 								<td>4</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button>
-										<button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button>
+										<button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -134,8 +135,8 @@ function InputData() {
 								<td>4</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button>
-										<button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button>
+										<button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -153,8 +154,8 @@ function InputData() {
 								<td>4</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button>
-										<button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button>
+										<button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -172,8 +173,8 @@ function InputData() {
 								<td>4</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button>
-										<button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button>
+										<button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr><tr>
@@ -190,8 +191,8 @@ function InputData() {
 								<td>4</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button>
-										<button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button>
+										<button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -209,8 +210,8 @@ function InputData() {
 								<td>4</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button>
-										<button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button>
+										<button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr><tr>
@@ -227,8 +228,8 @@ function InputData() {
 								<td>4</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button>
-										<button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button>
+										<button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -246,8 +247,8 @@ function InputData() {
 								<td>4</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button>
-										<button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button>
+										<button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr><tr>
@@ -264,8 +265,8 @@ function InputData() {
 								<td>4</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button>
-										<button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button>
+										<button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -283,8 +284,8 @@ function InputData() {
 								<td>4</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button>
-										<button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button>
+										<button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr><tr>
@@ -301,8 +302,8 @@ function InputData() {
 								<td>4</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button>
-										<button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button>
+										<button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -320,8 +321,8 @@ function InputData() {
 								<td>4</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button>
-										<button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button>
+										<button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr><tr>
@@ -338,8 +339,8 @@ function InputData() {
 								<td>4</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button>
-										<button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button>
+										<button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -357,8 +358,8 @@ function InputData() {
 								<td>4</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button>
-										<button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button>
+										<button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr><tr>
@@ -375,8 +376,8 @@ function InputData() {
 								<td>4</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button>
-										<button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button>
+										<button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -394,8 +395,8 @@ function InputData() {
 								<td>4</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button>
-										<button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button>
+										<button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -413,8 +414,8 @@ function InputData() {
 								<td>4</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button>
-										<button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button>
+										<button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -432,14 +433,14 @@ function InputData() {
 								<td>4</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button>
-										<button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button>
+										<button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
-				</div>
+				</TableTooltip>
 			</div>
 			<Footer />
 

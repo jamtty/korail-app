@@ -56,25 +56,6 @@ table {
   border-spacing: 0;
 }
 
-/* 스크롤바 커스텀 (Webkit) */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
 /* 루트 앱 컨테이너 */
 #root {
   height: 100%;
@@ -96,5 +77,5 @@ table {
 .select:focus { outline: none; border-color: #0164E6; }
 input[type="text"]:focus { outline: none; border-color: #0164E6; }
 
-*::-webkit-scrollbar { width:0.3rem;  }
-*::-webkit-scrollbar-thumb { background:#E5E5E5; border-radius: 0.3rem; }
+*::-webkit-scrollbar { width:7px; height:7px; }
+*::-webkit-scrollbar-thumb { background:#E5E5E5; border-radius: 7px; }

@@ -31,6 +31,7 @@ function MainPage() {
 	// 워크플로우 1 state
 	const [activeTab1, setActiveTab1] = useState('지도');
 	const [isSimulationActive1, setIsSimulationActive1] = useState(true);
+	const [dangerTrainIds1, setDangerTrainIds1] = useState(["KTX1001", "KTX2020"]); // 사고기차 아이디값 배열
 	const [isSliderActive1, setIsSliderActive1] = useState(false);
 	const [scale1, setScale1] = useState(1);
 	const [position1, setPosition1] = useState({ x: 0, y: 0 });
@@ -40,6 +41,7 @@ function MainPage() {
 	// 워크플로우 2 state
 	const [activeTab2, setActiveTab2] = useState('지도');
 	const [isSimulationActive2, setIsSimulationActive2] = useState(true);
+	const [dangerTrainIds2, setDangerTrainIds2] = useState([]); // 사고기차 아이디값 배열
 	const [isSliderActive2, setIsSliderActive2] = useState(false);
 	const [scale2, setScale2] = useState(1);
 	const [position2, setPosition2] = useState({ x: 0, y: 0 });
@@ -49,6 +51,7 @@ function MainPage() {
 	// 워크플로우 3 state
 	const [activeTab3, setActiveTab3] = useState('지도');
 	const [isSimulationActive3, setIsSimulationActive3] = useState(true);
+	const [dangerTrainIds3, setDangerTrainIds3] = useState([]); // 사고기차 아이디값 배열
 	const [isSliderActive3, setIsSliderActive3] = useState(false);
 	const [scale3, setScale3] = useState(1);
 	const [position3, setPosition3] = useState({ x: 0, y: 0 });
@@ -230,10 +233,9 @@ function MainPage() {
 	return (
 	<div className="container">
 		<div className="header">
-			<div className="logo">
+			<div className="logo noline">
 				<img src={icoLogo} alt="Korail 로고" />
 			</div>
-			<p className="txt">한국 철도 네트워크, 지도 및 통관관제시스템 대시보드</p>
 		</div>
 		{/* 워크플로우 1 */}
 		<div className="wrap">
@@ -243,7 +245,7 @@ function MainPage() {
 						<ul className="tab">
 					<li className={activeTab1 === '지도' ? 'active' : ''} onClick={() => { setActiveTab1('지도'); setIsSliderActive1(false); }}>지도</li>
 							<li className={activeTab1 === '노선' ? 'active' : ''} onClick={handleRouteTabClick1}>노선</li>
-								<li onClick={handleScenarioOpen}>시나리오</li>
+								<li onClick={handleScenarioOpen}>시뮬레이션</li>
 							<li className={activeTab1 === '관리자' ? 'active' : ''} onClick={() => window.open(window.location.origin + '/korail-app/admin/input-data', '_blank')}>관리자</li>
 						</ul>
 						<div className={`info-slider ${isSliderActive1 ? 'active' : ''}`}>
@@ -321,7 +323,7 @@ function MainPage() {
 				</div>
 				{activeTab1 === '지도' && (
 					<div className="map">
-					<KorailMap isSimulationActive={isSimulationActive1} onDangerTrainClick={handleDangerTrainClick1} onMapClick={handleMapClick1} dangerTrainIndex={1} />
+					<KorailMap isSimulationActive={isSimulationActive1} onDangerTrainClick={handleDangerTrainClick1} onMapClick={handleMapClick1} dangerTrainIndex={1} dangerTrainIds={dangerTrainIds1} />
 					</div>
 				)}
 				{activeTab1 === '노선' && (
@@ -440,30 +442,30 @@ function MainPage() {
 							<div className="col">
 								<label>운전정리 시나리오 선택</label>
 								<div className="d-flex">
-								<div className="radioBox">
-									<input type="radio" name="scenario1" id="w1-1" />
-									<label htmlFor="w1-1">단선운행</label>
-								</div>
-								<div className="radioBox">
-									<input type="radio" name="scenario1" id="w1-2" />
-									<label htmlFor="w1-2">우회운전</label>
-								</div>
-								<div className="radioBox">
-									<input type="radio" name="scenario1" id="w1-3" />
-									<label htmlFor="w1-3">서행</label>
-								</div>
-								<div className="radioBox">
-									<input type="radio" name="scenario1" id="w1-4" />
-									<label htmlFor="w1-4">열차정차</label>
-								</div>
-								<div className="radioBox">
-									<input type="radio" name="scenario1" id="w1-5" />
-									<label htmlFor="w1-5">퇴행</label>
-								</div>
-								<div className="radioBox">
-									<input type="radio" name="scenario1" id="w1-6" />
-									<label htmlFor="w1-6">운행중지(타절)</label>
-								</div>
+                                    <div className="chkBox">
+                                        <input type="checkbox" name="scenario1" id="w1-1" />
+                                        <label htmlFor="w1-1">단선운행</label>
+                                    </div>
+                                    <div className="chkBox">
+                                        <input type="checkbox" name="scenario1" id="w1-2" />
+                                        <label htmlFor="w1-2">우회운전</label>
+                                    </div>
+                                    <div className="chkBox">
+                                        <input type="checkbox" name="scenario1" id="w1-3" />
+                                        <label htmlFor="w1-3">서행</label>
+                                    </div>
+                                    <div className="chkBox">
+                                        <input type="checkbox" name="scenario1" id="w1-4" />
+                                        <label htmlFor="w1-4">열차정차</label>
+                                    </div>
+                                    <div className="chkBox">
+                                        <input type="checkbox" name="scenario1" id="w1-5" />
+                                        <label htmlFor="w1-5">퇴행</label>
+                                    </div>
+                                    <div className="chkBox">
+                                        <input type="checkbox" name="scenario1" id="w1-6" />
+                                        <label htmlFor="w1-6">운행중지(타절)</label>
+                                    </div>
 								</div>
 							</div>
 							<div className="btn-area">
@@ -482,7 +484,7 @@ function MainPage() {
 						<ul className="tab">
 					<li className={activeTab2 === '지도' ? 'active' : ''} onClick={() => { setActiveTab2('지도'); setIsSliderActive2(false); }}>지도</li>
 							<li className={activeTab2 === '노선' ? 'active' : ''} onClick={handleRouteTabClick2}>노선</li>
-								<li onClick={handleScenarioOpen}>시나리오</li>
+								<li onClick={handleScenarioOpen}>시뮬레이션</li>
 							<li className={activeTab2 === '관리자' ? 'active' : ''} onClick={() => window.open(window.location.origin + '/korail-app/admin/input-data', '_blank')}>관리자</li>
 						</ul>
 						<div className={`info-slider ${isSliderActive2 ? 'active' : ''}`}>
@@ -560,7 +562,7 @@ function MainPage() {
 				</div>
 				{activeTab2 === '지도' && (
 					<div className="map">
-					<KorailMap isSimulationActive={isSimulationActive2} onDangerTrainClick={handleDangerTrainClick2} onMapClick={handleMapClick2} dangerTrainIndex={3} />
+					<KorailMap isSimulationActive={isSimulationActive2} onDangerTrainClick={handleDangerTrainClick2} onMapClick={handleMapClick2} dangerTrainIndex={3} dangerTrainIds={dangerTrainIds2} />
 					</div>
 				)}
 				{activeTab2 === '노선' && (
@@ -679,30 +681,30 @@ function MainPage() {
 							<div className="col">
 								<label>운전정리 시나리오 선택</label>
 								<div className="d-flex">
-								<div className="radioBox">
-									<input type="radio" name="scenario2" id="w2-1" />
-									<label htmlFor="w2-1">단선운행</label>
-								</div>
-								<div className="radioBox">
-									<input type="radio" name="scenario2" id="w2-2" />
-									<label htmlFor="w2-2">우회운전</label>
-								</div>
-								<div className="radioBox">
-									<input type="radio" name="scenario2" id="w2-3" />
-									<label htmlFor="w2-3">서행</label>
-								</div>
-								<div className="radioBox">
-									<input type="radio" name="scenario2" id="w2-4" />
-									<label htmlFor="w2-4">열차정차</label>
-								</div>
-								<div className="radioBox">
-									<input type="radio" name="scenario2" id="w2-5" />
-									<label htmlFor="w2-5">퇴행</label>
-								</div>
-								<div className="radioBox">
-									<input type="radio" name="scenario2" id="w2-6" />
-									<label htmlFor="w2-6">운행중지(타절)</label>
-								</div>
+                                    <div className="chkBox">
+                                        <input type="checkbox" name="scenario2" id="w2-1" />
+                                        <label htmlFor="w2-1">단선운행</label>
+                                    </div>
+                                    <div className="chkBox">
+                                        <input type="checkbox" name="scenario2" id="w2-2" />
+                                        <label htmlFor="w2-2">우회운전</label>
+                                    </div>
+                                    <div className="chkBox">
+                                        <input type="checkbox" name="scenario2" id="w2-3" />
+                                        <label htmlFor="w2-3">서행</label>
+                                    </div>
+                                    <div className="chkBox">
+                                        <input type="checkbox" name="scenario2" id="w2-4" />
+                                        <label htmlFor="w2-4">열차정차</label>
+                                    </div>
+                                    <div className="chkBox">
+                                        <input type="checkbox" name="scenario2" id="w2-5" />
+                                        <label htmlFor="w2-5">퇴행</label>
+                                    </div>
+                                    <div className="chkBox">
+                                        <input type="checkbox" name="scenario2" id="w2-6" />
+                                        <label htmlFor="w2-6">운행중지(타절)</label>
+                                    </div>
 								</div>
 							</div>
 							<div className="btn-area">
@@ -721,7 +723,7 @@ function MainPage() {
 						<ul className="tab">
 					<li className={activeTab3 === '지도' ? 'active' : ''} onClick={() => { setActiveTab3('지도'); setIsSliderActive3(false); }}>지도</li>
 							<li className={activeTab3 === '노선' ? 'active' : ''} onClick={handleRouteTabClick3}>노선</li>
-								<li onClick={handleScenarioOpen}>시나리오</li>
+								<li onClick={handleScenarioOpen}>시뮬레이션</li>
 							<li className={activeTab3 === '관리자' ? 'active' : ''} onClick={() => window.open(window.location.origin + '/korail-app/admin/input-data', '_blank')}>관리자</li>
 						</ul>
 						<div className={`info-slider ${isSliderActive3 ? 'active' : ''}`}>
@@ -799,7 +801,7 @@ function MainPage() {
 				</div>
 				{activeTab3 === '지도' && (
 					<div className="map">
-					<KorailMap isSimulationActive={isSimulationActive3} onDangerTrainClick={handleDangerTrainClick3} onMapClick={handleMapClick3} dangerTrainIndex={6} />
+					<KorailMap isSimulationActive={isSimulationActive3} onDangerTrainClick={handleDangerTrainClick3} onMapClick={handleMapClick3} dangerTrainIndex={6} dangerTrainIds={dangerTrainIds3} />
 					</div>
 				)}
 				{activeTab3 === '노선' && (
@@ -918,30 +920,30 @@ function MainPage() {
 							<div className="col">
 								<label>운전정리 시나리오 선택</label>
 								<div className="d-flex">
-								<div className="radioBox">
-									<input type="radio" name="scenario3" id="w3-1" />
-									<label htmlFor="w3-1">단선운행</label>
-								</div>
-								<div className="radioBox">
-									<input type="radio" name="scenario3" id="w3-2" />
-									<label htmlFor="w3-2">우회운전</label>
-								</div>
-								<div className="radioBox">
-									<input type="radio" name="scenario3" id="w3-3" />
-									<label htmlFor="w3-3">서행</label>
-								</div>
-								<div className="radioBox">
-									<input type="radio" name="scenario3" id="w3-4" />
-									<label htmlFor="w3-4">열차정차</label>
-								</div>
-								<div className="radioBox">
-									<input type="radio" name="scenario3" id="w3-5" />
-									<label htmlFor="w3-5">퇴행</label>
-								</div>
-								<div className="radioBox">
-									<input type="radio" name="scenario3" id="w3-6" />
-									<label htmlFor="w3-6">운행중지(타절)</label>
-								</div>
+                                    <div className="chkBox">
+                                        <input type="checkbox" name="scenario3" id="w3-1" />
+                                        <label htmlFor="w3-1">단선운행</label>
+                                    </div>
+                                    <div className="chkBox">
+                                        <input type="checkbox" name="scenario3" id="w3-2" />
+                                        <label htmlFor="w3-2">우회운전</label>
+                                    </div>
+                                    <div className="chkBox">
+                                        <input type="checkbox" name="scenario3" id="w3-3" />
+                                        <label htmlFor="w3-3">서행</label>
+                                    </div>
+                                    <div className="chkBox">
+                                        <input type="checkbox" name="scenario3" id="w3-4" />
+                                        <label htmlFor="w3-4">열차정차</label>
+                                    </div>
+                                    <div className="chkBox">
+                                        <input type="checkbox" name="scenario3" id="w3-5" />
+                                        <label htmlFor="w3-5">퇴행</label>
+                                    </div>
+                                    <div className="chkBox">
+                                        <input type="checkbox" name="scenario3" id="w3-6" />
+                                        <label htmlFor="w3-6">운행중지(타절)</label>
+                                    </div>
 								</div>
 							</div>
 							<div className="btn-area">

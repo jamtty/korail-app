@@ -1,7 +1,8 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Modal from '../components/Modal';
+import TableTooltip from '../components/TableTooltip';
 import '../assets/css/App.css';
 
 function TrainOpBase() {
@@ -55,23 +56,23 @@ function TrainOpBase() {
 						<label>열차종별코드</label>
 						<input type="text" className="frm-input" placeholder="예: 10" />
 					</div>
-					<button type="button" className="btn-primary">검색</button>
+					<button type="button" className="btn-primary"></button>
 				</div>
-				<div className="adm-tbl-wrap">
+				<TableTooltip className="adm-tbl-wrap">
 					<table className="adm-table">
 						<thead>
 							<tr>
-								<th>열차운행일자</th>
+								<th>열차운행<br />일자</th>
 								<th>열차번호</th>
-								<th>상하행구분코드</th>
-								<th>출발역코드</th>
-								<th>종착역코드</th>
-								<th>계획출발일시</th>
-								<th>계획도착일시</th>
-								<th>열차상태코드</th>
-								<th>열차종별코드</th>
-								<th>운행구분코드</th>
-								<th>열차운행여부</th>
+								<th>상하행<br />구분코드</th>
+								<th>출발역<br />코드</th>
+								<th>종착역<br />코드</th>
+								<th>계획출발<br />일시</th>
+								<th>계획도착<br />일시</th>
+								<th>열차상태<br />코드</th>
+								<th>열차종별<br />코드</th>
+								<th>운행구분<br />코드</th>
+								<th>열차운행<br />여부</th>
 								<th>관리</th>
 							</tr>
 						</thead>
@@ -90,13 +91,13 @@ function TrainOpBase() {
 								<td>Y</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
-				</div>
+				</TableTooltip>
 			</div>
 			<Footer />
 

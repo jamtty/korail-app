@@ -1,7 +1,8 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Modal from '../components/Modal';
+import TableTooltip from '../components/TableTooltip';
 import '../assets/css/App.css';
 
 function OutputData() {
@@ -67,24 +68,24 @@ function OutputData() {
 							<option value="운행장애">운행장애</option>
 						</select>
 					</div>
-					<button type="button" className="btn-primary">검색</button>
+					<button type="button" className="btn-primary"></button>
 				</div>
-				<div className="adm-tbl-wrap">
+				<TableTooltip className="adm-tbl-wrap">
 					<table className="adm-table">
 						<thead>
 							<tr>
 								<th>예측번호</th>
-								<th>유형구분명</th>
+								<th>유형<br />구분명</th>
 								<th>편성번호</th>
-								<th>사건유형1명</th>
-								<th>사건유형2명</th>
-								<th>사건유형3명</th>
-								<th>사건유형4명</th>
-								<th>복구시간내용</th>
-								<th>발생지점코드</th>
-								<th>발생위치명</th>
-								<th>출발노드명</th>
-								<th>도착노드명</th>
+								<th>사건<br />유형1명</th>
+								<th>사건<br />유형2명</th>
+								<th>사건<br />유형3명</th>
+								<th>사건<br />유형4명</th>
+								<th>복구시간<br />내용</th>
+								<th>발생지점<br />코드</th>
+								<th>발생<br />위치명</th>
+								<th>출발<br />노드명</th>
+								<th>도착<br />노드명</th>
 								<th>사건일시</th>
 								<th>관리</th>
 							</tr>
@@ -106,7 +107,7 @@ function OutputData() {
 								<td>897</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -126,13 +127,13 @@ function OutputData() {
 								<td>897</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
-				</div>
+				</TableTooltip>
 			</div>
 			<Footer />
 

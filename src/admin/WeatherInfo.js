@@ -1,7 +1,8 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Modal from '../components/Modal';
+import TableTooltip from '../components/TableTooltip';
 import '../assets/css/App.css';
 
 function WeatherInfo() {
@@ -62,26 +63,26 @@ function WeatherInfo() {
 						<label>기상특보내용</label>
 						<input type="text" className="frm-input" placeholder="예: 없음" />
 					</div>
-					<button type="button" className="btn-primary">검색</button>
+					<button type="button" className="btn-primary"></button>
 				</div>
-				<div className="adm-tbl-wrap">
+				<TableTooltip className="adm-tbl-wrap">
 					<table className="adm-table">
 						<thead>
 							<tr>
 								<th>역명</th>
 								<th>노선명</th>
-								<th>운행통제기준내용</th>
-								<th>제한기준내용</th>
-								<th>강수량_15분</th>
-								<th>강수량_60분</th>
-								<th>누적강수량</th>
+								<th>운행통제<br />기준내용</th>
+								<th>제한기준<br />내용</th>
+								<th>강수량<br />_15분</th>
+								<th>강수량<br />_60분</th>
+								<th>누적<br />강수량</th>
 								<th>풍속값</th>
 								<th>적설값</th>
 								<th>기온값</th>
-								<th>기상특보내용</th>
+								<th>기상특보<br />내용</th>
 								<th>경도</th>
 								<th>위도</th>
-								<th>강수측정시각</th>
+								<th>강수측정<br />시각</th>
 								<th>입력일시</th>
 								<th>관리</th>
 							</tr>
@@ -105,13 +106,13 @@ function WeatherInfo() {
 								<td>2025-05-01 12:05</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
-				</div>
+				</TableTooltip>
 			</div>
 			<Footer />
 

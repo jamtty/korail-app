@@ -1,7 +1,8 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Modal from '../components/Modal';
+import TableTooltip from '../components/TableTooltip';
 import '../assets/css/App.css';
 
 function RailTemp() {
@@ -55,23 +56,23 @@ function RailTemp() {
 						<label>노선명</label>
 						<input type="text" className="frm-input" placeholder="예: 경부선" />
 					</div>
-					<button type="button" className="btn-primary">검색</button>
+					<button type="button" className="btn-primary"></button>
 				</div>
-				<div className="adm-tbl-wrap">
+				<TableTooltip className="adm-tbl-wrap">
 					<table className="adm-table">
 						<thead>
 							<tr>
 								<th>센서ID</th>
 								<th>본부명</th>
-								<th>설치위치명</th>
-								<th>레일온도값</th>
-								<th>대기온도값</th>
-								<th>배터리전압값</th>
+								<th>설치<br />위치명</th>
+								<th>레일<br />온도값</th>
+								<th>대기<br />온도값</th>
+								<th>배터리<br />전압값</th>
 								<th>측정일시</th>
 								<th>노선명</th>
-								<th>레일온도이상여부</th>
-								<th>금일최고온도</th>
-								<th>최고온도발생시각</th>
+								<th>레일온도<br />이상여부</th>
+								<th>금일<br />최고온도</th>
+								<th>최고온도<br />발생시각</th>
 								<th>관리</th>
 							</tr>
 						</thead>
@@ -90,13 +91,13 @@ function RailTemp() {
 								<td>14:00</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
-				</div>
+				</TableTooltip>
 			</div>
 			<Footer />
 

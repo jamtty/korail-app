@@ -1,7 +1,8 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Modal from '../components/Modal';
+import TableTooltip from '../components/TableTooltip';
 import '../assets/css/App.css';
 
 function CommonCode() {
@@ -51,19 +52,19 @@ function CommonCode() {
 						<label>상세코드정식명</label>
 						<input type="text" className="frm-input" placeholder="예: 정상운행" />
 					</div>
-					<button type="button" className="btn-primary">검색</button>
+					<button type="button" className="btn-primary"></button>
 				</div>
-				<div className="adm-tbl-wrap">
+				<TableTooltip className="adm-tbl-wrap">
 					<table className="adm-table">
 						<thead>
 							<tr>
 								<th>분류코드</th>
 								<th>상세코드</th>
-								<th>적용시작일자</th>
-								<th>분류코드명</th>
-								<th>상세코드정식명</th>
-								<th>상세코드영문명</th>
-								<th>상세코드영문약어명</th>
+								<th>적용시작<br />일자</th>
+								<th>분류<br />코드명</th>
+								<th>상세코드<br />정식명</th>
+								<th>상세코드<br />영문명</th>
+								<th>상세코드<br />영문약어명</th>
 								<th>관리</th>
 							</tr>
 						</thead>
@@ -78,13 +79,13 @@ function CommonCode() {
 								<td>NORM</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
-				</div>
+				</TableTooltip>
 			</div>
 			<Footer />
 

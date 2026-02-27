@@ -1,7 +1,8 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Modal from '../components/Modal';
+import TableTooltip from '../components/TableTooltip';
 import '../assets/css/App.css';
 
 function TrainSpeed() {
@@ -35,12 +36,12 @@ function TrainSpeed() {
                     <h1>열차 속도</h1>
                     <button type="button" className="btn-data-add" onClick={() => setIsModalOpen(true)}>데이터추가</button>
                 </div>
-				<div className="adm-tbl-wrap">
+				<TableTooltip className="adm-tbl-wrap">
 					<table className="adm-table">
 						<thead>
 							<tr>
-								<th>열차종별명</th>
-								<th>영업최고속도(km/h)</th>
+								<th>열차<br />종별명</th>
+								<th>영업최고<br />속도(km/h)</th>
 								<th>평균가속도(m/s²)</th>
 								<th>평균감속도(m/s²)</th>
 								<th>관리</th>
@@ -54,7 +55,7 @@ function TrainSpeed() {
 								<td>1.05</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -65,7 +66,7 @@ function TrainSpeed() {
 								<td>1.05</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -76,7 +77,7 @@ function TrainSpeed() {
 								<td>1.05</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
@@ -87,13 +88,13 @@ function TrainSpeed() {
 								<td>1.05</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
-				</div>
+				</TableTooltip>
 			</div>
 			<Footer />
 

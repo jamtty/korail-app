@@ -1,13 +1,18 @@
-import { Link, useLocation } from 'react-router-dom';
+﻿import { Link, useLocation } from 'react-router-dom';
+import icoLogo from '../assets/images/ico_logo.svg';
 import '../assets/css/App.css';
 
 function Header() {
     const location = useLocation();
     
 	return (
-		<div className="adm-header">
-			<div className="adm-logo">
-                <h1>Korail 관리자 페이지</h1>
+		<div className='adm-wrap'>
+            <div className="header">
+                <div className="logo">
+                    <img src={icoLogo} alt="Korail 로고" />
+                </div>
+                <p className='txt'>열차지연시간 예측시스템 관리자</p>
+                <Link to="#" className="adm-logout">로그아웃</Link>
             </div>
             <div className="adm-gnb">
                 <ul>
@@ -26,7 +31,6 @@ function Header() {
                     <li className={location.pathname === '/admin/line-info' ? 'active' : ''}><Link to="/admin/line-info">선정보</Link></li>
                     <li className={location.pathname === '/admin/common-code' ? 'active' : ''}><Link to="/admin/common-code">상세코드</Link></li>
                 </ul>
-                <Link to="#" className="adm-logout">로그아웃</Link>
             </div>
 		</div>
 	);

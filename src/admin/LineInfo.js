@@ -1,7 +1,8 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Modal from '../components/Modal';
+import TableTooltip from '../components/TableTooltip';
 import '../assets/css/App.css';
 
 function LineInfo() {
@@ -53,21 +54,21 @@ function LineInfo() {
 						<label>대표선코드</label>
 						<input type="text" className="frm-input" placeholder="예: L1" />
 					</div>
-					<button type="button" className="btn-primary">검색</button>
+					<button type="button" className="btn-primary"></button>
 				</div>
-				<div className="adm-tbl-wrap">
+				<TableTooltip className="adm-tbl-wrap">
 					<table className="adm-table">
 						<thead>
 							<tr>
 								<th>선코드</th>
-								<th>적용시작일자</th>
-								<th>선구분코드</th>
-								<th>대표선코드</th>
+								<th>적용시작<br />일자</th>
+								<th>선구분<br />코드</th>
+								<th>대표선<br />코드</th>
 								<th>선명</th>
-								<th>선영문정식명</th>
-								<th>시험선여부</th>
-								<th>시작역코드</th>
-								<th>종료역코드</th>
+								<th>선영문<br />정식명</th>
+								<th>시험선<br />여부</th>
+								<th>시작역<br />코드</th>
+								<th>종료역<br />코드</th>
 								<th>관리</th>
 							</tr>
 						</thead>
@@ -84,13 +85,13 @@ function LineInfo() {
 								<td>STN050</td>
 								<td>
 									<div className="action-buttons">
-										<button type="button" className="btn btn-edit">수정</button><button type="button" className="btn btn-delete">삭제</button>
+										<button type="button" className="btn btn-edit"></button><button type="button" className="btn btn-delete"></button>
 									</div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
-				</div>
+				</TableTooltip>
 			</div>
 			<Footer />
 
