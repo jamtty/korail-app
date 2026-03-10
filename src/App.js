@@ -18,6 +18,7 @@ import StationBase from './admin/StationBase';
 import LineInfo from './admin/LineInfo';
 import CommonCode from './admin/CommonCode';
 import KorailMap from './components/KorailMap';
+import MapLegend from './components/MapLegend';
 import Simulation from './scenario/Simulation';
 import icoLogo from './assets/images/ico_logo.svg';
 import icoTrain from './assets/images/ico_train.svg';
@@ -233,9 +234,10 @@ function MainPage() {
 	return (
 	<div className="container">
 		<div className="header">
-			<div className="logo noline">
+			<div className="logo">
 				<img src={icoLogo} alt="Korail 로고" />
 			</div>
+            <p className='txt'>열차지연시간 예측시스템 대시보드</p>
 		</div>
 		{/* 워크플로우 1 */}
 		<div className="wrap">
@@ -324,10 +326,16 @@ function MainPage() {
 				{activeTab1 === '지도' && (
 					<div className="map">
 					<KorailMap isSimulationActive={isSimulationActive1} onDangerTrainClick={handleDangerTrainClick1} onMapClick={handleMapClick1} dangerTrainIndex={1} dangerTrainIds={dangerTrainIds1} />
+					<MapLegend defaultOpen={false} />
 					</div>
 				)}
 				{activeTab1 === '노선' && (
-					<div className="routemap" style={{position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}} onClick={() => setIsSliderActive1(false)}>
+					<div className="routemap" onClick={() => setIsSliderActive1(false)}>
+						<div className="routemap-zoom-con" onClick={(e) => e.stopPropagation()}>
+							<button type="button" className="btn-zoom" onClick={() => setScale1(s => Math.min(3, s + 0.2))} title="줌 인">+</button>
+							<button type="button" className="btn-zoom" onClick={() => setScale1(s => Math.max(0.5, s - 0.2))} title="줌 아웃">−</button>
+							<button type="button" className="btn-zoom btn-zoom-reset" onClick={() => { setScale1(1); setPosition1({x:0, y:0}); }} title="전체보기">전체</button>
+						</div>
 						<div 
 							onWheel={handleWheel1} 
 							onMouseDown={handleMouseDown1}
@@ -338,7 +346,7 @@ function MainPage() {
 								width: isSliderActive1 ? 'calc(100% - 450px)' : 'calc(100% - 40px)',
 								height: '450px',
 								overflow: 'hidden',
-							cursor: scale1 > 1 ? (isDragging1 ? 'grabbing' : 'grab') : 'default',
+                                cursor: scale1 > 1 ? (isDragging1 ? 'grabbing' : 'grab') : 'default',
 								display: 'flex',
 								alignItems: 'center',
 								justifyContent: 'center',
@@ -369,8 +377,7 @@ function MainPage() {
 									cursor: 'pointer'
 								}} 
 							/>
-						</div>
-					</div>
+						</div>						<MapLegend defaultOpen={false} />					</div>
 				)}
 			</div>
 			<div className="panel-area">
@@ -563,10 +570,16 @@ function MainPage() {
 				{activeTab2 === '지도' && (
 					<div className="map">
 					<KorailMap isSimulationActive={isSimulationActive2} onDangerTrainClick={handleDangerTrainClick2} onMapClick={handleMapClick2} dangerTrainIndex={3} dangerTrainIds={dangerTrainIds2} />
+					<MapLegend defaultOpen={false} />
 					</div>
 				)}
 				{activeTab2 === '노선' && (
-					<div className="routemap" style={{position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}} onClick={() => setIsSliderActive2(false)}>
+					<div className="routemap" onClick={() => setIsSliderActive2(false)}>
+						<div className="routemap-zoom-con" onClick={(e) => e.stopPropagation()}>
+							<button type="button" className="btn-zoom" onClick={() => setScale2(s => Math.min(3, s + 0.2))} title="줌 인">+</button>
+							<button type="button" className="btn-zoom" onClick={() => setScale2(s => Math.max(0.5, s - 0.2))} title="줌 아웃">−</button>
+							<button type="button" className="btn-zoom btn-zoom-reset" onClick={() => { setScale2(1); setPosition2({x:0, y:0}); }} title="전체보기">전체</button>
+						</div>
 						<div 
 							onWheel={handleWheel2} 
 							onMouseDown={handleMouseDown2}
@@ -608,8 +621,7 @@ function MainPage() {
 									cursor: 'pointer'
 								}} 
 							/>
-						</div>
-					</div>
+						</div>						<MapLegend defaultOpen={false} />					</div>
 				)}
 			</div>
 			<div className="panel-area">
@@ -802,10 +814,16 @@ function MainPage() {
 				{activeTab3 === '지도' && (
 					<div className="map">
 					<KorailMap isSimulationActive={isSimulationActive3} onDangerTrainClick={handleDangerTrainClick3} onMapClick={handleMapClick3} dangerTrainIndex={6} dangerTrainIds={dangerTrainIds3} />
+					<MapLegend defaultOpen={false} />
 					</div>
 				)}
 				{activeTab3 === '노선' && (
-					<div className="routemap" style={{position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}} onClick={() => setIsSliderActive3(false)}>
+					<div className="routemap" onClick={() => setIsSliderActive3(false)}>
+						<div className="routemap-zoom-con" onClick={(e) => e.stopPropagation()}>
+							<button type="button" className="btn-zoom" onClick={() => setScale3(s => Math.min(3, s + 0.2))} title="줌 인">+</button>
+							<button type="button" className="btn-zoom" onClick={() => setScale3(s => Math.max(0.5, s - 0.2))} title="줌 아웃">−</button>
+							<button type="button" className="btn-zoom btn-zoom-reset" onClick={() => { setScale3(1); setPosition3({x:0, y:0}); }} title="전체보기">전체</button>
+						</div>
 						<div 
 							onWheel={handleWheel3} 
 							onMouseDown={handleMouseDown3}
@@ -848,7 +866,8 @@ function MainPage() {
 								}} 
 							/>
 						</div>
-					</div>
+                        <MapLegend defaultOpen={false} />
+                    </div>
 				)}
 			</div>
 			<div className="panel-area">

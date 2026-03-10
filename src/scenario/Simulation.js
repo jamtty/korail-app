@@ -1,6 +1,7 @@
 ﻿import { useState } from 'react';
 import icoLogo from '../assets/images/ico_logo.svg';
 import Modal from '../components/Modal';
+import MapLegend from '../components/MapLegend';
 import '../assets/css/App.css';
 
 function Simulation() {
@@ -595,7 +596,7 @@ function Simulation() {
                 <div className="logo">
                     <img src={icoLogo} alt="Korail 로고" />
                 </div>
-                <p className='txt'>열차지연시간 예측시스템 시뮬레이션 대시보드</p>
+                <p className='txt'>열차지연시간 예측시스템 대시보드</p>
                 <div className='btn-wrap'>
                     <button type='button' className='btn-black'>대시보드</button>
                     <button type='button' className='btn-border' onClick={() => setIsReportOpen(true)}>리포트</button>
@@ -699,11 +700,7 @@ function Simulation() {
                                         </g>
                                     )}
                                 </svg>
-                                <div className='map-legend'>
-                                    <div className='legend-item'><span className='legend-dot' style={{background:'#1e3a8a'}}></span>경부고속선</div>
-                                    <div className='legend-item'><span className='legend-dot' style={{background:'#f97316'}}></span>호남고속선</div>
-                                    <div className='legend-item'><span className='legend-dot' style={{background:'#7e22ce'}}></span>수서평택선</div>
-                                </div>
+                                <MapLegend defaultOpen={false} />
                                 <button
                                     type='button'
                                     className={`btn-play${isPlaying ? ' playing' : ''}`}
@@ -721,7 +718,7 @@ function Simulation() {
                         )}
                         {tab3 === 'detail' && (
                             <div className='area-2'>
-                                <div className='train-tbl-wrap'>{/* 스크롤 클래스 overflow-y */}
+                                <div className='train-tbl-wrap'>
                                     <table className='train-tbl'>
                                         <thead>
                                             <tr>

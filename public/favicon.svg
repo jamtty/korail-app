@@ -1,9 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-11.5 -10.23174 23 20.46348">
-  <title>React Logo</title>
-  <circle cx="0" cy="0" r="2.05" fill="#61dafb"/>
-  <g stroke="#61dafb" stroke-width="1" fill="none">
-    <ellipse rx="11" ry="4.2"/>
-    <ellipse rx="11" ry="4.2" transform="rotate(60)"/>
-    <ellipse rx="11" ry="4.2" transform="rotate(120)"/>
-  </g>
+<svg width="381" height="328" viewBox="0 0 381 328" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0.0671488 324.381L67.9155 2.38145C68.2079 0.993468 69.4325 0 70.851 0H172.782C174.703 0 176.129 1.78002 175.71 3.65457L154.041 100.575C153.412 103.386 156.721 105.381 158.914 103.513L279.575 0.716379C280.118 0.253969 280.807 0 281.52 0H377.031C379.708 0 381.044 3.2405 379.146 5.12775L239.434 143.993C238.397 145.024 238.254 146.652 239.096 147.848L362.642 323.273C364.042 325.26 362.62 328 360.189 328H239.146C238.197 328 237.304 327.551 236.738 326.79L137.91 193.891C136.338 191.778 133.001 192.57 132.547 195.164L109.739 325.517C109.488 326.953 108.241 328 106.784 328H3.00269C1.09696 328 -0.325778 326.246 0.0671488 324.381Z" fill="url(#paint0_linear_309_27)"/>
+<defs>
+<linearGradient id="paint0_linear_309_27" x1="13.5918" y1="9.92969" x2="318.367" y2="361.34" gradientUnits="userSpaceOnUse">
+<stop stop-color="#208FC1"/>
+<stop offset="0.32234" stop-color="#18A6CF"/>
+<stop offset="1" stop-color="#1F69AA"/>
+</linearGradient>
+</defs>
 </svg>
