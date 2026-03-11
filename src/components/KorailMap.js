@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-function KorailMap({ isSimulationActive, onDangerTrainClick, onMapClick, dangerTrainIndex = 3, dangerTrainIds = [] }) {
+const KorailMap = forwardRef(function KorailMap({ isSimulationActive, onDangerTrainClick, onMapClick, dangerTrainIndex = 3, dangerTrainIds = [] }, ref) {
 
 // 역 마커 아이콘 설정
 const stationIcon = L.divIcon({
@@ -216,6 +216,26 @@ const trainIconDanger = L.divIcon({
 		L.control.zoom({
 			position: 'topright'
 		}).addTo(map);
+
+		// 전체 보기 버튼 커스텀 컨트롤 추가
+		const ResetControl = L.Control.extend({
+			options: { position: 'topright' },
+			onAdd: function(m) {
+				const container = L.DomUtil.create('div', 'leaflet-control');
+				container.style.cssText = 'margin-top:-2px; margin-right:10px; border-radius:0 0 4px 4px; overflow:hidden; border: 2px solid rgba(0, 0, 0, 0.2); border-top:0;';
+				const btn = L.DomUtil.create('a', '', container);
+				btn.innerHTML = '전체';
+				btn.href = '#';
+				btn.title = '전체 보기';
+				btn.style.cssText = 'font:bold 11px sans-serif; text-indent:0; text-align:center; display:block; width:30px; height:30px; text-decoration:none; line-height:30px; color:#333; background:#fff; cursor:pointer;';
+				L.DomEvent.on(btn, 'click', function(e) {
+					L.DomEvent.stop(e);
+					m.setView([36.5, 127.5], 8);
+				});
+				return container;
+			}
+		});
+		new ResetControl().addTo(map);
 
 		mapInstanceRef.current = map;
 
@@ -585,6 +605,14 @@ const trainIconDanger = L.divIcon({
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dangerTrainIds]);
 
+	useImperativeHandle(ref, () => ({
+		resetView: () => {
+			if (mapInstanceRef.current) {
+				mapInstanceRef.current.setView([36.5, 127.5], 8);
+			}
+		}
+	}));
+
 	return (
 		<div 
 			ref={mapRef} 
@@ -595,6 +623,6 @@ const trainIconDanger = L.divIcon({
 			}}
 		/>
 	);
-}
+});
 
 export default KorailMap;

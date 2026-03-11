@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Routes, Route } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
@@ -28,6 +28,9 @@ import './assets/css/App.css';
 function MainPage() {
 	const PopperContainer = ({ children }) => createPortal(children, document.body);
 	const [startDate, setStartDate] = useState(new Date());
+	const mapRef1 = useRef(null);
+	const mapRef2 = useRef(null);
+	const mapRef3 = useRef(null);
 	
 	// 워크플로우 1 state
 	const [activeTab1, setActiveTab1] = useState('지도');
@@ -325,8 +328,8 @@ function MainPage() {
 				</div>
 				{activeTab1 === '지도' && (
 					<div className="map">
-					<KorailMap isSimulationActive={isSimulationActive1} onDangerTrainClick={handleDangerTrainClick1} onMapClick={handleMapClick1} dangerTrainIndex={1} dangerTrainIds={dangerTrainIds1} />
-					<MapLegend defaultOpen={false} />
+					<KorailMap ref={mapRef1} isSimulationActive={isSimulationActive1} onDangerTrainClick={handleDangerTrainClick1} onMapClick={handleMapClick1} dangerTrainIndex={1} dangerTrainIds={dangerTrainIds1} />
+					<MapLegend />
 					</div>
 				)}
 				{activeTab1 === '노선' && (
@@ -377,7 +380,7 @@ function MainPage() {
 									cursor: 'pointer'
 								}} 
 							/>
-						</div>						<MapLegend defaultOpen={false} />					</div>
+						</div>						<MapLegend />					</div>
 				)}
 			</div>
 			<div className="panel-area">
@@ -569,8 +572,8 @@ function MainPage() {
 				</div>
 				{activeTab2 === '지도' && (
 					<div className="map">
-					<KorailMap isSimulationActive={isSimulationActive2} onDangerTrainClick={handleDangerTrainClick2} onMapClick={handleMapClick2} dangerTrainIndex={3} dangerTrainIds={dangerTrainIds2} />
-					<MapLegend defaultOpen={false} />
+					<KorailMap ref={mapRef2} isSimulationActive={isSimulationActive2} onDangerTrainClick={handleDangerTrainClick2} onMapClick={handleMapClick2} dangerTrainIndex={3} dangerTrainIds={dangerTrainIds2} />
+					<MapLegend />
 					</div>
 				)}
 				{activeTab2 === '노선' && (
@@ -621,7 +624,7 @@ function MainPage() {
 									cursor: 'pointer'
 								}} 
 							/>
-						</div>						<MapLegend defaultOpen={false} />					</div>
+						</div>						<MapLegend />					</div>
 				)}
 			</div>
 			<div className="panel-area">
@@ -813,8 +816,8 @@ function MainPage() {
 				</div>
 				{activeTab3 === '지도' && (
 					<div className="map">
-					<KorailMap isSimulationActive={isSimulationActive3} onDangerTrainClick={handleDangerTrainClick3} onMapClick={handleMapClick3} dangerTrainIndex={6} dangerTrainIds={dangerTrainIds3} />
-					<MapLegend defaultOpen={false} />
+					<KorailMap ref={mapRef3} isSimulationActive={isSimulationActive3} onDangerTrainClick={handleDangerTrainClick3} onMapClick={handleMapClick3} dangerTrainIndex={6} dangerTrainIds={dangerTrainIds3} />
+					<MapLegend />
 					</div>
 				)}
 				{activeTab3 === '노선' && (
@@ -866,7 +869,7 @@ function MainPage() {
 								}} 
 							/>
 						</div>
-                        <MapLegend defaultOpen={false} />
+                        <MapLegend />
                     </div>
 				)}
 			</div>

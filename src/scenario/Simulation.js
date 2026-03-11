@@ -11,6 +11,10 @@ function Simulation() {
 	const [trainStep, setTrainStep] = useState(-1);     // 열차 마커 위치 (-1=숨김)
 	const [isPlaying, setIsPlaying] = useState(false);  // 재생 중 여부
 	const [isReportOpen, setIsReportOpen] = useState(false); // 리포트 모달
+	const [previewScale, setPreviewScale] = useState(1);
+	const [previewPosition, setPreviewPosition] = useState({ x: 0, y: 0 });
+	const [isPreviewDragging, setIsPreviewDragging] = useState(false);
+	const [previewDragStart, setPreviewDragStart] = useState({ x: 0, y: 0 });
 	const [selectedSim, setSelectedSim] = useState(null);        // 선택된 시뮬레이션
 	const [selectedScenario, setSelectedScenario] = useState(null); // 선택된 시나리오
 	const [selectedSub, setSelectedSub] = useState(null);           // 선택된 상세 운영 조건
@@ -562,6 +566,37 @@ function Simulation() {
 		}, 50); // 한 프레임 뒤 행신에서 시작
 	};
 
+	const handlePreviewWheel = (e) => {
+		e.preventDefault();
+		const delta = e.deltaY > 0 ? -0.1 : 0.1;
+		setPreviewScale(s => Math.min(Math.max(0.5, s + delta), 3));
+	};
+
+	const handlePreviewMouseDown = (e) => {
+		if (previewScale > 1) {
+			setIsPreviewDragging(true);
+			setPreviewDragStart({
+				x: e.clientX - previewPosition.x,
+				y: e.clientY - previewPosition.y
+			});
+		}
+	};
+
+	const handlePreviewMouseMove = (e) => {
+		if (!isPreviewDragging) return;
+		e.preventDefault();
+		requestAnimationFrame(() => {
+			setPreviewPosition({
+				x: e.clientX - previewDragStart.x,
+				y: e.clientY - previewDragStart.y
+			});
+		});
+	};
+
+	const handlePreviewMouseUp = () => {
+		setIsPreviewDragging(false);
+	};
+
 	const renderCardList = (list, sortKey, onSelect, selectedId, emptyMsg = '목록을 선택하면 데이터가 표시됩니다.', showLabel = true) => {
 		if (!list || list.length === 0) {
 			return (
@@ -669,7 +704,21 @@ function Simulation() {
                         </div>
                         {tab3 === 'preview' && (
                             <div className='area-1'>
-                                <svg viewBox="0 0 800 400" className='railway-svg' style={{maxWidth:'900px'}}>
+                                <div className="routemap-zoom-con" style={{ top: '80px', right: '25px' }} onClick={(e) => e.stopPropagation()}>
+                                    <button type="button" className="btn-zoom" onClick={() => setPreviewScale(s => Math.min(3, s + 0.2))} title="줌 인">+</button>
+                                    <button type="button" className="btn-zoom" onClick={() => setPreviewScale(s => Math.max(0.5, s - 0.2))} title="줌 아웃">−</button>
+                                    <button type="button" className="btn-zoom btn-zoom-reset" onClick={() => { setPreviewScale(1); setPreviewPosition({ x: 0, y: 0 }); }} title="전체보기">전체</button>
+                                </div>
+                                <svg
+                                    viewBox="0 0 800 400"
+                                    className='railway-svg'
+                                    onWheel={handlePreviewWheel}
+                                    onMouseDown={handlePreviewMouseDown}
+                                    onMouseMove={handlePreviewMouseMove}
+                                    onMouseUp={handlePreviewMouseUp}
+                                    onMouseLeave={handlePreviewMouseUp}
+                                    style={{ maxWidth: '1000px', cursor: previewScale > 1 ? (isPreviewDragging ? 'grabbing' : 'grab') : 'default', transform: `translate(${previewPosition.x}px, ${previewPosition.y}px) scale(${previewScale})`, transformOrigin: 'center', transition: isPreviewDragging ? 'none' : 'transform 0.1s', userSelect: 'none' }}
+                                >
                                     {/* 경부고속선 */}
                                     <path d="M50,150 L150,150 L250,120 L350,150 L450,150 L550,150 L650,120 L750,150"
                                         stroke="#1e3a8a" strokeWidth="6" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
@@ -699,7 +748,7 @@ function Simulation() {
                                         </g>
                                     )}
                                 </svg>
-                                <MapLegend defaultOpen={false} />
+                                <MapLegend />
                                 <button
                                     type='button'
                                     className={`btn-play${isPlaying ? ' playing' : ''}`}

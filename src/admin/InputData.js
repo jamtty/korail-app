@@ -107,7 +107,7 @@ function InputData() {
 								<td>2025.11 AM 10:00</td>
 								<td>상하선 불통</td>
 								<td>경부고속선</td>
-								<td>대전역~김천구미역 사이 50km 지점 대전역~김천구미역 사이 50km 지점</td>
+								<td className="td-location">대전역~김천구미역 사이 50km 지점 대전역~김천구미역 사이 50km 지점</td>
 								<td>2025.01.01 AM 09:00:00</td>
 								<td>120분</td>
 								<td>우회운전</td>
@@ -126,7 +126,7 @@ function InputData() {
 								<td>2025.11 AM 10:00</td>
 								<td>상하선 불통</td>
 								<td>경부고속선</td>
-								<td>대전역~김천구미역 사이 50km 지점</td>
+								<td className="td-location">대전역~김천구미역 사이 50km 지점</td>
 								<td>2025.01.01 AM 09:00:00</td>
 								<td>120분</td>
 								<td>우회운전</td>
@@ -140,12 +140,12 @@ function InputData() {
 									</div>
 								</td>
 							</tr>
-							<tr>
+                            <tr>
 								<td>1</td>
 								<td>2025.11 AM 10:00</td>
 								<td>상하선 불통</td>
 								<td>경부고속선</td>
-								<td>대전역~김천구미역 사이 50km 지점</td>
+								<td className="td-location">대전역~김천구미역 사이 50km 지점</td>
 								<td>2025.01.01 AM 09:00:00</td>
 								<td>120분</td>
 								<td>우회운전</td>
@@ -159,30 +159,12 @@ function InputData() {
 									</div>
 								</td>
 							</tr>
-							<tr>
+                            <tr>
 								<td>1</td>
 								<td>2025.11 AM 10:00</td>
 								<td>상하선 불통</td>
 								<td>경부고속선</td>
-								<td>대전역~김천구미역 사이 50km 지점</td>
-								<td>2025.01.01 AM 09:00:00</td>
-								<td>120분</td>
-								<td>우회운전</td>
-								<td>30</td>
-								<td>4</td>
-								<td>4</td>
-								<td>
-									<div className="action-buttons">
-										<button type="button" className="btn btn-edit"></button>
-										<button type="button" className="btn btn-delete"></button>
-									</div>
-								</td>
-							</tr><tr>
-								<td>1</td>
-								<td>2025.11 AM 10:00</td>
-								<td>상하선 불통</td>
-								<td>경부고속선</td>
-								<td>대전역~김천구미역 사이 50km 지점</td>
+								<td className="td-location">대전역~김천구미역 사이 50km 지점</td>
 								<td>2025.01.01 AM 09:00:00</td>
 								<td>120분</td>
 								<td>우회운전</td>
@@ -196,30 +178,12 @@ function InputData() {
 									</div>
 								</td>
 							</tr>
-							<tr>
+                            <tr>
 								<td>1</td>
 								<td>2025.11 AM 10:00</td>
 								<td>상하선 불통</td>
 								<td>경부고속선</td>
-								<td>대전역~김천구미역 사이 50km 지점</td>
-								<td>2025.01.01 AM 09:00:00</td>
-								<td>120분</td>
-								<td>우회운전</td>
-								<td>30</td>
-								<td>4</td>
-								<td>4</td>
-								<td>
-									<div className="action-buttons">
-										<button type="button" className="btn btn-edit"></button>
-										<button type="button" className="btn btn-delete"></button>
-									</div>
-								</td>
-							</tr><tr>
-								<td>1</td>
-								<td>2025.11 AM 10:00</td>
-								<td>상하선 불통</td>
-								<td>경부고속선</td>
-								<td>대전역~김천구미역 사이 50km 지점</td>
+								<td className="td-location">대전역~김천구미역 사이 50km 지점</td>
 								<td>2025.01.01 AM 09:00:00</td>
 								<td>120분</td>
 								<td>우회운전</td>
@@ -233,30 +197,12 @@ function InputData() {
 									</div>
 								</td>
 							</tr>
-							<tr>
+                            <tr>
 								<td>1</td>
 								<td>2025.11 AM 10:00</td>
 								<td>상하선 불통</td>
 								<td>경부고속선</td>
-								<td>대전역~김천구미역 사이 50km 지점</td>
-								<td>2025.01.01 AM 09:00:00</td>
-								<td>120분</td>
-								<td>우회운전</td>
-								<td>30</td>
-								<td>4</td>
-								<td>4</td>
-								<td>
-									<div className="action-buttons">
-										<button type="button" className="btn btn-edit"></button>
-										<button type="button" className="btn btn-delete"></button>
-									</div>
-								</td>
-							</tr><tr>
-								<td>1</td>
-								<td>2025.11 AM 10:00</td>
-								<td>상하선 불통</td>
-								<td>경부고속선</td>
-								<td>대전역~김천구미역 사이 50km 지점</td>
+								<td className="td-location">대전역~김천구미역 사이 50km 지점</td>
 								<td>2025.01.01 AM 09:00:00</td>
 								<td>120분</td>
 								<td>우회운전</td>
@@ -270,30 +216,12 @@ function InputData() {
 									</div>
 								</td>
 							</tr>
-							<tr>
+                            <tr>
 								<td>1</td>
 								<td>2025.11 AM 10:00</td>
 								<td>상하선 불통</td>
 								<td>경부고속선</td>
-								<td>대전역~김천구미역 사이 50km 지점</td>
-								<td>2025.01.01 AM 09:00:00</td>
-								<td>120분</td>
-								<td>우회운전</td>
-								<td>30</td>
-								<td>4</td>
-								<td>4</td>
-								<td>
-									<div className="action-buttons">
-										<button type="button" className="btn btn-edit"></button>
-										<button type="button" className="btn btn-delete"></button>
-									</div>
-								</td>
-							</tr><tr>
-								<td>1</td>
-								<td>2025.11 AM 10:00</td>
-								<td>상하선 불통</td>
-								<td>경부고속선</td>
-								<td>대전역~김천구미역 사이 50km 지점</td>
+								<td className="td-location">대전역~김천구미역 사이 50km 지점</td>
 								<td>2025.01.01 AM 09:00:00</td>
 								<td>120분</td>
 								<td>우회운전</td>
@@ -307,30 +235,12 @@ function InputData() {
 									</div>
 								</td>
 							</tr>
-							<tr>
+                            <tr>
 								<td>1</td>
 								<td>2025.11 AM 10:00</td>
 								<td>상하선 불통</td>
 								<td>경부고속선</td>
-								<td>대전역~김천구미역 사이 50km 지점</td>
-								<td>2025.01.01 AM 09:00:00</td>
-								<td>120분</td>
-								<td>우회운전</td>
-								<td>30</td>
-								<td>4</td>
-								<td>4</td>
-								<td>
-									<div className="action-buttons">
-										<button type="button" className="btn btn-edit"></button>
-										<button type="button" className="btn btn-delete"></button>
-									</div>
-								</td>
-							</tr><tr>
-								<td>1</td>
-								<td>2025.11 AM 10:00</td>
-								<td>상하선 불통</td>
-								<td>경부고속선</td>
-								<td>대전역~김천구미역 사이 50km 지점</td>
+								<td className="td-location">대전역~김천구미역 사이 50km 지점</td>
 								<td>2025.01.01 AM 09:00:00</td>
 								<td>120분</td>
 								<td>우회운전</td>
@@ -344,87 +254,12 @@ function InputData() {
 									</div>
 								</td>
 							</tr>
-							<tr>
+                            <tr>
 								<td>1</td>
 								<td>2025.11 AM 10:00</td>
 								<td>상하선 불통</td>
 								<td>경부고속선</td>
-								<td>대전역~김천구미역 사이 50km 지점</td>
-								<td>2025.01.01 AM 09:00:00</td>
-								<td>120분</td>
-								<td>우회운전</td>
-								<td>30</td>
-								<td>4</td>
-								<td>4</td>
-								<td>
-									<div className="action-buttons">
-										<button type="button" className="btn btn-edit"></button>
-										<button type="button" className="btn btn-delete"></button>
-									</div>
-								</td>
-							</tr><tr>
-								<td>1</td>
-								<td>2025.11 AM 10:00</td>
-								<td>상하선 불통</td>
-								<td>경부고속선</td>
-								<td>대전역~김천구미역 사이 50km 지점</td>
-								<td>2025.01.01 AM 09:00:00</td>
-								<td>120분</td>
-								<td>우회운전</td>
-								<td>30</td>
-								<td>4</td>
-								<td>4</td>
-								<td>
-									<div className="action-buttons">
-										<button type="button" className="btn btn-edit"></button>
-										<button type="button" className="btn btn-delete"></button>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>1</td>
-								<td>2025.11 AM 10:00</td>
-								<td>상하선 불통</td>
-								<td>경부고속선</td>
-								<td>대전역~김천구미역 사이 50km 지점</td>
-								<td>2025.01.01 AM 09:00:00</td>
-								<td>120분</td>
-								<td>우회운전</td>
-								<td>30</td>
-								<td>4</td>
-								<td>4</td>
-								<td>
-									<div className="action-buttons">
-										<button type="button" className="btn btn-edit"></button>
-										<button type="button" className="btn btn-delete"></button>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>1</td>
-								<td>2025.11 AM 10:00</td>
-								<td>상하선 불통</td>
-								<td>경부고속선</td>
-								<td>대전역~김천구미역 사이 50km 지점</td>
-								<td>2025.01.01 AM 09:00:00</td>
-								<td>120분</td>
-								<td>우회운전</td>
-								<td>30</td>
-								<td>4</td>
-								<td>4</td>
-								<td>
-									<div className="action-buttons">
-										<button type="button" className="btn btn-edit"></button>
-										<button type="button" className="btn btn-delete"></button>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>1</td>
-								<td>2025.11 AM 10:00</td>
-								<td>상하선 불통</td>
-								<td>경부고속선</td>
-								<td>대전역~김천구미역 사이 50km 지점</td>
+								<td className="td-location">대전역~김천구미역 사이 50km 지점</td>
 								<td>2025.01.01 AM 09:00:00</td>
 								<td>120분</td>
 								<td>우회운전</td>
