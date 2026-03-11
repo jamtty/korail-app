@@ -574,8 +574,7 @@ function Simulation() {
 			.sort((a, b) => sortKey === 'delay' ? b.delay - a.delay : b.train - a.train)
 			.map((s) => (
 				<li key={s.id} className={selectedId === s.id ? 'active' : ''} onClick={() => onSelect && onSelect(s.id)}>
-					{showLabel && <p className='txt-s'>{s.label}</p>}
-					<p className='txt-big'>{s.name}<span>{s.sub}</span></p>
+					<p className='txt-big'>{showLabel && <span className='txt-s'>{s.label}</span>} {s.name}<span>{s.sub}</span></p>
 					<ul className='mini-card'>
 						<li>
 							<p className='num-red'>{s.train}대</p>
@@ -596,7 +595,7 @@ function Simulation() {
                 <div className="logo">
                     <img src={icoLogo} alt="Korail 로고" />
                 </div>
-                <p className='txt'>열차지연시간 예측시스템 대시보드</p>
+                <p className='txt'>열차지연시간 예측시스템</p>
                 <div className='btn-wrap'>
                     <button type='button' className='btn-black'>대시보드</button>
                     <button type='button' className='btn-border' onClick={() => setIsReportOpen(true)}>리포트</button>
@@ -755,22 +754,7 @@ function Simulation() {
                                                 <td><span className='delay'>+12분</span></td>
                                                 <td></td>
                                             </tr>
-                                            <tr>
-                                                <td>KTX-101</td>
-                                                <td><span className='route blue'>경부선</span></td>
-                                                <td>천안아산</td>
-                                                <td>오송</td>
-                                                <td><span className='delay'>+12분</span></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>KTX-101</td>
-                                                <td><span className='route yellow'>호남선</span></td>
-                                                <td>오송</td>
-                                                <td>대전</td>
-                                                <td><span className='delay'>+12분</span></td>
-                                                <td></td>
-                                            </tr>
+                                            
                                         </tbody>
                                     </table>
                                 </div>

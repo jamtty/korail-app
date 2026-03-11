@@ -237,7 +237,7 @@ function MainPage() {
 			<div className="logo">
 				<img src={icoLogo} alt="Korail 로고" />
 			</div>
-            <p className='txt'>열차지연시간 예측시스템 대시보드</p>
+            <p className='txt'>열차지연시간 예측시스템</p>
 		</div>
 		{/* 워크플로우 1 */}
 		<div className="wrap">

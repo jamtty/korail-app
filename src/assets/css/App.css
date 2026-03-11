@@ -377,25 +377,25 @@
 .Simulation .si-container { height: 100vh; display:flex; gap:25px; padding: 95px 25px 30px 25px; }
 .Simulation .si-list-wrap { width:450px; height:100%; flex-shrink: 0; padding:20px 10px 20px 25px; background:#fff; flex-shrink: 0; border-radius:10px; display:flex; flex-direction:column; overflow:hidden; }
 .Simulation h2 { font-size:20px; font-weight:600; color:#222; }
-.Simulation .card-list { flex:1; min-height:0; overflow-y:auto; padding-right:9px; margin:20px 0 0; }
-.Simulation .card-list li { height:120px; border:1px solid #D9D9D9; padding:20px; border-radius:10px; margin:0 0 10px; transition:background 0.2s; cursor:pointer; }
+.Simulation .card-list { flex:1; min-height:0; overflow-y:auto; padding-right:9px; margin:15px 0 0; }
+.Simulation .card-list li { border:1px solid #D9D9D9; padding:10px; border-radius:10px; margin:0 0 5px; transition:background 0.2s; cursor:pointer; }
 .Simulation .card-list li:last-child { margin:0; }
 .Simulation .card-list li .si-d-flex { display:flex; }
-.Simulation .card-list li .status { display:flex; align-items: center; justify-content: center; width:60px; height:60px; border-radius:100%; background: rgba(121, 219, 166, 0.15); font-size:15px; font-weight:700; color:#50C587; }
+.Simulation .card-list li .status { display:flex; align-items: center; justify-content: center; width:40px; height:40px; border-radius:100%; background: rgba(121, 219, 166, 0.15); font-size:12px; font-weight:700; color:#50C587; }
 .Simulation .card-list li .status.ing { background:#FDEAEA; color:#C55A50; }
 
 .Simulation .card-list li .name-wrap { margin-left:14px; }
-.Simulation .card-list li .name-wrap .name { font-size:18px; font-weight:700; margin:0 0 8px; }
-.Simulation .card-list li .name-wrap .date { font-size:16px; font-weight:400; padding-left:25px; padding-top:2px; background:url(../images/ico_mini_calendar.svg) 0 50% no-repeat; } 
-.Simulation .card-list li .time { margin:10px 0 0; font-size:14px; font-weight:500; color:#777; }
+.Simulation .card-list li .name-wrap .name { font-size:15px; font-weight:700; margin:0 0 8px; }
+.Simulation .card-list li .name-wrap .date { font-size:14px; font-weight:400; padding-left:25px; padding-top:2px; background:url(../images/ico_mini_calendar.svg) 0 50% no-repeat; } 
+.Simulation .card-list li .time { margin:10px 0 0; font-size:13px; font-weight:500; color:#777; }
 .Simulation .card-list li:hover { background:#F9FAFB; }
 .Simulation .card-list li.active { background:#EDF6FF; border-color:#0066B3; }
 .Simulation .card-list li.active .status { background:rgba(0,102,179,0.10); color:#0066B3; }
 
-.Simulation .si-contents { flex:1; min-width:0; display:flex; flex-direction:column; overflow-y:auto; gap:20px; }
+.Simulation .si-contents { flex:1; min-width:0; display:flex; flex-direction:column; overflow-y:auto; gap:10px; }
 .Simulation .si-contents .box { position:relative; max-height:310px; flex-shrink: 0; background:#fff; border-radius:10px; }
 .Simulation .si-contents .box.h-345 { max-height:none; height:auto; display:flex; flex-direction:column; }
-.Simulation .si-contents .box .control { display:flex; align-items: center; height:70px; padding:0 25px; border-bottom:1px solid #D9D9D9; }
+.Simulation .si-contents .box .control { display:flex; align-items: center; height:60px; padding:0 25px; border-bottom:1px solid #D9D9D9; }
 .Simulation .si-contents .box .btn-con { margin-left:auto; display:flex;align-items: center;  gap:10px; }
 .Simulation .si-contents .box .btn-con.absolute { position:absolute; top:20px; right:25px; z-index:99; }
 .Simulation .si-contents .box .btn-con .btn { line-height:38px; padding:0 20px; font-size:14px; font-weight:500; color:#666; background:#FAFAFA; border-radius:5px; transition:background 0.2s, color 0.2s; }
@@ -403,20 +403,20 @@
 .Simulation .si-contents .box .btn-con span { font-size:14px; font-weight:500; color:#777; }
 
 .Simulation .si-contents .box .card-list2 { margin:10px 20px 0; padding-bottom:10px; overflow-x:auto; overflow-y:hidden; display:flex; gap:10px; flex-wrap:nowrap; }
-.Simulation .si-contents .box .card-list2 > li { border:1px solid rgba(217, 217, 217, 0.7); border-radius:10px; width:230px; max-height:190px; flex-shrink: 0; padding:15px 20px; transition:border-color 0.2s; cursor:pointer; }
+.Simulation .si-contents .box .card-list2 > li { border:1px solid rgba(217, 217, 217, 0.7); border-radius:10px; width:230px; flex-shrink: 0; padding:10px 10px; transition:border-color 0.2s; cursor:pointer; }
 .Simulation .si-contents .box .card-list2 > li:hover { border-color:#0066B3; }
 .Simulation .si-contents .box .card-list2 > li.active { border-color:#0066B3; background:#EDF6FF; }
 .Simulation .si-contents .box .card-list2 .card-empty { display:flex; align-items:center; justify-content:center; min-width:280px; flex:1; border:1px dashed #D9D9D9; border-radius:10px; padding:20px; height:100%; }
 .Simulation .si-contents .box .card-list2 .card-empty p { font-size:14px; color:#aaa; text-align:center; line-height:1.6; }
 .Simulation .si-contents .box .card-list2 > li .txt-s { display:inline-flex; padding:0 5px; background:#FAFAFA; line-height:25px; border-radius:5px; font-size:14px; font-weight:600; color:#555; margin:0 0 5px; }
-.Simulation .si-contents .box .card-list2 > li .txt-big { font-size:18px; font-weight:700; margin:0 0 15px; }
-.Simulation .si-contents .box .card-list2 > li .txt-big span { font-size:16px; font-weight:400; color:#888; margin-left:5px; }
+.Simulation .si-contents .box .card-list2 > li .txt-big { font-size:16px; font-weight:700; margin:0 0 5px; }
+.Simulation .si-contents .box .card-list2 > li .txt-big span { font-size:13px; font-weight:400; color:#888; margin-left:5px; }
 
-.Simulation .si-contents .box .mini-card { display:flex; padding:12px 10px; background:#FAFAFA; border-radius:10px; }
+.Simulation .si-contents .box .mini-card { display:flex; padding:10px 8px; background:#FAFAFA; border-radius:10px; }
 .Simulation .si-contents .box .mini-card li { flex:1; min-width:0; height:100%; border-right:1px solid #E6E6E6; text-align:center; padding:0 5px; }
 .Simulation .si-contents .box .mini-card li:last-child { border:0; }
-.Simulation .si-contents .box .mini-card li .num-red { font-size:18px; font-weight:600; color:#FF5D5D; margin:0 0 10px; max-width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
-.Simulation .si-contents .box .mini-card li .num-blue { font-size:18px; font-weight:600; color:#0066B3; margin:0 0 10px; max-width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.Simulation .si-contents .box .mini-card li .num-red { font-size:16px; font-weight:600; color:#FF5D5D; margin:0 0 5px; max-width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.Simulation .si-contents .box .mini-card li .num-blue { font-size:16px; font-weight:600; color:#0066B3; margin:0 0 5px; max-width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
 .Simulation .si-contents .box .mini-card li .sm { font-size:14px; font-weight:500; color:#666; }
 
 /* 프리뷰 맵 */
