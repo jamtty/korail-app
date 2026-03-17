@@ -482,7 +482,7 @@ function MainPage() {
 			</div>
 		</div>
 		{/* 워크플로우 2 */}
-		<div className="wrap" style={{ display: 'none' }}>
+		<div className="wrap">
 			<div className="map-area">
 				<div className="panel-info">
 					<div className="inner">
@@ -721,7 +721,7 @@ function MainPage() {
 			</div>
 		</div>
 		{/* 워크플로우 3 */}
-		<div className="wrap" style={{ display: 'none' }}>
+		<div className="wrap">
 			<div className="map-area">
 				<div className="panel-info">
 					<div className="inner">
