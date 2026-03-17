@@ -19,10 +19,10 @@ import LineInfo from './admin/LineInfo';
 import CommonCode from './admin/CommonCode';
 import KorailMap from './components/KorailMap';
 import MapLegend from './components/MapLegend';
+import RailRouteMap from './components/RailRouteMap';
 import Simulation from './scenario/Simulation';
 import icoLogo from './assets/images/ico_logo.svg';
 import icoTrain from './assets/images/ico_train.svg';
-import imgRoutemap from './assets/images/img_routemap.png';
 import './assets/css/App.css';
 
 function MainPage() {
@@ -83,7 +83,7 @@ function MainPage() {
 	const handleWheel1 = (e) => {
 		e.preventDefault();
 		const delta = e.deltaY > 0 ? -0.1 : 0.1;
-		setScale1(prevScale => Math.min(Math.max(0.5, prevScale + delta), 3));
+		setScale1(prevScale => Math.min(Math.max(0.5, prevScale + delta), 5));
 	};
 	
 	const handleMouseDown1 = (e) => {
@@ -139,7 +139,7 @@ function MainPage() {
 	const handleWheel2 = (e) => {
 		e.preventDefault();
 		const delta = e.deltaY > 0 ? -0.1 : 0.1;
-		setScale2(prevScale => Math.min(Math.max(0.5, prevScale + delta), 3));
+		setScale2(prevScale => Math.min(Math.max(0.5, prevScale + delta), 5));
 	};
 	
 	const handleMouseDown2 = (e) => {
@@ -195,7 +195,7 @@ function MainPage() {
 	const handleWheel3 = (e) => {
 		e.preventDefault();
 		const delta = e.deltaY > 0 ? -0.1 : 0.1;
-		setScale3(prevScale => Math.min(Math.max(0.5, prevScale + delta), 3));
+		setScale3(prevScale => Math.min(Math.max(0.5, prevScale + delta), 5));
 	};
 	
 	const handleMouseDown3 = (e) => {
@@ -346,8 +346,8 @@ function MainPage() {
 							onMouseUp={handleMouseUp1}
 							onMouseLeave={handleMouseUp1}
 							style={{
-								width: isSliderActive1 ? 'calc(100% - 450px)' : 'calc(100% - 40px)',
-								height: '450px',
+								width: 'calc(100% - 40px)',
+								height: '100%',
 								overflow: 'hidden',
                                 cursor: scale1 > 1 ? (isDragging1 ? 'grabbing' : 'grab') : 'default',
 								display: 'flex',
@@ -355,32 +355,27 @@ function MainPage() {
 								justifyContent: 'center',
 								zIndex: 10,
 								transition: 'width 0.3s',
-								backgroundColor: '#fff',
-								boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-								borderRadius: '8px',
+								//backgroundColor: '#fff',
+								//boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+								//borderRadius: '8px',
 								marginRight: '20px'
 							}}
 							onClick={(e) => e.stopPropagation()}
 						>
-							<img 
-								src={imgRoutemap} 
-								alt="노선도" 
-								onClick={(e) => {
-									e.stopPropagation();
-									handleRouteMapClick1();
-								}}
-								style={{
-									transform: `translate(${position1.x}px, ${position1.y}px) scale(${scale1})`, 
-									transformOrigin: 'center', 
-									transition: isDragging1 ? 'none' : 'transform 0.1s',
-									userSelect: 'none',
-									pointerEvents: 'auto',
-									maxWidth: '100%',
-									maxHeight: '100%',
-									cursor: 'pointer'
-								}} 
-							/>
-						</div>						<MapLegend />					</div>
+							<RailRouteMap
+                                width="100%"
+                                height="100%"
+                                scale={scale1}
+                                onStationClick={(station) => { console.log(station); setIsSliderActive1(v => !v); }}
+                                onSectionClick={(section) => console.log(section)}
+                                onEmptyClick={() => setIsSliderActive1(false)}
+                                highlightStations={[]}
+                                highlightSections={[]}
+                                trainPositions={[]}
+                            />
+						</div>
+                        <MapLegend />
+                    </div>
 				)}
 			</div>
 			<div className="panel-area">
@@ -487,7 +482,7 @@ function MainPage() {
 			</div>
 		</div>
 		{/* 워크플로우 2 */}
-		<div className="wrap">
+		<div className="wrap" style={{ display: 'none' }}>
 			<div className="map-area">
 				<div className="panel-info">
 					<div className="inner">
@@ -590,41 +585,36 @@ function MainPage() {
 							onMouseUp={handleMouseUp2}
 							onMouseLeave={handleMouseUp2}
 							style={{
-								width: isSliderActive2 ? 'calc(100% - 450px)' : 'calc(100% - 40px)',
-								height: '450px',
-								overflow: 'hidden',
-							cursor: scale2 > 1 ? (isDragging2 ? 'grabbing' : 'grab') : 'default',
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-								zIndex: 10,
-								transition: 'width 0.3s',
-								backgroundColor: '#fff',
-								boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-								borderRadius: '8px',
+								width: 'calc(100% - 40px)',
+							height: '100%',
+							overflow: 'hidden',
+						cursor: scale2 > 1 ? (isDragging2 ? 'grabbing' : 'grab') : 'default',
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							zIndex: 10,
+							transition: 'width 0.3s',
+							//backgroundColor: '#fff',
+							//boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+							//borderRadius: '8px',
 								marginRight: '20px'
 							}}
 							onClick={(e) => e.stopPropagation()}
 						>
-							<img 
-								src={imgRoutemap} 
-								alt="노선도" 
-								onClick={(e) => {
-									e.stopPropagation();
-									handleRouteMapClick2();
-								}}
-								style={{
-									transform: `translate(${position2.x}px, ${position2.y}px) scale(${scale2})`, 
-									transformOrigin: 'center', 
-									transition: isDragging2 ? 'none' : 'transform 0.1s',
-									userSelect: 'none',
-									pointerEvents: 'auto',
-									maxWidth: '100%',
-									maxHeight: '100%',
-									cursor: 'pointer'
-								}} 
-							/>
-						</div>						<MapLegend />					</div>
+							<RailRouteMap
+                                width="100%"
+                                height="100%"
+                                scale={scale2}
+                                onStationClick={(station) => { console.log(station); setIsSliderActive2(v => !v); }}
+                                onSectionClick={(section) => console.log(section)}
+                                onEmptyClick={() => setIsSliderActive2(false)}
+                                highlightStations={[]}
+                                highlightSections={[]}
+                                trainPositions={[]}
+                            />
+						</div>
+                        <MapLegend />
+                    </div>
 				)}
 			</div>
 			<div className="panel-area">
@@ -731,7 +721,7 @@ function MainPage() {
 			</div>
 		</div>
 		{/* 워크플로우 3 */}
-		<div className="wrap">
+		<div className="wrap" style={{ display: 'none' }}>
 			<div className="map-area">
 				<div className="panel-info">
 					<div className="inner">
@@ -834,40 +824,33 @@ function MainPage() {
 							onMouseUp={handleMouseUp3}
 							onMouseLeave={handleMouseUp3}
 							style={{
-								width: isSliderActive3 ? 'calc(100% - 450px)' : 'calc(100% - 40px)',
-								height: '450px',
-								overflow: 'hidden',
-							cursor: scale3 > 1 ? (isDragging3 ? 'grabbing' : 'grab') : 'default',
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-								zIndex: 10,
-								transition: 'width 0.3s',
-								backgroundColor: '#fff',
-								boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-								borderRadius: '8px',
+								width: 'calc(100% - 40px)',
+							height: '100%',
+							overflow: 'hidden',
+						cursor: scale3 > 1 ? (isDragging3 ? 'grabbing' : 'grab') : 'default',
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							zIndex: 10,
+							transition: 'width 0.3s',
+							//backgroundColor: '#fff',
+							//boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+							//borderRadius: '8px',
 								marginRight: '20px'
 							}}
 							onClick={(e) => e.stopPropagation()}
 						>
-							<img 
-								src={imgRoutemap} 
-								alt="노선도" 
-								onClick={(e) => {
-									e.stopPropagation();
-									handleRouteMapClick3();
-								}}
-								style={{
-									transform: `translate(${position3.x}px, ${position3.y}px) scale(${scale3})`, 
-									transformOrigin: 'center', 
-									transition: isDragging3 ? 'none' : 'transform 0.1s',
-									userSelect: 'none',
-									pointerEvents: 'auto',
-									maxWidth: '100%',
-									maxHeight: '100%',
-									cursor: 'pointer'
-								}} 
-							/>
+							<RailRouteMap
+                                width="100%"
+                                height="100%"
+                                scale={scale3}
+                                onStationClick={(station) => { console.log(station); setIsSliderActive3(v => !v); }}
+                                onSectionClick={(section) => console.log(section)}
+                                onEmptyClick={() => setIsSliderActive3(false)}
+                                highlightStations={[]}
+                                highlightSections={[]}
+                                trainPositions={[]}
+                            />
 						</div>
                         <MapLegend />
                     </div>
