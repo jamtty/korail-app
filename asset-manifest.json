@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/korail-app/static/css/main.44269873.css",
-    "main.js": "/korail-app/static/js/main.0761967e.js",
+    "main.js": "/korail-app/static/js/main.cddf9d2c.js",
     "static/js/453.2bf35d9f.chunk.js": "/korail-app/static/js/453.2bf35d9f.chunk.js",
     "static/media/ico_logo.svg": "/korail-app/static/media/ico_logo.3fa769e9474ed637efae9d394b6350f9.svg",
     "static/media/ico_calendar.svg": "/korail-app/static/media/ico_calendar.e3499a9b50c6b2a1a9af.svg",
@@ -17,11 +17,11 @@
     "static/media/ico_list_dot.svg": "/korail-app/static/media/ico_list_dot.5aa3e96678cc00723024.svg",
     "static/media/ico_select.svg": "/korail-app/static/media/ico_select.e70563257099ac068ce0.svg",
     "main.44269873.css.map": "/korail-app/static/css/main.44269873.css.map",
-    "main.0761967e.js.map": "/korail-app/static/js/main.0761967e.js.map",
+    "main.cddf9d2c.js.map": "/korail-app/static/js/main.cddf9d2c.js.map",
     "453.2bf35d9f.chunk.js.map": "/korail-app/static/js/453.2bf35d9f.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.44269873.css",
-    "static/js/main.0761967e.js"
+    "static/js/main.cddf9d2c.js"
   ]
 }
