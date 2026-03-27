@@ -37,6 +37,7 @@ function MainPage() {
 	const [isSimulationActive1, setIsSimulationActive1] = useState(true);
 	const [dangerTrainIds1, setDangerTrainIds1] = useState(["KTX1001", "KTX2020"]); // 사고기차 아이디값 배열
 	const [isSliderActive1, setIsSliderActive1] = useState(false);
+	const [isPanelOpen1, setIsPanelOpen1] = useState(true);
 	const [scale1, setScale1] = useState(1);
 	const [position1, setPosition1] = useState({ x: 0, y: 0 });
 	const [isDragging1, setIsDragging1] = useState(false);
@@ -47,6 +48,7 @@ function MainPage() {
 	const [isSimulationActive2, setIsSimulationActive2] = useState(true);
 	const [dangerTrainIds2, setDangerTrainIds2] = useState([]); // 사고기차 아이디값 배열
 	const [isSliderActive2, setIsSliderActive2] = useState(false);
+	const [isPanelOpen2, setIsPanelOpen2] = useState(true);
 	const [scale2, setScale2] = useState(1);
 	const [position2, setPosition2] = useState({ x: 0, y: 0 });
 	const [isDragging2, setIsDragging2] = useState(false);
@@ -57,6 +59,7 @@ function MainPage() {
 	const [isSimulationActive3, setIsSimulationActive3] = useState(true);
 	const [dangerTrainIds3, setDangerTrainIds3] = useState([]); // 사고기차 아이디값 배열
 	const [isSliderActive3, setIsSliderActive3] = useState(false);
+	const [isPanelOpen3, setIsPanelOpen3] = useState(true);
 	const [scale3, setScale3] = useState(1);
 	const [position3, setPosition3] = useState({ x: 0, y: 0 });
 	const [isDragging3, setIsDragging3] = useState(false);
@@ -233,6 +236,18 @@ function MainPage() {
 	const handleRouteMapClick3 = () => {
 		setIsSliderActive3(true);
 	};
+
+	const handlePanelToggle1 = () => {
+		setIsPanelOpen1(v => !v);
+	};
+
+	const handlePanelToggle2 = () => {
+		setIsPanelOpen2(v => !v);
+	};
+
+	const handlePanelToggle3 = () => {
+		setIsPanelOpen3(v => !v);
+	};
 	
 	return (
 	<div className="container">
@@ -378,7 +393,11 @@ function MainPage() {
                     </div>
 				)}
 			</div>
-			<div className="panel-area">
+			<div className={`panel-area-con${isPanelOpen1 ? '' : ' hide'}`}>
+				<button type="button" className="panel-toggle" onClick={handlePanelToggle1}>
+					{isPanelOpen1 ? '▶' : '◀'}
+				</button>
+				<div className="panel-area">
 				<div className="tit">
 					<h2>이례상황 입력 시나리오</h2>
 				</div>
@@ -479,6 +498,7 @@ function MainPage() {
 						</div>
 					</form>
 				</div>
+			</div>
 			</div>
 		</div>
 		{/* 워크플로우 2 */}
@@ -617,7 +637,11 @@ function MainPage() {
                     </div>
 				)}
 			</div>
-			<div className="panel-area">
+			<div className={`panel-area-con${isPanelOpen2 ? '' : ' hide'}`}>
+				<button type="button" className="panel-toggle" onClick={handlePanelToggle2}>
+					{isPanelOpen2 ? '▶' : '◀'}
+				</button>
+				<div className="panel-area">
 				<div className="tit">
 					<h2>이례상황 입력 시나리오</h2>
 				</div>
@@ -718,6 +742,7 @@ function MainPage() {
 						</div>
 					</form>
 				</div>
+			</div>
 			</div>
 		</div>
 		{/* 워크플로우 3 */}
@@ -856,7 +881,11 @@ function MainPage() {
                     </div>
 				)}
 			</div>
-			<div className="panel-area">
+			<div className={`panel-area-con${isPanelOpen3 ? '' : ' hide'}`}>
+				<button type="button" className="panel-toggle" onClick={handlePanelToggle3}>
+					{isPanelOpen3 ? '▶' : '◀'}
+				</button>
+				<div className="panel-area">
 				<div className="tit">
 					<h2>이례상황 입력 시나리오</h2>
 				</div>
@@ -957,6 +986,7 @@ function MainPage() {
 						</div>
 					</form>
 				</div>
+			</div>
 			</div>
 		</div>
 	</div>

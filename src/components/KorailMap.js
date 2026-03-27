@@ -275,6 +275,18 @@ const trainIconDanger = L.divIcon({
 		};
 	}, []);
 
+	// 컨테이너 크기 변화를 감지해 Leaflet에 알림 (패널 토글 애니메이션 대응)
+	useEffect(() => {
+		if (!mapRef.current) return;
+		const ro = new ResizeObserver(() => {
+			if (mapInstanceRef.current) {
+				mapInstanceRef.current.invalidateSize({ animate: false });
+			}
+		});
+		ro.observe(mapRef.current);
+		return () => ro.disconnect();
+	}, []);
+
 	useEffect(() => {
 		const map = mapInstanceRef.current;
 		if (!map || !onMapClick) return;
@@ -609,6 +621,11 @@ const trainIconDanger = L.divIcon({
 		resetView: () => {
 			if (mapInstanceRef.current) {
 				mapInstanceRef.current.setView([36.5, 127.5], 8);
+			}
+		},
+		invalidateSize: () => {
+			if (mapInstanceRef.current) {
+				mapInstanceRef.current.invalidateSize();
 			}
 		}
 	}));
