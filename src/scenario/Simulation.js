@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+﻿import { useState, useEffect, useRef } from 'react';
 import icoLogo from '../assets/images/ico_logo.svg';
 import Modal from '../components/Modal';
 import MapLegend from '../components/MapLegend';
@@ -7,9 +7,12 @@ import '../assets/css/App.css';
 function Simulation() {
 	const [sort1, setSort1] = useState('delay');        // 이례상황 시나리오 분석
 	const [sort2, setSort2] = useState('delay');        // 상세 운영 조건별 결과
-	const [tab3, setTab3] = useState('preview');        // 프리뷰 / 상세 열차 정보
-	const [trainStep, setTrainStep] = useState(-1);     // 열차 마커 위치 (-1=숨김)
+	const [tab3, setTab3] = useState('detail');        // 프리뷰 / 상세 열차 정보
+	const [tab3Loading, setTab3Loading] = useState(false); // 탭 로딩 상태
+	const [expandedTrainIds, setExpandedTrainIds] = useState([]);
 	const [isPlaying, setIsPlaying] = useState(false);  // 재생 중 여부
+	const [playbackRate, setPlaybackRate] = useState(1);
+	const [playProgress, setPlayProgress] = useState(0);
 	const [isReportOpen, setIsReportOpen] = useState(false); // 리포트 모달
 	const [previewScale, setPreviewScale] = useState(1);
 	const [previewPosition, setPreviewPosition] = useState({ x: 0, y: 0 });
@@ -17,6 +20,18 @@ function Simulation() {
 	const [previewDragStart, setPreviewDragStart] = useState({ x: 0, y: 0 });
 	const [selectedSim, setSelectedSim] = useState(null);        // 선택된 시뮬레이션
 	const [selectedScenario, setSelectedScenario] = useState(null); // 선택된 시나리오
+	const [showScrollTop, setShowScrollTop] = useState(true);
+	const siContentsRef = useRef(null);
+	const totalDurationSec = 18 * 60 + 15;
+
+	useEffect(() => {
+		const container = siContentsRef.current;
+		if (!container) return;
+
+		const onScroll = () => setShowScrollTop(container.scrollTop > 200);
+		container.addEventListener('scroll', onScroll);
+		return () => container.removeEventListener('scroll', onScroll);
+	}, []);
 	const [selectedSub, setSelectedSub] = useState(null);           // 선택된 상세 운영 조건
 
 	// ── 왼쪽 시뮬레이션 목록 ──
@@ -523,6 +538,66 @@ function Simulation() {
 		],
 	};
 
+	const trainSummaryRows = [
+		{
+			id: 'KTX-101',
+			routeLabel: '경부고속선',
+			routeClass: 'gyeongbu-high',
+			from: '행신',
+			to: '서울',
+			delay: '+12분',
+			statusLabel: '운영중',
+			statusClass: 'running',
+		},
+		{
+			id: 'KTX-102',
+			routeLabel: '호남고속선',
+			routeClass: 'honam-high',
+			from: '서울',
+			to: '수서',
+			delay: '+12분',
+			statusLabel: '지연',
+			statusClass: 'late',
+		},
+		{
+			id: 'KTX-103',
+			routeLabel: '수서평택',
+			routeClass: 'suseo',
+			from: '수서',
+			to: '천안아산',
+			delay: '-',
+			statusLabel: '정상',
+			statusClass: 'normal',
+		},
+	];
+
+	const trainDetailRowsById = {
+		'KTX-101': [
+			{ route: '경부선', start: '부산역', end: 'O1262', delay: '0분', statusLabel: '정상', statusClass: 'normal' },
+			{ route: '경부선', start: 'O1262', end: 'O1260', delay: '0분', statusLabel: '정상', statusClass: 'normal' },
+			{ route: '경부선', start: 'O1260', end: 'O1258', delay: '0분', statusLabel: '정상', statusClass: 'normal' },
+			{ route: '경부선', start: 'O1258', end: '부산진역', delay: '0분', statusLabel: '정상', statusClass: 'normal' },
+			{ route: '경부선', start: '부산진역', end: 'O1257', delay: '0분', statusLabel: '정상', statusClass: 'normal' },
+			{ route: '경부선', start: 'O1257', end: '구포역', delay: '2분', statusLabel: '운영중', statusClass: 'running' },
+		],
+		'KTX-102': [
+			{ route: '호남선', start: '광주송정', end: '정읍', delay: '3분', statusLabel: '지연', statusClass: 'late' },
+			{ route: '호남선', start: '정읍', end: '익산', delay: '3분', statusLabel: '지연', statusClass: 'late' },
+			{ route: '호남선', start: '익산', end: '공주', delay: '2분', statusLabel: '운영중', statusClass: 'running' },
+			{ route: '호남선', start: '공주', end: '오송', delay: '2분', statusLabel: '운영중', statusClass: 'running' },
+			{ route: '호남선', start: '오송', end: '천안아산', delay: '1분', statusLabel: '운영중', statusClass: 'running' },
+			{ route: '호남선', start: '천안아산', end: '서울', delay: '0분', statusLabel: '정상', statusClass: 'normal' },
+		],
+		'KTX-103': [
+			{ route: '수서평택', start: '수서', end: '동탄', delay: '0분', statusLabel: '정상', statusClass: 'normal' },
+			{ route: '수서평택', start: '동탄', end: '지제', delay: '0분', statusLabel: '정상', statusClass: 'normal' },
+			{ route: '수서평택', start: '지제', end: '평택지제', delay: '0분', statusLabel: '정상', statusClass: 'normal' },
+			{ route: '수서평택', start: '평택지제', end: '천안아산', delay: '0분', statusLabel: '정상', statusClass: 'normal' },
+			{ route: '수서평택', start: '천안아산', end: '오송', delay: '0분', statusLabel: '정상', statusClass: 'normal' },
+			{ route: '수서평택', start: '오송', end: '대전', delay: '1분', statusLabel: '운영중', statusClass: 'running' },
+		],
+	};
+
 	const mapStations = [
 		{ id: 'haengsin',   x: 50,  y: 150, name: '행신',    color: '#1e3a8a' },
 		{ id: 'seoul',      x: 150, y: 150, name: '서울',    color: '#1e3a8a' },
@@ -547,23 +622,60 @@ function Simulation() {
 		{ x: 750, y: 150 }, // 부산
 	];
 
-	const playSimulation = () => {
-		if (isPlaying) return;
-		setIsPlaying(true);
-		setTrainStep(-1); // 먼저 마커 숨김 (부산에 있던 마커 순간 제거)
-		setTimeout(() => {
-			let step = 0;
-			setTrainStep(0);
-			const iv = setInterval(() => {
-				step++;
-				if (step >= trainPathPoints.length) {
-					clearInterval(iv);
+	useEffect(() => {
+		if (!isPlaying) return;
+		const tickMs = 100;
+		const iv = setInterval(() => {
+			setPlayProgress((prev) => {
+				const next = prev + ((tickMs / 1000) * playbackRate) / totalDurationSec;
+				if (next >= 1) {
 					setIsPlaying(false);
-				} else {
-					setTrainStep(step);
+					return 1;
 				}
-			}, 800);
-		}, 50); // 한 프레임 뒤 행신에서 시작
+				return next;
+			});
+		}, tickMs);
+		return () => clearInterval(iv);
+	}, [isPlaying, playbackRate]);
+
+	const formatMmSs = (seconds) => {
+		const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
+		const ss = String(seconds % 60).padStart(2, '0');
+		return `${mm}:${ss}`;
+	};
+
+	const currentSec = Math.round(totalDurationSec * playProgress);
+	const remainSec = Math.max(0, totalDurationSec - currentSec);
+	const markerPoint = (() => {
+		if (playProgress <= 0) return null;
+		const maxIndex = trainPathPoints.length - 1;
+		const scaled = playProgress * maxIndex;
+		const base = Math.floor(scaled);
+		const next = Math.min(base + 1, maxIndex);
+		const t = scaled - base;
+		const p1 = trainPathPoints[base];
+		const p2 = trainPathPoints[next];
+		return {
+			x: p1.x + (p2.x - p1.x) * t,
+			y: p1.y + (p2.y - p1.y) * t,
+		};
+	})();
+
+	const handlePlayToggle = () => {
+		if (playProgress >= 1) {
+			setPlayProgress(0);
+		}
+		setIsPlaying((prev) => !prev);
+	};
+
+	const handleResetPlay = () => {
+		setIsPlaying(false);
+		setPlayProgress(0);
+	};
+
+	const handleProgressChange = (e) => {
+		const next = Number(e.target.value) / 100;
+		setPlayProgress(next);
 	};
 
 	const handlePreviewWheel = (e) => {
@@ -623,6 +735,62 @@ function Simulation() {
 				</li>
 			));
 	};
+
+	const renderPreviewControls = (positionClass = '') => (
+		<div className={`preview-controls${positionClass ? ` ${positionClass}` : ''}`}>
+			<div className='timeline-wrap'>
+				<span>{formatMmSs(currentSec)}</span>
+				<input
+					type='range'
+					min='0'
+					max='100'
+					value={Math.round(playProgress * 100)}
+					onChange={handleProgressChange}
+					className='timeline-range'
+				/>
+				<span>{formatMmSs(totalDurationSec)}</span>
+				<span>{formatMmSs(remainSec)}</span>
+			</div>
+			<div className='transport-wrap'>
+				<button type='button' className='btn-reset-play' onClick={handleResetPlay} title='초기화'>
+					<svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+						<polyline points='1 4 1 10 7 10'></polyline>
+						<path d='M3.51 15a9 9 0 1 0 .49-5'></path>
+					</svg>
+				</button>
+				<button type='button' className='btn-play-main' onClick={handlePlayToggle} title='재생/일시정지'>
+					{isPlaying ? (
+						<svg width='20' height='20' viewBox='0 0 24 24' fill='currentColor'><rect x='6' y='4' width='4' height='16'/><rect x='14' y='4' width='4' height='16'/></svg>
+					) : (
+						<svg width='20' height='20' viewBox='0 0 24 24' fill='currentColor'><polygon points='5,3 19,12 5,21'/></svg>
+					)}
+				</button>
+				<div className='speed-wrap'>
+					{[1, 2, 5, 10].map((speed) => (
+						<button key={speed} type='button' className={`btn-speed${playbackRate === speed ? ' active' : ''}`} onClick={() => setPlaybackRate(speed)}>
+							{speed}x
+						</button>
+					))}
+				</div>
+			</div>
+		</div>
+	);
+
+	const handleTab3Change = (nextTab) => {
+		if (tab3 === nextTab) return;
+		setExpandedTrainIds([]);
+		setIsPlaying(false);
+		setTab3Loading(true);
+		setTimeout(() => {
+			setTab3(nextTab);
+			if (nextTab === 'preview') {
+				setPlaybackRate(2);
+				setPlayProgress(0);
+				setIsPlaying(true);
+			}
+			setTab3Loading(false);
+		}, 1000);
+	};
 	return (
 		<>
 		<div className="Simulation">
@@ -658,7 +826,7 @@ function Simulation() {
                         ))}
                     </ul>
                 </aside>
-                <div className='si-contents'>
+				<div className='si-contents' ref={siContentsRef}>
                     <div className='box'>
                         <div className='control'>
                             <h2>이례상황 시나리오 분석</h2>
@@ -698,13 +866,116 @@ function Simulation() {
                         </ul>
                     </div>
                     <div className='box h-345'>
-                        <div className='btn-con absolute'>
-                            <button type='button' className={`btn${tab3 === 'preview' ? ' active' : ''}`} onClick={() => setTab3('preview')}>프리뷰</button>
-                            <button type='button' className={`btn${tab3 === 'detail' ? ' active' : ''}`} onClick={() => setTab3('detail')}>상세 열차 정보</button>
+                        <div className='tab3-header'>
+                            {(tab3 === 'detail' && !tab3Loading) && <div className='filter-con'>
+                                <div className='filter-item'>
+                                    <span className='filter-title'>열차운행상태</span>
+                                    <select className='select'>
+                                        <option value=''>전체</option>
+                                        <option value='running'>운영중</option>
+                                        <option value='normal'>정상</option>
+                                        <option value='late'>지연</option>
+                                    </select>
+                                </div>
+                                <div className='filter-item'>
+                                    <span className='filter-title'>운행종류</span>
+                                    <select className='select'>
+                                        <option value=''>전체</option>
+                                        <option value='bypass'>우회</option>
+                                        <option value='alternate'>교호</option>
+                                        <option value='stop'>정차</option>
+                                    </select>
+                                </div>
+                            </div>}
+                            <div className='btn-con'>
+								<button type='button' className={`btn${tab3 === 'detail' ? ' active' : ''}`} onClick={() => handleTab3Change('detail')}>상세 열차 정보</button>
+								<button type='button' className={`btn${tab3 === 'preview' ? ' active' : ''}`} onClick={() => handleTab3Change('preview')}>프리뷰</button>
+                            </div>
                         </div>
-                        {tab3 === 'preview' && (
+                        {tab3Loading && <p className='loading'>데이터를 불러오고 있습니다.</p>}
+						{!tab3Loading && tab3 === 'preview' && renderPreviewControls('preview-controls-top')}
+                        {!tab3Loading && tab3 === 'detail' && (
+                            <div className='area-2'>
+                                <div className='train-tbl-wrap'>
+                                    <table className='train-tbl'>
+                                        <thead>
+                                            <tr>
+                                                <th>열차 번호</th>
+                                                <th>운행 노선</th>
+                                                <th>출발지</th>
+                                                <th>도착지</th>
+                                                <th>지연 시간(분)</th>
+                                                <th>상태</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+											{trainSummaryRows.flatMap((row) => {
+												const detailRows = trainDetailRowsById[row.id] || [];
+												const isExpanded = expandedTrainIds.includes(row.id);
+												const rows = [
+													<tr key={row.id}>
+														<td>{row.id}</td>
+														<td><span className={`route ${row.routeClass}`}>{row.routeLabel}</span></td>
+														<td>{row.from}</td>
+														<td>{row.to}</td>
+														<td>{row.delay === '-' ? '-' : <span className='delay'>{row.delay}</span>}</td>
+														<td><span className={`badge ${row.statusClass}`}>{row.statusLabel}</span></td>
+														<td>
+															<button
+																type='button'
+																className={`btn-detail${isExpanded ? ' active' : ''}`}
+																onClick={() => setExpandedTrainIds((prev) => prev.includes(row.id) ? prev.filter((id) => id !== row.id) : [...prev, row.id])}
+															>
+																상세보기
+															</button>
+														</td>
+													</tr>,
+												];
+
+												if (isExpanded) {
+													rows.push(
+														<tr key={`${row.id}-detail`} className='detail-row'>
+															<td colSpan={7}>
+																<div className='detail-table-scroll'>
+																	<table className='detail-train-tbl'>
+																		<thead>
+																			<tr>
+																				<th>운행 노선</th>
+																				<th>폐색구간 시작</th>
+																				<th>폐색구간 종료</th>
+																				<th>지연 시간(분)</th>
+																				<th>상태</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			{detailRows.map((detailRow, index) => (
+																				<tr key={`${row.id}-detail-${index}`}>
+																					<td>{detailRow.route}</td>
+																					<td>{detailRow.start}</td>
+																					<td>{detailRow.end}</td>
+																					<td>{detailRow.delay}</td>
+																					<td><span className={`badge ${detailRow.statusClass}`}>{detailRow.statusLabel}</span></td>
+																				</tr>
+																			))}
+																		</tbody>
+																	</table>
+																</div>
+															</td>
+														</tr>
+													);
+												}
+
+												return rows;
+											})}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        )}
+                        {!tab3Loading && tab3 === 'preview' && (
                             <div className='area-1'>
-                                <div className="routemap-zoom-con" style={{ top: '80px', right: '25px' }} onClick={(e) => e.stopPropagation()}>
+                                <div className="routemap-zoom-con" style={{ top: '20px', right: '25px' }} onClick={(e) => e.stopPropagation()}>
                                     <button type="button" className="btn-zoom" onClick={() => setPreviewScale(s => Math.min(3, s + 0.2))} title="줌 인">+</button>
                                     <button type="button" className="btn-zoom" onClick={() => setPreviewScale(s => Math.max(0.5, s - 0.2))} title="줌 아웃">−</button>
                                     <button type="button" className="btn-zoom btn-zoom-reset" onClick={() => { setPreviewScale(1); setPreviewPosition({ x: 0, y: 0 }); }} title="전체보기">전체</button>
@@ -735,13 +1006,13 @@ function Simulation() {
                                         </g>
                                     ))}
                                     {/* 열차 마커 */}
-                                    {trainStep >= 0 && (
+									{markerPoint && (
                                         <g
                                             style={{
-                                                transform: `translate(${trainPathPoints[trainStep].x}px, ${trainPathPoints[trainStep].y}px)`,
-                                                transition: 'transform 0.6s linear',
+												transform: `translate(${markerPoint.x}px, ${markerPoint.y}px)`,
+												transition: 'transform 0.08s linear',
                                             }}
-                                            className={(!isPlaying && trainStep === trainPathPoints.length - 1) ? 'train-arrived' : ''}
+											className={(!isPlaying && playProgress >= 1) ? 'train-arrived' : ''}
                                         >
                                             <circle cx="0" cy="0" r="10" fill="white" stroke="#ef4444" strokeWidth="3"/>
                                             <text x="0" y="-15" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#ef4444">KTX-101</text>
@@ -749,64 +1020,7 @@ function Simulation() {
                                     )}
                                 </svg>
                                 <MapLegend />
-                                <button
-                                    type='button'
-                                    className={`btn-play${isPlaying ? ' playing' : ''}`}
-                                    onClick={playSimulation}
-                                    disabled={isPlaying}
-                                    title='시뮬레이션 재생'
-                                >
-                                    {isPlaying ? (
-                                        <svg width='14' height='14' viewBox='0 0 24 24' fill='currentColor'><rect x='6' y='4' width='4' height='16'/><rect x='14' y='4' width='4' height='16'/></svg>
-                                    ) : (
-                                        <svg width='14' height='14' viewBox='0 0 24 24' fill='currentColor'><polygon points='5,3 19,12 5,21'/></svg>
-                                    )}
-                                </button>
-                            </div>
-                        )}
-                        {tab3 === 'detail' && (
-                            <div className='area-2'>
-                                <div className='train-tbl-wrap'>
-                                    <table className='train-tbl'>
-                                        <thead>
-                                            <tr>
-                                                <th>열차 ID</th>
-                                                <th>운행 노선</th>
-                                                <th>폐색구간 시작</th>
-                                                <th>폐색구간 종료</th>
-                                                <th>지연 시간(분)</th>
-                                                <th>상태</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>KTX-101</td>
-                                                <td><span className='route blue'>경부선</span></td>
-                                                <td>행신</td>
-                                                <td>서울</td>
-                                                <td><span className='delay'>+12분</span></td>
-                                                <td><span className='badge running'>운행중</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>KTX-101</td>
-                                                <td><span className='route yellow'>호남선</span></td>
-                                                <td>서울</td>
-                                                <td>수서</td>
-                                                <td><span className='delay'>+12분</span></td>
-                                                <td><span className='badge late'>지연</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>KTX-101</td>
-                                                <td><span className='route yellow'>호남선</span></td>
-                                                <td>수서</td>
-                                                <td>천안아산</td>
-                                                <td><span className='delay'>+12분</span></td>
-                                                <td></td>
-                                            </tr>
-                                            
-                                        </tbody>
-                                    </table>
-                                </div>
+								{renderPreviewControls()}
                             </div>
                         )}
                     </div>
@@ -883,6 +1097,15 @@ function Simulation() {
                 </div>
             </div>
 		</Modal>
+		{showScrollTop && (
+			<button type='button' className='btn-scroll-top' onClick={() => {
+				if (siContentsRef.current) {
+					siContentsRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+				}
+			}} title='상단으로 이동'>
+				<svg width='16' height='16' viewBox='0 0 24 24' fill='currentColor'><path d='M12 4l-8 8h5v8h6v-8h5z'/></svg>
+			</button>
+		)}
 		</>
 	);
 }

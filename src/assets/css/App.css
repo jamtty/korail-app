@@ -401,9 +401,9 @@
 .Simulation .si-contents .box { position:relative; max-height:310px; flex-shrink: 0; background:#fff; border-radius:10px; }
 .Simulation .si-contents .box.h-345 { max-height:none; height:auto; display:flex; flex-direction:column; }
 .Simulation .si-contents .box .control { display:flex; align-items: center; height:60px; padding:0 25px; border-bottom:1px solid #D9D9D9; }
-.Simulation .si-contents .box .btn-con { margin-left:auto; display:flex;align-items: center;  gap:10px; }
-.Simulation .si-contents .box .btn-con.absolute { position:absolute; top:20px; right:25px; z-index:99; }
-.Simulation .si-contents .box .btn-con .btn { line-height:38px; padding:0 20px; font-size:14px; font-weight:500; color:#666; background:#FAFAFA; border-radius:5px; transition:background 0.2s, color 0.2s; }
+.Simulation .si-contents .box .btn-con { margin-left:auto; display:flex;align-items: center;  gap:10px;  }
+.Simulation .si-contents .box .btn-con.absolute { padding:12px 25px 0 0; }
+.Simulation .si-contents .box .btn-con .btn { line-height:38px; padding:0 20px; min-width:120px; text-align:center; font-size:14px; font-weight:500; color:#666; background:#FAFAFA; border-radius:5px; transition:background 0.2s, color 0.2s; }
 .Simulation .si-contents .box .btn-con .btn.active { background:#0066B3; color:#fff; }
 .Simulation .si-contents .box .btn-con span { font-size:14px; font-weight:500; color:#777; }
 
@@ -438,27 +438,70 @@
 .map-legend .legend-swatch i { display:block; width:12px; height:12px; font-style:normal; }
 
 .Simulation .railway-svg { width:100%; height:100%;  }
-.Simulation .btn-play { position:absolute; bottom:20px; left:20px; width:36px; height:36px; border-radius:50%; background:#f97316; color:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(249,115,22,.4); transition:background 0.2s, transform 0.2s; }
-.Simulation .btn-play.playing { background:#aaa; box-shadow:none; cursor:default; }
+.Simulation .preview-controls { position:absolute; left:20px; bottom:20px; display:flex; flex-direction:column; gap:12px; z-index:1200; transform:scale(0.6); transform-origin:left bottom; }
+.Simulation .preview-controls.preview-controls-top { top:20px; left:25px; bottom:auto; transform-origin:left top; z-index:1300; }
+.Simulation .timeline-wrap { display:flex; align-items:center; gap:14px; min-width:480px; padding:14px 20px; border-radius:24px; background:rgba(255,255,255,0.95); box-shadow:0 6px 20px rgba(0,0,0,0.12); }
+.Simulation .timeline-wrap > span { font-size:20px; font-weight:700; color:#6d778a; letter-spacing:0.02em; }
+.Simulation .timeline-range { flex:1; height:6px; appearance:none; background:#3d3f43; border-radius:999px; outline:none; }
+.Simulation .timeline-range::-webkit-slider-thumb { appearance:none; width:34px; height:34px; border-radius:50%; border:4px solid #fff; background:#ff7a11; box-shadow:0 2px 6px rgba(0,0,0,0.2); cursor:pointer; }
+.Simulation .timeline-range::-moz-range-thumb { width:34px; height:34px; border-radius:50%; border:4px solid #fff; background:#ff7a11; box-shadow:0 2px 6px rgba(0,0,0,0.2); cursor:pointer; }
+.Simulation .transport-wrap { display:flex; align-items:center; gap:16px; }
+.Simulation .btn-reset-play { width:74px; height:74px; border-radius:50%; background:#253b5a; color:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 16px rgba(0,0,0,0.16); }
+.Simulation .btn-play-main { width:86px; height:86px; border-radius:50%; background:#ff7a11; color:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 20px rgba(255,122,17,0.45); }
+.Simulation .btn-play-main svg { margin-left:2px; }
+.Simulation .speed-wrap { display:flex; align-items:center; gap:6px; padding:10px 14px; border-radius:22px; background:rgba(255,255,255,0.96); box-shadow:0 6px 18px rgba(0,0,0,0.12); }
+.Simulation .btn-speed { min-width:60px; height:44px; border-radius:14px; font-size:38px; font-weight:700; color:#5d687d; transition:all 0.2s; }
+.Simulation .btn-speed.active { background:#ff7a11; color:#fff; }
 
 /* 상세 열차 정보 테이블 */
 .Simulation .area-2 { display:flex; flex-direction:column; }
+.Simulation .tab3-header { display:flex; align-items:center; justify-content:space-between; padding:20px 25px 0; }
+.Simulation .filter-con { display:flex; align-items:center; gap:20px; }
+.Simulation .filter-item { display:flex; align-items:center; gap:8px; }
+.Simulation .filter-title { font-size:14px; font-weight:500; color:#555; white-space:nowrap; }
+.Simulation .filter-item .select { width:120px; }
 .Simulation .train-tbl-wrap { padding:85px 25px 20px; }
 .Simulation .train-tbl { width:100%; border-collapse:separate; border-spacing:0; }
-.Simulation .train-tbl thead th { font-size:15px; font-weight:500; color:#666; text-align:center; padding:12px 10px; border-top:1px solid #E6E6E6; border-bottom:1px solid #E6E6E6; background:#F9FAFB; white-space:nowrap; }
-.Simulation .train-tbl thead th:first-child { border-left:1px solid #E6E6E6; border-top-left-radius:10px; border-bottom-left-radius:10px; }
-.Simulation .train-tbl thead th:last-child { border-right:1px solid #E6E6E6; border-top-right-radius:10px; border-bottom-right-radius:10px; }
-.Simulation .train-tbl tbody tr td { font-size:16px; font-weight:400; color:#333; text-align:center; padding:14px 10px; border-bottom:1px solid #F0F0F0; }
-.Simulation .train-tbl tbody tr:last-child td { border-bottom:0; }
-.Simulation .train-tbl tbody tr:hover td { background:#F9FAFB; }
-.Simulation .train-tbl .route { font-size:14px; font-weight:600; }
-.Simulation .train-tbl .route.blue { color:#0066B3; }
-.Simulation .train-tbl .route.yellow { color:#D4A017; }
-.Simulation .train-tbl .delay { font-size:14px; font-weight:600; color:#FF5D5D; }
-.Simulation .train-tbl .badge { display:inline-flex; align-items:center; justify-content:center; padding:0 10px; width:60px; height:28px; border-radius:5px; font-size:14px; font-weight:600; white-space:nowrap; }
+.Simulation .train-tbl > thead > tr > th { font-size:15px; font-weight:500; color:#666; text-align:center; padding:12px 10px; border-top:1px solid #E6E6E6; border-bottom:1px solid #E6E6E6; background:#F9FAFB; white-space:nowrap; }
+.Simulation .train-tbl > thead > tr > th:first-child { border-left:1px solid #E6E6E6; border-top-left-radius:10px; border-bottom-left-radius:10px; }
+.Simulation .train-tbl > thead > tr > th:last-child { border-right:1px solid #E6E6E6; border-top-right-radius:10px; border-bottom-right-radius:10px; }
+.Simulation .train-tbl > tbody > tr > td { font-size:15px; font-weight:400; color:#333; text-align:center; padding:15px; border-bottom:1px solid #F0F0F0; }
+.Simulation .train-tbl > tbody > tr:not(.detail-row) > td:last-child { width:150px; }
+.Simulation .train-tbl > tbody > tr:last-child > td { border-bottom:0; }
+.Simulation .train-tbl .route { font-size:15px; font-weight:600; }
+.Simulation .train-tbl .route.gyeongbu-high { color:#e60012; }
+.Simulation .train-tbl .route.gyeongbu { color:#003087; }
+.Simulation .train-tbl .route.honam-high { color:#f47920; }
+.Simulation .btn-speed { min-width:60px; height:44px; border-radius:14px; font-size:18px; font-weight:700; color:#5d687d; transition:all 0.2s; }
+.Simulation .train-tbl .route.honam { color:#006400; }
+.Simulation .train-tbl .route.suseo { color:#771dcd; }
+.Simulation .train-tbl .route.jeonla { color:#5c8a0d; }
+.Simulation .train-tbl .route.donghae { color:#0068a0; }
+.Simulation .train-tbl .route.gyeongjeon { color:#7b3f00; }
+.Simulation .train-tbl .route.gyeongui { color:#555555; }
+.Simulation .train-tbl .delay { font-size:15px; font-weight:600; color:#FF5D5D; }
+.Simulation .train-tbl .badge { display:inline-flex; align-items:center; justify-content:center; padding:0 10px; width:60px; height:28px; border-radius:5px; font-size:15px; font-weight:500; white-space:nowrap; }
 .Simulation .train-tbl .badge.running { border:1px solid #50C587; color:#50C587; background:rgba(80,197,135,0.08); }
 .Simulation .train-tbl .badge.late { border:1px solid #FF5D5D; color:#FF5D5D; background:rgba(255,93,93,0.08); }
+.Simulation .train-tbl .badge.normal { border:1px solid #0066B3; color:#0066B3; background:rgba(0,102,179,0.08); }
+.Simulation .train-tbl .btn-detail { padding:0 14px; height:28px; border:1px solid #999; border-radius:5px; font-size:15px; font-weight:500; color:#666; background:#fff; cursor:pointer; transition:background 0.2s, color 0.2s; white-space:nowrap; }
+.Simulation .train-tbl .btn-detail:hover, .Simulation .train-tbl .btn-detail.active { background:#666; color:#fff; }
+.Simulation .train-tbl .detail-table-scroll { max-height:190px; overflow-y:auto;  }
+.Simulation .detail-train-tbl { width:100%; border-collapse:collapse; table-layout:fixed; }
+.Simulation .detail-train-tbl thead th { position:sticky; top:0; z-index:1; font-size:12px; font-weight:600; color:#666; text-align:center; padding:10px 12px; background:#F3F5F8; }
+.Simulation .detail-train-tbl tbody td { font-size:12px; color:#333; text-align:center; padding:4px 12px; border-bottom:1px solid #EEF2F6; background:#fff; }
+.Simulation .detail-train-tbl tbody tr:last-child td { border-bottom:0; }
+.Simulation .detail-train-tbl .badge { width:55px; height:22px; font-size:12px; }
 
 .leaflet-touch .leaflet-bar a:last-child { border-radius: 0 !important; border-bottom:1px solid #ccc !important; }
-
+.loading {
+    padding:5rem 0 3rem;
+    text-align:center;
+    font-size: 14px;
+    color: #aaa;
+    text-align: center;
+    line-height: 1.6;
+}
+.btn-scroll-top { position:fixed; right:30px; bottom:30px; z-index:99999999; width:48px; height:48px; border-radius:50%; background:#0066B3; color:#fff; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,0.2); transition:background 0.2s, transform 0.2s; }
+.btn-scroll-top:hover { background:#004f8c; transform:translateY(-3px); }
 
