@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/korail-app/static/css/main.491d7ffb.css",
-    "main.js": "/korail-app/static/js/main.27f3810f.js",
+    "main.css": "/korail-app/static/css/main.f49dba9b.css",
+    "main.js": "/korail-app/static/js/main.11ec5518.js",
     "static/js/453.2bf35d9f.chunk.js": "/korail-app/static/js/453.2bf35d9f.chunk.js",
     "static/media/ico_logo.svg": "/korail-app/static/media/ico_logo.3fa769e9474ed637efae9d394b6350f9.svg",
     "static/media/ico_calendar.svg": "/korail-app/static/media/ico_calendar.e3499a9b50c6b2a1a9af.svg",
@@ -12,16 +12,17 @@
     "static/media/ico_train.svg": "/korail-app/static/media/ico_train.09f905e9ddb9b73df07e7431e99729eb.svg",
     "static/media/ico_sch.svg": "/korail-app/static/media/ico_sch.e1f4d0693ee2cc4821cd.svg",
     "static/media/ico_del.svg": "/korail-app/static/media/ico_del.11010cc2e6cb064e0a51.svg",
+    "static/media/ico_train_transparency.svg": "/korail-app/static/media/ico_train_transparency.4366455c92ea3329ca01d628e75ba9af.svg",
     "static/media/ico_edit.svg": "/korail-app/static/media/ico_edit.a2e3455b81f2945f6bb9.svg",
     "static/media/ico_modal_close.svg": "/korail-app/static/media/ico_modal_close.33ea20c2467739b41019.svg",
     "static/media/ico_list_dot.svg": "/korail-app/static/media/ico_list_dot.5aa3e96678cc00723024.svg",
     "static/media/ico_select.svg": "/korail-app/static/media/ico_select.e70563257099ac068ce0.svg",
-    "main.491d7ffb.css.map": "/korail-app/static/css/main.491d7ffb.css.map",
-    "main.27f3810f.js.map": "/korail-app/static/js/main.27f3810f.js.map",
+    "main.f49dba9b.css.map": "/korail-app/static/css/main.f49dba9b.css.map",
+    "main.11ec5518.js.map": "/korail-app/static/js/main.11ec5518.js.map",
     "453.2bf35d9f.chunk.js.map": "/korail-app/static/js/453.2bf35d9f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.491d7ffb.css",
-    "static/js/main.27f3810f.js"
+    "static/css/main.f49dba9b.css",
+    "static/js/main.11ec5518.js"
   ]
 }
