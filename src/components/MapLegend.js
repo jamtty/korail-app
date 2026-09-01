@@ -13,17 +13,37 @@ const LINES = [
 	{ label: '경의선',     up: '#555555', down: '#999999' },
 ];
 
-function MapLegend({ lines = LINES, title = '노선 범례', defaultOpen = true }) {
+// 통제방안 범례 (단색 항목)
+export const CTRL_LEGEND = [
+	{ label: '정상 폐색구간', color: '#e02020' },
+	{ label: '통제 지정 범위', color: '#f57c00' },
+	{ label: '통제 적용 구간', color: '#8e24aa' },
+	{ label: '하행 열차', color: '#2e9e44', square: true },
+	{ label: '상행 열차', color: '#1e88e5', square: true },
+];
+
+function MapLegend({ lines = LINES, items = null, title = '노선 범례', defaultOpen = true, className = '' }) {
 	const [isOpen, setIsOpen] = useState(defaultOpen);
 
 	return (
-		<div className={`map-legend${isOpen ? '' : ' hide'}`}>
+		<div className={`map-legend ${className}${isOpen ? '' : ' hide'}`}>
 			<button type='button' className='legend-toggle' onClick={() => setIsOpen(v => !v)}>
 				{isOpen ? '▶' : '◀'}
 			</button>
 			<div className='legend-body'>
 				<p className='legend-title'>{title}</p>
-				{lines.map((line) => (
+				{items ? items.map((it) => (
+					<div key={it.label} className='legend-item'>
+						<span
+							className='legend-line'
+							style={{
+								background: it.color,
+								...(it.square ? { height: 12, width: 12, borderRadius: 3 } : {}),
+							}}
+						></span>
+						{it.label}
+					</div>
+				)) : lines.map((line) => (
 					<div key={line.label} className='legend-item'>
 						<span className='legend-swatch'>
 							<i style={{ background: line.up }}></i>

@@ -1,11 +1,11 @@
-.container { min-height:100vh; }
+.container { min-height:100vh; padding-top:75px; }
 .header { display:flex; align-items: center; height:75px; min-height:75px; background:#fff; box-shadow:5px 8px 8px 0 rgba(34,34,34,.01); padding:0 30px; position: fixed; top: 0; left: 0; right: 0; z-index: 9999; }
 .header .logo { display:flex; align-items: center; }
 .header .logo::after { content:"";  height:20px; width:1px; background:#D9D9D9; margin:0 20px; }
 .header .logo.noline::after { display:none; }
 .header .txt { font-size:22px; font-weight:600; }
 
-.wrap { display:flex; gap:20px; padding:20px; height: calc(100vh - 75px); margin-top: 75px; overflow: hidden; }
+.wrap { display:flex; gap:20px; padding:20px; height: calc(100vh - 75px); overflow: hidden; }
 .map-area { flex:1; position:relative; background:#aaa; border-radius:10px; overflow:hidden; transition:flex 0.3s ease; }
 .map { width:100%; height:100%; position:relative; display:flex; align-items: center; justify-content: center;  }
 
@@ -113,6 +113,100 @@
 .btn-area { }
 .btn-primary { width:100%; line-height:42px; background:#0165E6; border-radius:10px; font-size:16px; font-weight:700; color:#fff; transition: background-color 0.2s; }
 .btn-primary:hover { background-color:#0350b4; }
+.btn-primary:disabled { background:#A8C4E0; cursor:not-allowed; }
+
+/* ── 통제방안 패널 ── */
+.ctrl-subtabs { display:flex; gap:6px; margin-bottom:16px; flex-shrink:0; }
+.ctrl-subtabs button { flex:1; line-height:40px; font-size:14px; font-weight:600; color:#666; background:#FAFAFA; border-radius:6px; cursor:pointer; transition:background 0.2s, color 0.2s; }
+.ctrl-subtabs button.active { background:#0066B3; color:#fff; }
+.ctrl-body label em.req, .ctrl-body label .req { color:#E53935; font-style:normal; }
+.ctrl-body label .sub { font-weight:400; color:#8A94A0; font-size:11.5px; margin-left:4px; }
+.ctrl-cnt-blue { color:#0066B3; font-size:12px; font-weight:700; margin-left:4px; }
+.ctrl-inner { display:flex; flex-direction:column; overflow:hidden; }
+.ctrl-inner .ctrl-scroll { flex:1; min-height:0; overflow-y:auto; padding-right:4px; }
+.ctrl-inner .btn-area { flex-shrink:0; padding-top:14px; }
+.ctrl-body .rows { margin-bottom:18px; }
+.ctrl-body .ctrl-dir { margin-bottom:18px; }
+
+.ctrl-dir { border:1px solid #E6E6E6; border-radius:8px; overflow:hidden; margin-bottom:14px; }
+.ctrl-dir-hd { display:flex; align-items:center; justify-content:space-between; padding:8px 12px; font-size:13px; font-weight:700; }
+.ctrl-dir-hd.up { background:#FFF3E0; color:#F57C00; } /* 진행중 tone */
+.ctrl-dir-hd.down { background:#E8F5E9; color:#2E9E44; } /* 완료 tone */
+.ctrl-dir-hd .cnt { background:rgba(0,0,0,.07); border-radius:10px; padding:1px 9px; font-size:11px; }
+
+.ctrl-tbl { width:100%; border-collapse:collapse; font-size:12px; }
+.ctrl-tbl th { background:#FAFBFD; color:#66707C; font-weight:600; padding:6px;  text-align:center; white-space:nowrap; }
+.ctrl-tbl td { padding:5px 6px; border-bottom:1px solid #EDF0F4; white-space:nowrap; vertical-align:middle; }
+.ctrl-tbl td:first-child { text-align:center; }
+.ctrl-tbl tr:last-child td { border-bottom:none; }
+/* 적용된 통제방안 테이블 — 세부 열 제외 중앙 정렬 */
+.ctrl-applied-wrap .ctrl-tbl td { text-align:center; }
+.ctrl-applied-wrap .ctrl-tbl td:nth-child(4) { text-align:left; padding-left:30px; }
+/* 스크롤 시 헤더 고정 */
+.ctrl-applied-wrap .ctrl-tbl { border-collapse:separate; }
+.ctrl-applied-wrap .ctrl-tbl thead th { position:sticky; top:0; z-index:1; background:#FAFBFD; box-shadow:0 1px 0 #D9DEE5; }
+.ctrl-tbl tr.ref { background:#FFF6E8; }
+.ctrl-tbl tr.ref td:first-child b::after { content:" ★"; color:#F57C00; }
+.ctrl-tbl .select { width:100%; height:30px; padding:0 8px; font-size:12px; border-radius:5px; }
+.ctrl-tbl select.set { border-color:#0066B3; background:#E8F1FB; color:#0066B3; font-weight:700; }
+.ctrl-empty { text-align:center; color:#AAB2BC; padding:20px 0 !important; font-size:12px; }
+.ctrl-delay { color:#E53935; font-weight:600; }
+.ctrl-ontime { color:#2E9E44; font-weight:600; }
+
+.ctrl-range-card { border:1px solid #D9DEE5; border-radius:8px; padding:12px; background:#F7F9FC; }
+.ctrl-range-row { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.ctrl-range-row:last-child { margin-bottom:0; }
+.ctrl-range-row .select { flex:1; }
+.ctrl-range-row .frm-input { flex:1; min-width:0; height:34px; padding:0 10px; font-size:13px; border-radius:6px; text-align:right; }
+.ctrl-km-unit { flex-shrink:0; width:26px; text-align:left; font-size:12px; font-weight:700; color:#66707C; }
+.ctrl-tag { flex-shrink:0; width:70px; text-align:center; font-size:11.5px; font-weight:700; border-radius:5px; padding:5px 0; }
+.ctrl-tag.start { background:#FFF3E0; color:#F57C00; } /* 진행중 tone */
+.ctrl-tag.end { background:#E8F5E9; color:#2E9E44; } /* 완료 tone */
+.ctrl-range-summary { border:1px dashed #C2C9D2; border-radius:6px; padding:8px 10px; font-size:12px; margin-top:8px; background:#fff; }
+.ctrl-seg { display:flex; gap:6px; flex-wrap:wrap; }
+.ctrl-seg button { flex:1; min-width:45%; line-height:36px; border:1px solid #D9DEE5; background:#fff; border-radius:6px; font-size:12.5px; cursor:pointer; color:#333; transition:all 0.15s; }
+.ctrl-seg button.on { background:#E8F1FB; border-color:#0066B3; color:#0066B3; font-weight:700; }
+.ctrl-impact { border:1px solid #E6E6E6; border-radius:8px; overflow:hidden; }
+
+.ctrl-applied { border-top:1px solid #E6E6E6; margin-top:18px; padding-top:14px; }
+.ctrl-applied-hd { display:flex; align-items:center; font-size:14px; font-weight:700; margin-bottom:8px; }
+.ctrl-applied-hd .cnt { background:#0066B3; color:#fff; border-radius:10px; font-size:11px; padding:1px 8px; margin-left:6px; }
+.ctrl-applied-scroll { max-height:200px; overflow-y:auto; border:1px solid #E6E6E6; border-radius:8px; }
+.ctrl-tag.train { width:auto; padding:2px 8px; background:#E8F1FB; color:#0066B3; }
+.ctrl-tag.section { width:auto; padding:2px 8px; background:#F3E8FB; color:#8E24AA; }
+.ctrl-st { display:inline-flex; align-items:center; gap:5px; font-weight:600; font-size:12px; }
+.ctrl-st::before { content:""; width:7px; height:7px; border-radius:50%; }
+.ctrl-st.on { color:#2E9E44; } .ctrl-st.on::before { background:#2E9E44; }
+.ctrl-st.off { color:#98A1AB; } .ctrl-st.off::before { background:#98A1AB; }
+.ctrl-btn-x { border:1px solid #C2C9D2; background:#fff; border-radius:5px; padding:2px 8px; font-size:11.5px; cursor:pointer; color:#333; }
+.ctrl-btn-x:hover { border-color:#E53935; color:#E53935; }
+
+/* ── 통제방안 좌측 노선도 ── */
+.ctrl-map { width:100%; height:100%; position:relative; background:#d7d7d7; overflow:hidden; }
+.ctrl-hint { position:absolute; top:80px; left:30px; z-index:5; font-size:12.5px; color:#444; }
+.ctrl-hint b { color:#0066B3; }
+.ctrl-diagram { position:absolute; top:0; left:0; right:0; bottom:0; display:flex; align-items:center; justify-content:center; overflow:hidden; padding:60px 40px 240px; }
+.ctrl-diagram svg { display:block; min-width:1000px; }
+.ctrl-help { position:absolute; left:30px; bottom:212px; background:#2B3038; color:#CFD6DD; font-size:11px; padding:5px 12px; border-radius:6px; z-index:5; }
+.ctrl-applied-wrap { position:absolute; left:0; right:0; bottom:0; height:200px; background:#fff; border-top:1px solid #E6E6E6; display:flex; flex-direction:column; z-index:4; }
+.ctrl-applied-wrap .ctrl-applied-hd { display:flex; align-items:center; padding:10px 30px; font-size:13px; font-weight:700; margin-bottom:0; }
+.ctrl-applied-wrap .ctrl-applied-scroll { flex:1; overflow-y:auto; }
+
+/* ── 통제방안 노선도 SVG ── */
+.ctrl-blk { stroke:#E02020; stroke-width:6; transition:stroke .12s; }
+.ctrl-blk.range { stroke:#F57C00; }
+.ctrl-blk.applied { stroke:#8E24AA; }
+.ctrl-blk-hit { stroke:transparent; stroke-width:18; cursor:pointer; }
+.ctrl-stn circle { fill:#fff; stroke:#E02020; stroke-width:2.5; }
+.ctrl-stn.major circle { stroke-width:3; }
+.ctrl-stn text { font-size:12px; fill:#1B2430; font-weight:600; }
+.ctrl-train { cursor:pointer;  }
+.ctrl-train rect { fill:#2E9E44; stroke:#1C7A30; stroke-width:1; }
+.ctrl-train.up rect { fill:#1E88E5; stroke:#125A9C; }
+.ctrl-train.sel rect { stroke:#F57C00; stroke-width:2; }
+.ctrl-train.ctrl rect { stroke:#8E24AA; stroke-width:2; }
+.ctrl-train text { font-size:9px; fill:#fff; font-weight:700; text-anchor:middle; }
+.ctrl-train .tno { fill:#C62828; font-size:10px; font-weight:700; }
 
 /* 관리자 검색 영역 */
 .adm-search {
@@ -436,6 +530,9 @@
 .map-legend .legend-line { display:inline-block; width:22px; height:3px; border-radius:2px; flex-shrink:0; }
 .map-legend .legend-swatch { display:flex; gap:1px; flex-shrink:0; border-radius:3px; overflow:hidden; }
 .map-legend .legend-swatch i { display:block; width:12px; height:12px; font-style:normal; }
+
+/* 통제방안 노선도 범례 — 기존 범례(맵) UI와 통일 */
+.ctrl-legend { position:absolute; right:0; bottom:212px; z-index:5; }
 
 .Simulation .railway-svg { width:100%; height:100%;  }
 .Simulation .preview-controls { position:absolute; left:20px; bottom:20px; display:flex; flex-direction:column; gap:12px; z-index:1200; transform:scale(0.6); transform-origin:left bottom; }
