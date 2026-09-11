@@ -103,16 +103,43 @@ function ctrlFmtDate(d) {
 	return `${y}-${m}-${dd}`;
 }
 
+/* ── 통제 구간(시작~종료) 목록 헬퍼 ── */
+const CTRL_MIN_RANGES = 1;   // 최소 유지 구간 수 (디폴트 1개)
+let ctrlRangeSeq = 0;
+function ctrlNewRange() {
+	ctrlRangeSeq += 1;
+	return { id: 'r' + ctrlRangeSeq, startSeg: '', endSeg: '', startKm: '', endKm: '', phase: 0 };
+}
+// 구간 카드 → 폐색구간 인덱스 [시작, 종료] (미완성이면 null)
+function ctrlRangeIdxOf(r) {
+	if (!r || !r.startSeg || !r.endSeg) return null;
+	const a = CTRL_STATIONS.findIndex(s => s.id === r.startSeg.split('-')[0]);
+	const b = CTRL_STATIONS.findIndex(s => s.id === r.endSeg.split('-')[0]);
+	if (a < 0 || b < 0) return null;
+	return a <= b ? [a, b] : [b, a];
+}
+// 구간 카드 요약 문구
+function ctrlRangeText(r) {
+	if (r.startKm && !r.endKm) return `시작: ${r.startKm}km · 종료 지점을 입력하세요.`;
+	if (!r.startKm && r.endKm) return `종료: ${r.endKm}km · 시작 지점을 입력하세요.`;
+	const ri = ctrlRangeIdxOf(r);
+	if (ri) {
+		const n = ri[1] - ri[0] + 1;
+		return `통제 범위: ${r.startKm}km ~ ${r.endKm}km (${CTRL_STATIONS[ri[0]].id} ~ ${CTRL_STATIONS[ri[1] + 1].id} · 폐색구간 ${n}개)`;
+	}
+	return '시작/종료 지점을 km 단위로 입력하세요.';
+}
+
 /* ══════════ 워크플로우별 독립 통제방안 상태 ══════════ */
 function useControl() {
 	const [ctrlMode, setCtrlMode] = useState('train');      // 'train' | 'section'
 	const [refNo, setRefNo] = useState(null);               // 기점 열차번호
 	const [trainCtrl, setTrainCtrl] = useState({});         // { 열차번호: 통제방안 }
-	const [rangeStart, setRangeStart] = useState('');       // 시작 폐색구간
-	const [rangeEnd, setRangeEnd] = useState('');           // 종료 폐색구간
-	const [startKm, setStartKm] = useState('');             // 시작 지점(km) 입력
-	const [endKm, setEndKm] = useState('');                 // 종료 지점(km) 입력
-	const [clickPhase, setClickPhase] = useState(0);        // 0:다음 클릭=시작, 1:다음 클릭=종료
+	// 통제 구간(시작~종료) 목록 — 디폴트 1개, +/- 로 추가/삭제
+	const [ranges, setRanges] = useState(() => [ctrlNewRange()]);
+	const [activeId, setActiveId] = useState(null);         // 노선도 선로 클릭이 적용될 구간 id
+	// activeId가 없거나 삭제된 경우 첫 구간을 활성 구간으로 사용
+	const activeRangeId = ranges.some(r => r.id === activeId) ? activeId : (ranges[0] ? ranges[0].id : null);
 	const [selSecCtrl, setSelSecCtrl] = useState(null);     // 구간 통제 유형
 	const [secSpeed, setSecSpeed] = useState(170);          // 제한 속도
 	const [ctrlStartDate, setCtrlStartDate] = useState(new Date('2026-08-08')); // 적용 시각(일)
@@ -133,37 +160,56 @@ function useControl() {
 		setCtrlMode('train');
 	};
 
-	// 노선도 선로(폐색구간) 클릭 → 1회차=시작, 2회차=종료 (km 입력값도 함께 갱신)
+	// 구간 카드 1개만 갱신
+	const patchRange = (idx, patch) => {
+		setRanges(prev => prev.map((r, k) => (k === idx ? { ...r, ...patch } : r)));
+	};
+
+	// 노선도 선로(폐색구간) 클릭 → 선택된 구간 카드에 1회차=시작, 2회차=종료
 	const handleBlockClick = (key) => {
 		if (ctrlMode !== 'section') setCtrlMode('section');
 		const i = CTRL_STATIONS.findIndex((_, idx) => ctrlSegKey(idx) === key);
 		const km = i >= 0 ? ctrlKmOfSeg(i) : '';
-		if (clickPhase === 0) {
-			setRangeStart(key);
-			setStartKm(String(km));
-			setRangeEnd('');
-			setEndKm('');
-			setClickPhase(1);
+		const idx = Math.max(0, ranges.findIndex(r => r.id === activeRangeId));
+		if (!ranges[idx]) return;
+		if (ranges[idx].phase === 0) {
+			patchRange(idx, { startSeg: key, startKm: String(km), endSeg: '', endKm: '', phase: 1 });
 		} else {
-			setRangeEnd(key);
-			setEndKm(String(km));
-			setClickPhase(0);
+			patchRange(idx, { endSeg: key, endKm: String(km), phase: 0 });
 		}
 	};
 
 	// km 입력 → 폐색구간 자동 변환
-	const handleStartKmChange = (e) => {
+	const handleStartKmChange = (idx, e) => {
 		const v = e.target.value;
-		setStartKm(v);
 		const i = ctrlSegOfKm(v);
-		setRangeStart(i === null ? '' : ctrlSegKey(i));
+		patchRange(idx, { startKm: v, startSeg: i === null ? '' : ctrlSegKey(i) });
 	};
 
-	const handleEndKmChange = (e) => {
+	const handleEndKmChange = (idx, e) => {
 		const v = e.target.value;
-		setEndKm(v);
 		const i = ctrlSegOfKm(v);
-		setRangeEnd(i === null ? '' : ctrlSegKey(i));
+		patchRange(idx, { endKm: v, endSeg: i === null ? '' : ctrlSegKey(i) });
+	};
+
+	// 통제 구간 추가 / 삭제 (최소 CTRL_MIN_RANGES 개는 항상 유지)
+	const addRange = () => {
+		const r = ctrlNewRange();
+		setRanges(prev => [...prev, r]);
+		setActiveId(r.id);
+	};
+
+	const removeRange = (idx) => {
+		if (ranges.length <= CTRL_MIN_RANGES) return;
+		const next = ranges.filter((_, i) => i !== idx);
+		setRanges(next);
+		if (!next.some(r => r.id === activeId)) setActiveId(next[0] ? next[0].id : null);
+	};
+
+	const resetRanges = () => {
+		const a = ctrlNewRange();
+		setRanges([a]);
+		setActiveId(a.id);
 	};
 
 	// 통제 노선도 확대/축소/드래그 (노선 탭과 동일)
@@ -212,16 +258,12 @@ function useControl() {
 		setTrainCtrl(prev => ({ ...prev, [no]: val }));
 	};
 
-	const ctrlRangeIdx = () => {
-		if (!rangeStart || !rangeEnd) return null;
-		const a = CTRL_STATIONS.findIndex(s => s.id === rangeStart.split('-')[0]);
-		const b = CTRL_STATIONS.findIndex(s => s.id === rangeEnd.split('-')[0]);
-		return a <= b ? [a, b] : [b, a];
-	};
+	// 시작·종료가 모두 지정된 구간들
+	const ctrlRanges = ranges.map(ctrlRangeIdxOf).filter(ri => ri !== null);
 
 	const canApplyControl = () => {
 		if (ctrlMode === 'train') return !!refNo && Object.values(trainCtrl).some(c => c && c !== '미지정');
-		return !!ctrlRangeIdx() && !!selSecCtrl;
+		return ctrlRanges.length > 0 && !!selSecCtrl;
 	};
 
 	const applyControl = () => {
@@ -242,21 +284,26 @@ function useControl() {
 			setAppliedList(prev => [...prev, ...items]);
 			setTrainCtrl({});
 		} else {
-			const ri = ctrlRangeIdx();
 			const needSpeed = selSecCtrl === '서행' || selSecCtrl === '단선운행';
 			const detail = needSpeed
 				? `제한 ${secSpeed}km/h${secDur ? ` · ${secDur}분` : ''}`
 				: (secDur ? `${secDur}분 예정` : '수동 해제');
-			setAppliedList(prev => [...prev, {
-				type: 'section',
-				range: [ri[0], ri[1]],
-				target: `${CTRL_STATIONS[ri[0]].id} ~ ${CTRL_STATIONS[ri[1] + 1].id} (${ri[1] - ri[0] + 1}개 폐색)`,
-				ctrl: selSecCtrl,
-				detail,
-				at: `${ctrlFmtDate(ctrlStartDate)} ${ctrlHH}:${ctrlMM}`,
-				active: true,
-			}]);
-			setRangeStart(''); setRangeEnd(''); setStartKm(''); setEndKm(''); setSelSecCtrl(null);
+			// 지정된 모든 구간을 각각 통제방안으로 적용
+			const items = ranges
+				.map(r => ctrlRangeIdxOf(r))
+				.filter(ri => ri !== null)
+				.map(ri => ({
+					type: 'section',
+					range: [ri[0], ri[1]],
+					target: `${CTRL_STATIONS[ri[0]].id} ~ ${CTRL_STATIONS[ri[1] + 1].id} (${ri[1] - ri[0] + 1}개 폐색)`,
+					ctrl: selSecCtrl,
+					detail,
+					at: `${ctrlFmtDate(ctrlStartDate)} ${ctrlHH}:${ctrlMM}`,
+					active: true,
+				}));
+			if (items.length) setAppliedList(prev => [...prev, ...items]);
+			resetRanges();
+			setSelSecCtrl(null);
 		}
 	};
 
@@ -267,30 +314,21 @@ function useControl() {
 	// 통제방안 파생 값
 	const upTrains = listByDir('up');
 	const downTrains = listByDir('down');
-	const ctrlRange = ctrlRangeIdx();
-	let rangeSummaryText = '시작/종료 지점을 km 단위로 입력하세요.';
-	if (startKm && !endKm) rangeSummaryText = `시작: ${startKm}km · 종료 지점을 입력하세요.`;
-	else if (!startKm && endKm) rangeSummaryText = `종료: ${endKm}km · 시작 지점을 입력하세요.`;
-	else if (ctrlRange) {
-		const n = ctrlRange[1] - ctrlRange[0] + 1;
-		rangeSummaryText = `통제 범위: ${startKm}km ~ ${endKm}km (${CTRL_STATIONS[ctrlRange[0]].id} ~ ${CTRL_STATIONS[ctrlRange[1] + 1].id} · 폐색구간 ${n}개)`;
-	}
-	const impactTrains = ctrlRange
-		? CTRL_TRAINS.filter(t => t.seg >= ctrlRange[0] && t.seg <= ctrlRange[1])
-		: [];
+	const impactTrains = CTRL_TRAINS.filter(t => ctrlRanges.some(ri => t.seg >= ri[0] && t.seg <= ri[1]));
 	const timeOptsHH = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'));
 	const timeOptsMM = Array.from({ length: 12 }, (_, i) => String(i * 5).padStart(2, '0'));
 
 	return {
-		ctrlMode, refNo, trainCtrl, startKm, endKm, selSecCtrl, secSpeed,
+		ctrlMode, refNo, trainCtrl, selSecCtrl, secSpeed,
 		ctrlStartDate, ctrlHH, ctrlMM, secDur, appliedList, ctrlScale, ctrlPos, ctrlDragging,
+		ranges, activeId: activeRangeId, minRanges: CTRL_MIN_RANGES,
 		switchCtrlMode, handleTrainClick, handleBlockClick,
-		handleStartKmChange, handleEndKmChange,
+		handleStartKmChange, handleEndKmChange, addRange, removeRange, rangeText: ctrlRangeText,
 		handleCtrlWheel, handleCtrlMouseDown, handleCtrlMouseMove, handleCtrlMouseUp,
 		handleTrainCtrlChange, canApplyControl, applyControl, releaseControl,
 		setRefNo, setSelSecCtrl, setSecSpeed, setSecDur, setCtrlHH, setCtrlMM,
-		setCtrlStartDate, setCtrlScale, setCtrlPos,
-		upTrains, downTrains, ctrlRange, rangeSummaryText, impactTrains, timeOptsHH, timeOptsMM,
+		setCtrlStartDate, setCtrlScale, setCtrlPos, setActiveId,
+		upTrains, downTrains, ctrlRanges, impactTrains, timeOptsHH, timeOptsMM,
 	};
 }
 
@@ -324,7 +362,7 @@ function ControlMapView({ ui }) {
 							const a = CTRL_STATIONS[i];
 							const b = CTRL_STATIONS[i + 1];
 							const key = ctrlSegKey(i);
-							const inRange = ui.ctrlRange && i >= ui.ctrlRange[0] && i <= ui.ctrlRange[1];
+							const inRange = ui.ctrlRanges.some(ri => i >= ri[0] && i <= ri[1]);
 							const applied = ui.appliedList.some(c => c.type === 'section' && c.active && i >= c.range[0] && i <= c.range[1]);
 							return (
 								<g key={key}>
@@ -504,20 +542,42 @@ function ControlFormView({ ui, PopperContainer }) {
 								</div>
 							</div>
 							<div className="col">
-								<label>통제 구간 지정 <span className="sub">노선도 선로 클릭: 1회차=시작, 2회차=종료</span></label>
-								<div className="ctrl-range-card">
-									<div className="ctrl-range-row">
-									<span className="ctrl-tag start">시작 지점</span>
-									<input type="number" className="frm-input" placeholder="예: 100" min="0" max="1000" step="1" value={ui.startKm} onChange={ui.handleStartKmChange} />
-									<span className="ctrl-km-unit">km</span>
-								</div>
-								<div className="ctrl-range-row">
-									<span className="ctrl-tag end">종료 지점</span>
-									<input type="number" className="frm-input" placeholder="예: 130" min="0" max="1000" step="1" value={ui.endKm} onChange={ui.handleEndKmChange} />
-									<span className="ctrl-km-unit">km</span>
+								<div className="ctrl-range-hd">
+									<label>통제 구간 지정 <span className="sub">노선도 선로 클릭: 1회차=시작, 2회차=종료</span></label>
+									<div className="ctrl-range-btns">
+										<button type="button" className="ctrl-range-btn" onClick={ui.addRange} title="통제 구간 추가">+</button>
+										<button
+											type="button"
+											className="ctrl-range-btn del"
+											onClick={() => ui.removeRange(ui.ranges.length - 1)}
+											disabled={ui.ranges.length <= ui.minRanges}
+											title={ui.ranges.length <= ui.minRanges ? `최소 ${ui.minRanges}개 구간은 유지됩니다` : '마지막 통제 구간 삭제'}
+										>−</button>
 									</div>
 								</div>
-								<p className="ctrl-range-summary">{ui.rangeSummaryText}</p>
+								<div className="ctrl-range-list">
+									{ui.ranges.map((r, idx) => (
+										<div
+											key={r.id}
+											className={`ctrl-range-card${r.id === ui.activeId ? ' active' : ''}`}
+											onMouseDown={() => ui.setActiveId(r.id)}
+											onFocusCapture={() => ui.setActiveId(r.id)}
+										>
+											<div className="ctrl-range-no">구간 {idx + 1}</div>
+											<div className="ctrl-range-row">
+												<span className="ctrl-tag start">시작 지점</span>
+												<input type="number" className="frm-input" placeholder="예: 100" min="0" max="1000" step="1" value={r.startKm} onChange={(e) => ui.handleStartKmChange(idx, e)} />
+												<span className="ctrl-km-unit">km</span>
+											</div>
+											<div className="ctrl-range-row">
+												<span className="ctrl-tag end">종료 지점</span>
+												<input type="number" className="frm-input" placeholder="예: 130" min="0" max="1000" step="1" value={r.endKm} onChange={(e) => ui.handleEndKmChange(idx, e)} />
+												<span className="ctrl-km-unit">km</span>
+											</div>
+											<p className="ctrl-range-summary">{ui.rangeText(r)}</p>
+										</div>
+									))}
+								</div>
 							</div>
 							<div className="col">
 								<label>통제 유형</label>
@@ -603,14 +663,10 @@ function MainPage() {
 	const PopperContainer = ({ children }) => createPortal(children, document.body);
 	const [startDate, setStartDate] = useState(new Date());
 	const mapRef1 = useRef(null);
-	const mapRef2 = useRef(null);
-	const mapRef3 = useRef(null);
 
-	// 워크플로우 1·2·3 통제방안 state (각 워크플로우 독립 동작)
+	// 통제방안 state
 	const ctrl1 = useControl();
-	const ctrl2 = useControl();
-	const ctrl3 = useControl();
-	
+
 	// 워크플로우 1 state
 	const [activeTab1, setActiveTab1] = useState('지도');
 	const [isSimulationActive1, setIsSimulationActive1] = useState(true);
@@ -621,28 +677,6 @@ function MainPage() {
 	const [position1, setPosition1] = useState({ x: 0, y: 0 });
 	const [isDragging1, setIsDragging1] = useState(false);
 	const [dragStart1, setDragStart1] = useState({ x: 0, y: 0 });
-	
-	// 워크플로우 2 state
-	const [activeTab2, setActiveTab2] = useState('지도');
-	const [isSimulationActive2, setIsSimulationActive2] = useState(true);
-	const [dangerTrainIds2, setDangerTrainIds2] = useState([]); // 사고기차 아이디값 배열
-	const [isSliderActive2, setIsSliderActive2] = useState(false);
-	const [isPanelOpen2, setIsPanelOpen2] = useState(true);
-	const [scale2, setScale2] = useState(1);
-	const [position2, setPosition2] = useState({ x: 0, y: 0 });
-	const [isDragging2, setIsDragging2] = useState(false);
-	const [dragStart2, setDragStart2] = useState({ x: 0, y: 0 });
-	
-	// 워크플로우 3 state
-	const [activeTab3, setActiveTab3] = useState('지도');
-	const [isSimulationActive3, setIsSimulationActive3] = useState(true);
-	const [dangerTrainIds3, setDangerTrainIds3] = useState([]); // 사고기차 아이디값 배열
-	const [isSliderActive3, setIsSliderActive3] = useState(false);
-	const [isPanelOpen3, setIsPanelOpen3] = useState(true);
-	const [scale3, setScale3] = useState(1);
-	const [position3, setPosition3] = useState({ x: 0, y: 0 });
-	const [isDragging3, setIsDragging3] = useState(false);
-	const [dragStart3, setDragStart3] = useState({ x: 0, y: 0 });
 
 	const handleScenarioOpen = () => {
 		window.open(window.location.origin + '/korail-app/scenario/simulation', '_blank');
@@ -703,131 +737,11 @@ function MainPage() {
 	const handleRouteMapClick1 = () => {
 		setIsSliderActive1(true);
 	};
-	
-	// 워크플로우 2 handlers
-	const handleSimulationStart2 = (e) => {
-		e.preventDefault();
-		setIsSimulationActive2(true);
-	};
-	
-	const handleDangerTrainClick2 = () => {
-		setIsSliderActive2(true);
-	};
-	
-	const handleMapClick2 = () => {
-		setIsSliderActive2(false);
-	};
-	
-	const handleWheel2 = (e) => {
-		e.preventDefault();
-		const delta = e.deltaY > 0 ? -0.1 : 0.1;
-		setScale2(prevScale => Math.min(Math.max(0.5, prevScale + delta), 5));
-	};
-	
-	const handleMouseDown2 = (e) => {
-		if (e.target.tagName === 'IMG' && scale2 > 1) {
-			setIsDragging2(true);
-			setDragStart2({
-				x: e.clientX - position2.x,
-				y: e.clientY - position2.y
-			});
-		}
-	};
-	
-	const handleMouseMove2 = (e) => {
-		if (!isDragging2) return;
-		e.preventDefault();
-		requestAnimationFrame(() => {
-			setPosition2({
-				x: e.clientX - dragStart2.x,
-				y: e.clientY - dragStart2.y
-			});
-		});
-	};
-	
-	const handleMouseUp2 = () => {
-		setIsDragging2(false);
-	};
-	
-	const handleRouteTabClick2 = () => {
-		setActiveTab2('노선');
-		setIsSliderActive2(false);
-		setScale2(1);
-		setPosition2({ x: 0, y: 0 });
-	};
-	
-	const handleRouteMapClick2 = () => {
-		setIsSliderActive2(true);
-	};
-	
-	// 워크플로우 3 handlers
-	const handleSimulationStart3 = (e) => {
-		e.preventDefault();
-		setIsSimulationActive3(true);
-	};
-	
-	const handleDangerTrainClick3 = () => {
-		setIsSliderActive3(true);
-	};
-	
-	const handleMapClick3 = () => {
-		setIsSliderActive3(false);
-	};
-	
-	const handleWheel3 = (e) => {
-		e.preventDefault();
-		const delta = e.deltaY > 0 ? -0.1 : 0.1;
-		setScale3(prevScale => Math.min(Math.max(0.5, prevScale + delta), 5));
-	};
-	
-	const handleMouseDown3 = (e) => {
-		if (e.target.tagName === 'IMG' && scale3 > 1) {
-			setIsDragging3(true);
-			setDragStart3({
-				x: e.clientX - position3.x,
-				y: e.clientY - position3.y
-			});
-		}
-	};
-	
-	const handleMouseMove3 = (e) => {
-		if (!isDragging3) return;
-		e.preventDefault();
-		requestAnimationFrame(() => {
-			setPosition3({
-				x: e.clientX - dragStart3.x,
-				y: e.clientY - dragStart3.y
-			});
-		});
-	};
-	
-	const handleMouseUp3 = () => {
-		setIsDragging3(false);
-	};
-	
-	const handleRouteTabClick3 = () => {
-		setActiveTab3('노선');
-		setIsSliderActive3(false);
-		setScale3(1);
-		setPosition3({ x: 0, y: 0 });
-	};
-	
-	const handleRouteMapClick3 = () => {
-		setIsSliderActive3(true);
-	};
 
 	const handlePanelToggle1 = () => {
 		setIsPanelOpen1(v => !v);
 	};
 
-	const handlePanelToggle2 = () => {
-		setIsPanelOpen2(v => !v);
-	};
-
-	const handlePanelToggle3 = () => {
-		setIsPanelOpen3(v => !v);
-	};
-	
 	return (
 	<div className="container">
 		<div className="header">
@@ -1079,510 +993,6 @@ function MainPage() {
 							</div>
 							<div className="btn-area">
 							<button type="button" className="btn-primary" onClick={handleSimulationStart1}>실행 하기</button>
-							</div>
-						</div>
-					</form>
-				</div>
-					</>
-				)}
-			</div>
-			</div>
-		</div>
-		{/* 워크플로우 2 */}
-		<div className="wrap">
-			<div className="map-area">
-				<div className="panel-info">
-					<div className="inner">
-						<ul className="tab">
-					<li className={activeTab2 === '지도' ? 'active' : ''} onClick={() => { setActiveTab2('지도'); setIsSliderActive2(false); }}>지도</li>
-							<li className={activeTab2 === '노선' ? 'active' : ''} onClick={handleRouteTabClick2}>노선</li>
-								<li onClick={handleScenarioOpen}>시뮬레이션</li>
-							<li className={activeTab2 === '통제방안' ? 'active' : ''} onClick={() => { setActiveTab2('통제방안'); setIsSliderActive2(false); }}>통제방안</li>
-							<li className={activeTab2 === '관리자' ? 'active' : ''} onClick={() => window.open(window.location.origin + '/korail-app/admin/input-data', '_blank')}>관리자</li>
-						</ul>
-						<div className={`info-slider ${isSliderActive2 ? 'active' : ''}`}>
-							<div className="tit">
-								<div className="name">
-									<i><img src={icoTrain} alt="" /></i> KTX 경부고속선
-								</div>
-								<div className="num">
-									KTX00185
-								</div>
-							</div>
-							<div className="train-station">
-								<ul>
-									<li className="s-start">
-										<div>출발</div>
-										<div>
-											<p>
-												06:10<strong>행신</strong>
-											</p>
-										</div>
-									</li>
-									<li className="s-end">
-										<div>도착</div>
-										<div>
-											<p>
-												09:16<strong>부산</strong>
-											</p>
-										</div>
-									</li>
-								</ul>
-								<p className="s-time"><strong>2</strong>분 지연됨</p>
-							</div>
-							<div className="station-list">
-								<ul>
-									<li>
-										<p className="name">행신</p>
-										<p className="time">06:10<span>지연없음</span></p>
-									</li>
-									<li>
-										<p className="name">서울<span>3번 플랫폼</span></p>
-										<p className="time">06:10<span>지연없음</span></p>
-									</li>
-									<li>
-										<p className="name">금천구청<span>3번 플랫폼</span></p>
-										<p className="time">06:10<span>지연없음</span></p>
-									</li>
-									<li>
-										<p className="name">남산 IEC<span>3번 플랫폼</span></p>
-										<p className="time">06:10<span>지연없음</span></p>
-									</li>
-									<li>
-										<p className="name">오송<span>3번 플랫폼</span></p>
-										<p className="time">06:10<span className="danger">일부구간점검 / 5분지연</span></p>
-									</li>
-									<li>
-										<p className="name">대전<span>3번 플랫폼</span></p>
-										<p className="time">06:10<span className="danger">5분지연</span></p>
-									</li>
-									<li>
-										<p className="name">동대구<span>3번 플랫폼</span></p>
-										<p className="time">06:10<span className="danger">일부구간점검 / 5분지연</span></p>
-									</li>
-									<li>
-										<p className="name">경주<span>3번 플랫폼</span></p>
-										<p className="time">06:10<span className="danger">일부구간점검 / 5분지연</span></p>
-									</li>
-									<li>
-										<p className="name">부산</p>
-										<p className="time">06:10<span className="danger">일부구간점검 / 5분지연</span></p>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-				{activeTab2 === '지도' && (
-					<div className="map">
-					<KorailMap ref={mapRef2} isSimulationActive={isSimulationActive2} onDangerTrainClick={handleDangerTrainClick2} onMapClick={handleMapClick2} dangerTrainIndex={3} dangerTrainIds={dangerTrainIds2} />
-					<MapLegend />
-					</div>
-				)}
-				{activeTab2 === '노선' && (
-					<div className="routemap" onClick={() => setIsSliderActive2(false)}>
-						<div className="routemap-zoom-con" onClick={(e) => e.stopPropagation()}>
-							<button type="button" className="btn-zoom" onClick={() => setScale2(s => Math.min(3, s + 0.2))} title="줌 인">+</button>
-							<button type="button" className="btn-zoom" onClick={() => setScale2(s => Math.max(0.5, s - 0.2))} title="줌 아웃">−</button>
-							<button type="button" className="btn-zoom btn-zoom-reset" onClick={() => { setScale2(1); setPosition2({x:0, y:0}); }} title="전체보기">전체</button>
-						</div>
-						<div 
-							onWheel={handleWheel2} 
-							onMouseDown={handleMouseDown2}
-							onMouseMove={handleMouseMove2}
-							onMouseUp={handleMouseUp2}
-							onMouseLeave={handleMouseUp2}
-							style={{
-								width: 'calc(100% - 40px)',
-							height: '100%',
-							overflow: 'hidden',
-						cursor: scale2 > 1 ? (isDragging2 ? 'grabbing' : 'grab') : 'default',
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							zIndex: 10,
-							transition: 'width 0.3s',
-							//backgroundColor: '#fff',
-							//boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-							//borderRadius: '8px',
-								marginRight: '20px'
-							}}
-							onClick={(e) => e.stopPropagation()}
-						>
-							<RailRouteMap
-                                width="100%"
-                                height="100%"
-                                scale={scale2}
-                                onStationClick={(station) => { console.log(station); setIsSliderActive2(v => !v); }}
-                                onSectionClick={(section) => console.log(section)}
-                                onEmptyClick={() => setIsSliderActive2(false)}
-                                highlightStations={[]}
-                                highlightSections={[]}
-                                trainPositions={[]}
-                            />
-						</div>
-                        <MapLegend />
-                    </div>
-				)}
-				{activeTab2 === '통제방안' && <ControlMapView ui={ctrl2} />}
-			</div>
-			<div className={`panel-area-con${isPanelOpen2 ? '' : ' hide'}`}>
-				<button type="button" className="panel-toggle" onClick={handlePanelToggle2}>
-					{isPanelOpen2 ? '▶' : '◀'}
-				</button>
-				<div className="panel-area">
-				{activeTab2 === '통제방안' ? (
-					<ControlFormView ui={ctrl2} PopperContainer={PopperContainer} />
-				) : (
-					<>
-				<div className="tit">
-					<h2>이례상황 입력 시나리오</h2>
-				</div>
-				<div className="inner">
-					<form>
-						<div className="rows">
-							<div className="col">
-								<label>유형</label>
-								<div>
-									<select name="" className="select">
-										<option value="">단선 불통</option>
-										<option value="">이상기후(강풍,폭설 등)</option>
-										<option value="">선로 장애(탈선, 낙석)</option>
-										<option value="">우회운전</option>
-									</select>
-								</div>
-							</div>
-							<div className="col">
-								<label>대상 노선</label>
-								<div>
-									<select name="" className="select">
-										<option value="">경부선</option>
-										<option value="">호남선</option>
-									</select>
-								</div>
-							</div>
-							<div className="col">
-								<label>발생 위치(상세)</label>
-								<div>
-									<select name="" className="select">
-										<option value="">대전역-김천구미역 사이 50KM 지점</option>
-										<option value="">서울역-부산역 사이 10KM 지점</option>
-									</select>
-								</div>
-							</div>
-							<div className="col">
-								<label>발생 시간</label>
-								<div className="d-flex">
-								<DatePicker
-									selected={startDate}
-									onChange={(date) => setStartDate(date)}
-									popperContainer={PopperContainer}
-									className="calendar"
-									dateFormat="yyyy-MM-dd"
-									showMonthDropdown
-									showYearDropdown
-									dropdownMode="select"
-									locale={ko}
-									dateFormatCalendar="yyyy년 MM월"
-									onChangeRaw={(e) => e.preventDefault()}
-								/>
-									<select name="" className="select">
-										<option value="">시</option>
-									</select>
-									<select name="" className="select">
-										<option value="">분</option>
-									</select>
-								</div>
-							</div>
-							<div className="col">
-								<label>예상 지속시간(분)</label>
-								<div>
-									<input type="text" name="" className="frm-input" placeholder="분" />
-								</div>
-							</div>
-							<div className="col">
-								<label>운전정리 시나리오 선택</label>
-								<div className="d-flex">
-                                    <div className="chkBox">
-                                        <input type="checkbox" name="scenario2" id="w2-1" />
-                                        <label htmlFor="w2-1">단선운행</label>
-                                    </div>
-                                    <div className="chkBox">
-                                        <input type="checkbox" name="scenario2" id="w2-2" />
-                                        <label htmlFor="w2-2">우회운전</label>
-                                    </div>
-                                    <div className="chkBox">
-                                        <input type="checkbox" name="scenario2" id="w2-3" />
-                                        <label htmlFor="w2-3">서행</label>
-                                    </div>
-                                    <div className="chkBox">
-                                        <input type="checkbox" name="scenario2" id="w2-4" />
-                                        <label htmlFor="w2-4">열차정차</label>
-                                    </div>
-                                    <div className="chkBox">
-                                        <input type="checkbox" name="scenario2" id="w2-5" />
-                                        <label htmlFor="w2-5">퇴행</label>
-                                    </div>
-                                    <div className="chkBox">
-                                        <input type="checkbox" name="scenario2" id="w2-6" />
-                                        <label htmlFor="w2-6">운행중지(타절)</label>
-                                    </div>
-								</div>
-							</div>
-							<div className="btn-area">
-							<button type="button" className="btn-primary" onClick={handleSimulationStart2}>실행 하기</button>
-							</div>
-						</div>
-					</form>
-				</div>
-					</>
-				)}
-			</div>
-			</div>
-		</div>
-		{/* 워크플로우 3 */}
-		<div className="wrap">
-			<div className="map-area">
-				<div className="panel-info">
-					<div className="inner">
-						<ul className="tab">
-					<li className={activeTab3 === '지도' ? 'active' : ''} onClick={() => { setActiveTab3('지도'); setIsSliderActive3(false); }}>지도</li>
-							<li className={activeTab3 === '노선' ? 'active' : ''} onClick={handleRouteTabClick3}>노선</li>
-								<li onClick={handleScenarioOpen}>시뮬레이션</li>
-							<li className={activeTab3 === '통제방안' ? 'active' : ''} onClick={() => { setActiveTab3('통제방안'); setIsSliderActive3(false); }}>통제방안</li>
-							<li className={activeTab3 === '관리자' ? 'active' : ''} onClick={() => window.open(window.location.origin + '/korail-app/admin/input-data', '_blank')}>관리자</li>
-						</ul>
-						<div className={`info-slider ${isSliderActive3 ? 'active' : ''}`}>
-							<div className="tit">
-								<div className="name">
-									<i><img src={icoTrain} alt="" /></i> KTX 경부고속선
-								</div>
-								<div className="num">
-									KTX00185
-								</div>
-							</div>
-							<div className="train-station">
-								<ul>
-									<li className="s-start">
-										<div>출발</div>
-										<div>
-											<p>
-												06:10<strong>행신</strong>
-											</p>
-										</div>
-									</li>
-									<li className="s-end">
-										<div>도착</div>
-										<div>
-											<p>
-												09:16<strong>부산</strong>
-											</p>
-										</div>
-									</li>
-								</ul>
-								<p className="s-time"><strong>2</strong>분 지연됨</p>
-							</div>
-							<div className="station-list">
-								<ul>
-									<li>
-										<p className="name">행신</p>
-										<p className="time">06:10<span>지연없음</span></p>
-									</li>
-									<li>
-										<p className="name">서울<span>3번 플랫폼</span></p>
-										<p className="time">06:10<span>지연없음</span></p>
-									</li>
-									<li>
-										<p className="name">금천구청<span>3번 플랫폼</span></p>
-										<p className="time">06:10<span>지연없음</span></p>
-									</li>
-									<li>
-										<p className="name">남산 IEC<span>3번 플랫폼</span></p>
-										<p className="time">06:10<span>지연없음</span></p>
-									</li>
-									<li>
-										<p className="name">오송<span>3번 플랫폼</span></p>
-										<p className="time">06:10<span className="danger">일부구간점검 / 5분지연</span></p>
-									</li>
-									<li>
-										<p className="name">대전<span>3번 플랫폼</span></p>
-										<p className="time">06:10<span className="danger">5분지연</span></p>
-									</li>
-									<li>
-										<p className="name">동대구<span>3번 플랫폼</span></p>
-										<p className="time">06:10<span className="danger">일부구간점검 / 5분지연</span></p>
-									</li>
-									<li>
-										<p className="name">경주<span>3번 플랫폼</span></p>
-										<p className="time">06:10<span className="danger">일부구간점검 / 5분지연</span></p>
-									</li>
-									<li>
-										<p className="name">부산</p>
-										<p className="time">06:10<span className="danger">일부구간점검 / 5분지연</span></p>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-				{activeTab3 === '지도' && (
-					<div className="map">
-					<KorailMap ref={mapRef3} isSimulationActive={isSimulationActive3} onDangerTrainClick={handleDangerTrainClick3} onMapClick={handleMapClick3} dangerTrainIndex={6} dangerTrainIds={dangerTrainIds3} />
-					<MapLegend />
-					</div>
-				)}
-				{activeTab3 === '노선' && (
-					<div className="routemap" onClick={() => setIsSliderActive3(false)}>
-						<div className="routemap-zoom-con" onClick={(e) => e.stopPropagation()}>
-							<button type="button" className="btn-zoom" onClick={() => setScale3(s => Math.min(3, s + 0.2))} title="줌 인">+</button>
-							<button type="button" className="btn-zoom" onClick={() => setScale3(s => Math.max(0.5, s - 0.2))} title="줌 아웃">−</button>
-							<button type="button" className="btn-zoom btn-zoom-reset" onClick={() => { setScale3(1); setPosition3({x:0, y:0}); }} title="전체보기">전체</button>
-						</div>
-						<div 
-							onWheel={handleWheel3} 
-							onMouseDown={handleMouseDown3}
-							onMouseMove={handleMouseMove3}
-							onMouseUp={handleMouseUp3}
-							onMouseLeave={handleMouseUp3}
-							style={{
-								width: 'calc(100% - 40px)',
-							height: '100%',
-							overflow: 'hidden',
-						cursor: scale3 > 1 ? (isDragging3 ? 'grabbing' : 'grab') : 'default',
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							zIndex: 10,
-							transition: 'width 0.3s',
-							//backgroundColor: '#fff',
-							//boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-							//borderRadius: '8px',
-								marginRight: '20px'
-							}}
-							onClick={(e) => e.stopPropagation()}
-						>
-							<RailRouteMap
-                                width="100%"
-                                height="100%"
-                                scale={scale3}
-                                onStationClick={(station) => { console.log(station); setIsSliderActive3(v => !v); }}
-                                onSectionClick={(section) => console.log(section)}
-                                onEmptyClick={() => setIsSliderActive3(false)}
-                                highlightStations={[]}
-                                highlightSections={[]}
-                                trainPositions={[]}
-                            />
-						</div>
-                        <MapLegend />
-                    </div>
-				)}
-				{activeTab3 === '통제방안' && <ControlMapView ui={ctrl3} />}
-			</div>
-			<div className={`panel-area-con${isPanelOpen3 ? '' : ' hide'}`}>
-				<button type="button" className="panel-toggle" onClick={handlePanelToggle3}>
-					{isPanelOpen3 ? '▶' : '◀'}
-				</button>
-				<div className="panel-area">
-				{activeTab3 === '통제방안' ? (
-					<ControlFormView ui={ctrl3} PopperContainer={PopperContainer} />
-				) : (
-					<>
-				<div className="tit">
-					<h2>이례상황 입력 시나리오</h2>
-				</div>
-				<div className="inner">
-					<form>
-						<div className="rows">
-							<div className="col">
-								<label>유형</label>
-								<div>
-									<select name="" className="select">
-										<option value="">단선 불통</option>
-										<option value="">이상기후(강풍,폭설 등)</option>
-										<option value="">선로 장애(탈선, 낙석)</option>
-										<option value="">우회운전</option>
-									</select>
-								</div>
-							</div>
-							<div className="col">
-								<label>대상 노선</label>
-								<div>
-									<select name="" className="select">
-										<option value="">경부선</option>
-										<option value="">호남선</option>
-									</select>
-								</div>
-							</div>
-							<div className="col">
-								<label>발생 위치(상세)</label>
-								<div>
-									<select name="" className="select">
-										<option value="">대전역-김천구미역 사이 50KM 지점</option>
-										<option value="">서울역-부산역 사이 10KM 지점</option>
-									</select>
-								</div>
-							</div>
-							<div className="col">
-								<label>발생 시간</label>
-								<div className="d-flex">
-								<DatePicker
-									selected={startDate}
-									onChange={(date) => setStartDate(date)}
-									popperContainer={PopperContainer}
-									className="calendar"
-									dateFormat="yyyy-MM-dd"
-									showMonthDropdown
-									showYearDropdown
-									dropdownMode="select"
-									locale={ko}
-									dateFormatCalendar="yyyy년 MM월"
-									onChangeRaw={(e) => e.preventDefault()}
-								/>
-									<select name="" className="select">
-										<option value="">시</option>
-									</select>
-									<select name="" className="select">
-										<option value="">분</option>
-									</select>
-								</div>
-							</div>
-							<div className="col">
-								<label>예상 지속시간(분)</label>
-								<div>
-									<input type="text" name="" className="frm-input" placeholder="분" />
-								</div>
-							</div>
-							<div className="col">
-								<label>운전정리 시나리오 선택</label>
-								<div className="d-flex">
-                                    <div className="chkBox">
-                                        <input type="checkbox" name="scenario3" id="w3-1" />
-                                        <label htmlFor="w3-1">단선운행</label>
-                                    </div>
-                                    <div className="chkBox">
-                                        <input type="checkbox" name="scenario3" id="w3-2" />
-                                        <label htmlFor="w3-2">우회운전</label>
-                                    </div>
-                                    <div className="chkBox">
-                                        <input type="checkbox" name="scenario3" id="w3-3" />
-                                        <label htmlFor="w3-3">서행</label>
-                                    </div>
-                                    <div className="chkBox">
-                                        <input type="checkbox" name="scenario3" id="w3-4" />
-                                        <label htmlFor="w3-4">열차정차</label>
-                                    </div>
-                                    <div className="chkBox">
-                                        <input type="checkbox" name="scenario3" id="w3-5" />
-                                        <label htmlFor="w3-5">퇴행</label>
-                                    </div>
-                                    <div className="chkBox">
-                                        <input type="checkbox" name="scenario3" id="w3-6" />
-                                        <label htmlFor="w3-6">운행중지(타절)</label>
-                                    </div>
-								</div>
-							</div>
-							<div className="btn-area">
-							<button type="button" className="btn-primary" onClick={handleSimulationStart3}>실행 하기</button>
 							</div>
 						</div>
 					</form>

@@ -153,7 +153,19 @@
 .ctrl-delay { color:#E53935; font-weight:600; }
 .ctrl-ontime { color:#2E9E44; font-weight:600; }
 
+.panel-area .rows .col .ctrl-range-hd { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:12px; }
+.panel-area .rows .col .ctrl-range-hd label { margin:0; }
+.ctrl-range-btns { display:flex; gap:4px; flex-shrink:0; }
+.ctrl-range-btn { width:26px; height:26px; line-height:1; font-size:15px; font-weight:700; color:#0066B3; background:#fff; border:1px solid #C7D6E5; border-radius:5px; cursor:pointer; transition:all 0.15s; }
+.ctrl-range-btn:hover:not(:disabled) { background:#E8F1FB; border-color:#0066B3; }
+.ctrl-range-btn.del { color:#E53935; border-color:#EBC3C1; }
+.ctrl-range-btn.del:hover:not(:disabled) { background:#FDECEA; border-color:#E53935; }
+.ctrl-range-btn:disabled { color:#C2C9D2; border-color:#E3E7EC; cursor:not-allowed; }
+.ctrl-range-list { display:flex; flex-direction:column; gap:8px; }
 .ctrl-range-card { border:1px solid #D9DEE5; border-radius:8px; padding:12px; background:#F7F9FC; }
+.ctrl-range-card.active { border-color:#0066B3; box-shadow:0 0 0 2px rgba(0,102,179,0.12); }
+.ctrl-range-no { font-size:11.5px; font-weight:700; color:#66707C; margin-bottom:8px; }
+.ctrl-range-card.active .ctrl-range-no { color:#0066B3; }
 .ctrl-range-row { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
 .ctrl-range-row:last-child { margin-bottom:0; }
 .ctrl-range-row .select { flex:1; }
